@@ -1,3 +1,5 @@
+# Author: ANDREW BASHORUM: C00238900
+# 4th YEAR PROJECT
 import numpy as np
 import json
 import pickle5 as pickle
@@ -8,10 +10,6 @@ import matplotlib.pyplot as plt
 import sys
 import psycopg2
 home = str(Path.home())
-sys.path.append(path.abspath(str(Path.home())))
-sys.path.append(path.abspath(str(Path.home()) + '/4thYearProject'))
-sys.path.append('/MyComputer')
-sys.path.append('/MyComputer/lanuApps')
 from geopy.geocoders import GoogleV3
 import constants
 from pyproj import Proj, transform

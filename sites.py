@@ -1,3 +1,7 @@
+# Author: ANDREW BASHORUM: C00238900
+# 4th YEAR PROJECT
+
+
 import numpy as np
 import json
 import pickle5 as pickle

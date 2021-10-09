@@ -1,3 +1,5 @@
+# Author: ANDREW BASHORUM: C00238900
+# 4th YEAR PROJECT
 from geopy.geocoders import GoogleV3
 from pyproj import Proj, transform
 # from pyproj import Transformer

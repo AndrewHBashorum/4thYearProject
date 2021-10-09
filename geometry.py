@@ -1,3 +1,5 @@
+# Author: ANDREW BASHORUM: C00238900
+# 4th YEAR PROJECT
 import numpy as np
 import json
 import pickle5 as pickle
@@ -6,10 +8,6 @@ from os import path
 from pathlib import Path
 import matplotlib.pyplot as plt
 import sys
-sys.path.append(path.abspath(str(Path.home())))
-sys.path.append(path.abspath(str(Path.home())+'/4thYearProject'))
-sys.path.append('/MyComputer')
-sys.path.append('/MyComputer/lanuApps')
 import math
 import random
 from pathlib import Path
