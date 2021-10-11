@@ -19,7 +19,7 @@ class Houses(object):
     def __init__(self):
 
         self.house_dict = {}
-        self.singleHouse = '67 Lynmouth Dr Ruislip HA4 9BY UK'
+        self.singleHouse = '67 Lynmouth Dr Ruislip HA4 9BY UK'  # 67 Lynmouth Dr Ruislip HA4 9BY UK
 
         pass
 

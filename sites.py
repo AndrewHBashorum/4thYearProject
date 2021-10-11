@@ -42,19 +42,44 @@ class Sites(object):
 
         do = """SELECT ST_AsText(geom) FROM public."nps_cropped_lynmouth" WHERE ST_Contains(ST_AsText(geom), ST_GeomFromText('POINT(""" + str(
             x) + " " + str(y) + ")'))"
+        print('**', do)
 
         # execute the command and fecth geometry
         self.cur.execute(do)
         self.geometry = self.cur.fetchall()
-        # self.con.close()
+        self.geom = self.geometry[0]
+        #print(self.geom)
 
-    def process_geometry(self):
+    def find_neighs(self):
 
-        g = self.geometry[0][0]
+
+        # self.x = x
+        # self.y = y
+        # p = pres
+
+        do = """SELECT ST_AsText(geom) FROM public."nps_cropped_lynmouth" WHERE _st_overlaps(ST_AsText(geom), ST_GeomFromText""" + str(self.geom)[:-2] + "))"
+
+
+        # print('*', do)
+
+        self.cur.execute(do)
+        self.neigh_geometry = self.cur.fetchall()
+        #print('>>', len(self.neigh_geometry))
+        #print(self.neigh_geometry)
+        #self.process_geometry(self.neigh_geometry)
+        self.con.close()
+
+    def process_geometry(self,g = None):
+
+        if g == None:
+            g = self.geometry[0][0]
+
         g = g.replace("MULTIPOLYGON", "")
         g = g.replace("(", "")
         g = g.replace(")", "")
         g = g.replace(",", " ")
+        g = g.replace('"', " ")
+        g = g.replace("'", " ")
         g = g.split()
 
         input = Proj(init='EPSG:4326')
@@ -67,12 +92,14 @@ class Sites(object):
             gTwo.append(x_temp)
             gTwo.append(y_temp)
         # get points
-        self.geometry = gTwo
 
-    def add_to_site_list(self):
+        return gTwo
+        #self.geometry = gTwo
+
+    def add_to_site_list(self, geometry):
 
         temp_dict = {}
-        m = [float(item) for item in self.geometry]
+        m = [float(item) for item in geometry]
         x_poly, y_poly = [], []
         for j in range(int(len(m) / 2)):
             x_poly.append(round(1000 * m[2 * j]) / 1000)
@@ -86,4 +113,5 @@ class Sites(object):
         temp_dict['x_poly'] = x_poly
         temp_dict['y_poly'] = y_poly
         temp_dict['area'] = abs(self.gt.find_area(x_poly, y_poly, sum(x_poly) / len(x_poly), sum(y_poly) / len(y_poly)))
-        self.SITES.append(temp_dict)
+
+        return temp_dict
