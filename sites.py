@@ -24,11 +24,13 @@ import psycopg2
 class Sites(object):
     def __init__(self):
 
+        self.id = 0
         self.gt = Geometry()
         self.con = psycopg2.connect(database="sdb_course", user="postgres", password="$£x25zeD", host="localhost",
                                port="5432")
         self.cur = self.con.cursor()
-        self.SITES = []
+        self.dict = {}
+        self.inner_dict={}
         pass
 
     def take_from_database(self,x,y,x1,y1,address):
@@ -50,24 +52,14 @@ class Sites(object):
         self.geom = self.geometry[0]
         #print(self.geom)
 
+
     def find_neighs(self):
-
-
-        # self.x = x
-        # self.y = y
-        # p = pres
 
         do = """SELECT ST_AsText(geom) FROM public."nps_cropped_lynmouth" WHERE _st_overlaps(ST_AsText(geom), ST_GeomFromText""" + str(self.geom)[:-2] + "))"
 
-
-        # print('*', do)
-
         self.cur.execute(do)
         self.neigh_geometry = self.cur.fetchall()
-        #print('>>', len(self.neigh_geometry))
-        #print(self.neigh_geometry)
-        #self.process_geometry(self.neigh_geometry)
-        self.con.close()
+        #self.con.close()
 
     def process_geometry(self,g = None):
 
@@ -96,8 +88,18 @@ class Sites(object):
         return gTwo
         #self.geometry = gTwo
 
+    def add_site_to_dict(self):
+
+
+        self.site_dict = {}
+
+    def incrementID(self):
+        self.id += 1
+
     def add_to_site_list(self, geometry):
 
+        addressList = []
+        addressList.append(self.address)
         temp_dict = {}
         m = [float(item) for item in geometry]
         x_poly, y_poly = [], []
@@ -107,11 +109,15 @@ class Sites(object):
         # All polygons have one duplicated point and should be sorted ACW
         if len(x_poly) > 2:
             x_poly, y_poly = self.gt.sort_array_acw(x_poly[1:], y_poly[1:])
-        temp_dict['name'] = self.address
+        temp_dict['id'] = self.id
+        temp_dict['house_address_list'] = addressList
         temp_dict['x'] = self.x1
         temp_dict['y'] = self.y1
         temp_dict['x_poly'] = x_poly
         temp_dict['y_poly'] = y_poly
+        temp_dict['geom'] = self.geometry
+        temp_dict['multi_house'] = False
         temp_dict['area'] = abs(self.gt.find_area(x_poly, y_poly, sum(x_poly) / len(x_poly), sum(y_poly) / len(y_poly)))
+        self.dict[self.id] = temp_dict
 
         return temp_dict
