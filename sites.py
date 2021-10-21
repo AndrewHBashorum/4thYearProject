@@ -81,7 +81,7 @@ class Sites(object):
         self.neigh_geometry = self.cur.fetchall()
         # self.con.close()
 
-
+        g = self.neigh_geometry
         g = g.replace("MULTIPOLYGON", "")
         g = g.replace("(", "")
         g = g.replace(")", "")
@@ -126,7 +126,6 @@ class Sites(object):
 
     def add_to_site_list(self):
 
-
         self.site_dict = {}
 
     def incrementID(self):
@@ -153,7 +152,7 @@ class Sites(object):
         temp_dict['y_poly'] = y_poly
         temp_dict['geom'] = self.geometry
         temp_dict['multi_house'] = False
-        temp_dict['area'] = abs(self.gt.find_area(x_poly, y_poly, sum(x_poly) / len(x_poly), sum(y_poly) / len(y_poly)))
+        temp_dict['area'] = abs(self.gt.find_area(x_poly, y_poly))
         self.dict[self.id] = temp_dict
 
         return temp_dict
