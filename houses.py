@@ -4,7 +4,7 @@ import re
 
 import numpy as np
 import json
-import pickle5 as pickle
+import pickle
 import os
 from os import path
 from pathlib import Path

@@ -16,6 +16,10 @@ from pyproj import Proj, transform
 
 sys.path.append(path.abspath(str(Path.home())))
 sys.path.append(path.abspath(str(Path.home()) + '/4thYearProject'))
+if 'lukecoburn' not in str(Path.home()):
+    user = 'andrew'
+else:
+    user = 'luke'
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 from pathlib import Path
@@ -26,14 +30,18 @@ class Sites(object):
 
         self.id = 0
         self.gt = Geometry()
-        self.con = psycopg2.connect(database="sdb_course", user="postgres", password="$£x25zeD", host="localhost",
-                               port="5432")
+        if user == 'andrew':
+            self.con = psycopg2.connect(database="sdb_course", user="postgres", password="$£x25zeD", host="localhost",
+                                   port="5432")
+        else:
+            self.con = psycopg2.connect(database="nps_database_cropped", user="postgres", password="$£x25zeD",
+                                        host="localhost", port="5433")
+
         self.cur = self.con.cursor()
-        self.dict = {}
-        self.inner_dict={}
+        self.SITES = []
         pass
 
-    def take_from_database(self,x,y,x1,y1,address):
+    def take_from_database(self, x, y, x1, y1, address):
 
         self.x = x
         self.y = y
@@ -61,11 +69,18 @@ class Sites(object):
         self.neigh_geometry = self.cur.fetchall()
         #self.con.close()
 
-    def process_geometry(self,g = None):
 
-        if g == None:
-            g = self.geometry[0][0]
+    def nearby_polygons(self, x, y):
 
+        do = """SELECT ST_AsText(geom) FROM public."nps_cropped_lynmouth" WHERE _ST_DWithin(ST_AsText(geom), ST_GeomFromText('POINT(""" + str(
+            x) + " " + str(y) + ")'),0.0001)"
+
+        # execute the command and fecth geometry
+        self.cur.execute(do)
+        self.neigh_geometry = self.cur.fetchall()
+        # self.con.close()
+
+        g = self.geometry[0][0]
         g = g.replace("MULTIPOLYGON", "")
         g = g.replace("(", "")
         g = g.replace(")", "")
@@ -74,21 +89,18 @@ class Sites(object):
         g = g.replace("'", " ")
         g = g.split()
 
-        input = Proj(init='EPSG:4326')
-        output = Proj(init='EPSG:27700')  # output = Proj(init='EPSG:27700')
         gTwo = []
-        # for a in range(1, 100, 2):
-        for i in range(0, len(g), 2):
-            x_temp, y_temp = transform(input, output, g[i], g[i + 1])
-            # print(i,x)
-            gTwo.append(x_temp)
-            gTwo.append(y_temp)
-        # get points
+        if len(g) < 100:
+            input = Proj(init='EPSG:4326')
+            output = Proj(init='EPSG:27700')  # output = Proj(init='EPSG:27700')
+            for i in range(0, len(g), 2):
+                x_temp, y_temp = transform(input, output, g[i], g[i + 1])
+                gTwo.append(x_temp)
+                gTwo.append(y_temp)
 
         return gTwo
-        #self.geometry = gTwo
 
-    def add_site_to_dict(self):
+    def add_to_site_list(self):
 
 
         self.site_dict = {}

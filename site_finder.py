@@ -27,14 +27,23 @@ class SiteFinder(object):
 
     def plotter(self):
 
-        keys = self.sites.dict.keys()
-        for i in range(len(keys)):
-            if self.sites.dict[i]['area'] < 1000:
-                plt.plot(self.sites.dict[i]['x'], self.sites.dict[i]['y'], 'o', color='r')
-                plt.fill(self.sites.dict[i]['x_poly'], self.sites.dict[i]['y_poly'], fill=False, color='b')
+        for g in self.temp_neigh_sites:
+            if g != []:
+                x_temp = []
+                y_temp = []
+                for i in range(0, len(g), 2):
+                    x_temp.append(g[i])
+                    y_temp.append(g[i+1])
+                aspect_ratio, area = self.gt.get_aspect_ratio_area(x_temp, y_temp)
+                print(aspect_ratio, area)
+                if area < 1000:
+                    plt.fill(x_temp, y_temp, '--', fill=False, color='g')
 
-        # for i in range(len(self.NEIGH_SITES)):
-        #     plt.fill(self.NEIGH_SITES[i]['x_poly'], self.NEIGH_SITES[i]['y_poly'], ':', fill=False, color='g')
+        for i in range(len(self.SITES)):
+            if self.SITES[i]['area'] < 1000:
+                plt.plot(self.SITES[i]['x'], self.SITES[i]['y'], 'o', color='r')
+                plt.fill(self.SITES[i]['x_poly'], self.SITES[i]['y_poly'], fill=False, color='b')
+
 
 
     def get_house_dict(self):
@@ -56,11 +65,12 @@ class SiteFinder(object):
     def main(self):
 
         self.get_house_dict()
-        
+
         for house_ID in self.houses.house_dict.keys():
 
             self.sites.take_from_database(self.houses.house_dict[house_ID]['Point_original_x'],self.houses.house_dict[house_ID]['Point_original_y'],self.houses.house_dict[house_ID]['Point_converted_x'],self.houses.house_dict[house_ID]['Point_converted_y'],house_ID)
             self.sites.find_neighs()
+            #self.sites.nearby_polygons(house_dict[address]['x'], house_dict[address]['y'])
             self.sites.geometry = self.sites.process_geometry(str(self.sites.geom))
 
             dupeSiteFound_id = self.checkSitesForDupes(self.sites.geometry)
@@ -94,15 +104,17 @@ class SiteFinder(object):
             #     self.sites.neigh_geometry_list.append(new1)
             # print('*', len(self.sites.neigh_geometry_list), self.sites.neigh_geometry_list)
 
-            
 
 
 
 
-        # self.NEIGH_SITES = []
-        # for j in range(len(self.sites.neigh_geometry_list)):
-        #     print('*', j)
-        #     self.NEIGH_SITES.append(self.sites.add_to_site_list(self.sites.neigh_geometry_list[j]))
+
+        self.sites.con.close()
+
+        self.SITES = self.sites.SITES
+        self.temp_neigh_sites = []
+        for g in self.sites.neigh_geometry:
+            self.temp_neigh_sites.append(self.sites.process_geometry(g[0]))
 
         self.plotter()
 
