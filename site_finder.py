@@ -24,22 +24,22 @@ class SiteFinder(object):
         self.houses = Houses()
         self.sites = Sites()
         self.gt = Geometry()
-        self.temp_neigh_sites = []
         pass
 
     def plotter(self):
 
-        for g in self.temp_neigh_sites:
-            if g != []:
-                x_temp = []
-                y_temp = []
-                for i in range(0, len(g), 2):
-                    x_temp.append(g[i])
-                    y_temp.append(g[i+1])
-                aspect_ratio, area = self.gt.get_aspect_ratio_area(x_temp, y_temp)
-                print(aspect_ratio, area)
-                if area < 1000:
-                    plt.fill(x_temp, y_temp, '--', fill=False, color='g')
+        for i in self.sites.dict.keys():
+            for g in self.sites.dict[i]['neigh_sites']:
+                if g != []:
+                    x_temp = []
+                    y_temp = []
+                    for i in range(0, len(g), 2):
+                        x_temp.append(g[i])
+                        y_temp.append(g[i+1])
+                    aspect_ratio, area = self.gt.get_aspect_ratio_area(x_temp, y_temp)
+                    print(aspect_ratio, area)
+                    if area < 1000:
+                        plt.fill(x_temp, y_temp, '--', fill=False, color='g')
 
         for i in range(len(self.sites.dict)):
             if self.sites.dict[i]['area'] < 1000:
@@ -84,10 +84,13 @@ class SiteFinder(object):
             else:
                 self.sites.add_to_site_list(self.sites.geometry)
                 self.houses.house_dict[house_ID]['sites'].append(self.sites.id)
-                self.sites.incrementID()
+
 
             for g in self.sites.neigh_geometry:
-                self.temp_neigh_sites.append(self.sites.process_geometry(g[0]))
+                self.sites.dict[self.sites.id]['neigh_sites'].append(self.sites.process_geometry(g[0]))
+            if dupeSiteFound_id == None:
+                self.sites.incrementID()
+
         self.sites.con.close()
         self.plotter()
 

@@ -57,7 +57,9 @@ class Sites(object):
 
         # execute the command and fecth geometry
         self.cur.execute(do)
+
         self.geometry = self.cur.fetchall()
+        self.geomForDict = self.geometry
         self.geom = self.geometry[0]
         #print(self.geom)
 
@@ -130,8 +132,10 @@ class Sites(object):
         temp_dict['x_poly'] = x_poly
         temp_dict['y_poly'] = y_poly
         temp_dict['geom'] = self.geometry
+        temp_dict['org_geom'] = self.geomForDict
         temp_dict['multi_house'] = False
         temp_dict['area'] = abs(self.gt.find_area(x_poly, y_poly))
+        temp_dict['neigh_sites'] = []
         self.dict[self.id] = temp_dict
 
         return temp_dict
