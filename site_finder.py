@@ -16,6 +16,7 @@ from houses import Houses
 from sites import Sites
 from geometry import Geometry
 import warnings
+from datetime import date
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 class SiteFinder(object):
 
@@ -99,6 +100,15 @@ if __name__ == '__main__':
 
     sf = SiteFinder()
     sf.main()
+
+    date = today = date.today()
+    dict = {
+        'date':date,
+        'sf':sf
+    }
+    #
+    # with open('site_finder.pickle', 'wb') as f:
+    #     pickle.dump(dict, f)
 
     # for i in self.sites.dict.keys():
     #     if self.sites.dict[i]['multi_house'] == True:# sel  self.sites.incrementID()

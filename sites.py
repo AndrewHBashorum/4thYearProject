@@ -10,7 +10,7 @@ from os import path
 from pathlib import Path
 import matplotlib.pyplot as plt
 import sys
-
+from database_interaction import Database
 from geometry import Geometry
 from pyproj import Proj, transform
 
@@ -36,9 +36,8 @@ class Sites(object):
         else:
             self.con = psycopg2.connect(database="nps_database_cropped", user="postgres", password="$£x25zeD",
                                         host="localhost", port="5433")
-
         self.cur = self.con.cursor()
-        self.SITES = []
+        self.GIS = Database()
         self.dict = {}
         pass
 
@@ -50,15 +49,7 @@ class Sites(object):
         self.y1 = y1
         self.address = address
 
-
-        do = """SELECT ST_AsText(geom) FROM public."nps_cropped_lynmouth" WHERE ST_Contains(ST_AsText(geom), ST_GeomFromText('POINT(""" + str(
-            x) + " " + str(y) + ")'))"
-        print('**', do)
-
-        # execute the command and fecth geometry
-        self.cur.execute(do)
-
-        self.geometry = self.cur.fetchall()
+        self.geometry = self.GIS.ST_Contains(x,y)
         self.geomForDict = self.geometry
         self.geom = self.geometry[0]
         #print(self.geom)
@@ -75,13 +66,7 @@ class Sites(object):
 
     def nearby_polygons(self, x, y):
 
-        do = """SELECT ST_AsText(geom) FROM public."nps_cropped_lynmouth" WHERE _ST_DWithin(ST_AsText(geom), ST_GeomFromText('POINT(""" + str(
-            x) + " " + str(y) + ")'),0.0001)"
-
-        # execute the command and fecth geometry
-        self.cur.execute(do)
-        self.neigh_geometry = self.cur.fetchall()
-        # self.con.close()
+        self.neigh_geometry = self.GIS.ST_DWithin(x, y)
 
     def process_geometry(self, g):
 
