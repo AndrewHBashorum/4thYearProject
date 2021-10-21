@@ -81,30 +81,9 @@ class Sites(object):
         self.neigh_geometry = self.cur.fetchall()
         # self.con.close()
 
-        g = self.neigh_geometry
-        g = g.replace("MULTIPOLYGON", "")
-        g = g.replace("(", "")
-        g = g.replace(")", "")
-        g = g.replace(",", " ")
-        g = g.replace('"', " ")
-        g = g.replace("'", " ")
-        g = g.split()
-
-        gTwo = []
-        if len(g) < 100:
-            input = Proj(init='EPSG:4326')
-            output = Proj(init='EPSG:27700')  # output = Proj(init='EPSG:27700')
-            for i in range(0, len(g), 2):
-                x_temp, y_temp = transform(input, output, g[i], g[i + 1])
-                gTwo.append(x_temp)
-                gTwo.append(y_temp)
-
-        return gTwo
-
     def process_geometry(self, g):
 
         print(g)
-        g = self.geometry[0][0]
         g = g.replace("MULTIPOLYGON", "")
         g = g.replace("(", "")
         g = g.replace(")", "")

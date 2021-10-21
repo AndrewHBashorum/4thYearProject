@@ -71,7 +71,7 @@ class SiteFinder(object):
             self.sites.take_from_database(self.houses.house_dict[house_ID]['Point_original_x'],self.houses.house_dict[house_ID]['Point_original_y'],self.houses.house_dict[house_ID]['Point_converted_x'],self.houses.house_dict[house_ID]['Point_converted_y'],house_ID)
             #self.sites.find_neighs()
             self.sites.nearby_polygons(self.houses.house_dict[house_ID]['Point_original_x'], self.houses.house_dict[house_ID]['Point_original_y'])
-            self.sites.geometry = self.sites.process_geometry(str(self.sites.geom))
+            self.sites.geometry = self.sites.process_geometry(str(self.sites.geom[0][0]))
 
             dupeSiteFound_id = self.checkSitesForDupes(self.sites.geometry)
             if dupeSiteFound_id != None:
@@ -97,25 +97,10 @@ class SiteFinder(object):
 
                     print(self.sites.dict[i]['id'])
 
-            # f.sites.neigh_geometry_list = []
-            # for j in range(len(self.sites.neigh_geometry)):
-            #     new1 = self.sites.process_geometry(str(self.sites.neigh_geometry[j]))
-            #     print(new1)
-            #     self.sites.neigh_geometry_list.append(new1)
-            # print('*', len(self.sites.neigh_geometry_list), self.sites.neigh_geometry_list)
-
-
-
-
-
-
+        self.temp_neigh_sites = []
+        for g in self.sites.neigh_geometry:
+            self.temp_neigh_sites.append(self.sites.process_geometry(g[0]))
         self.sites.con.close()
-
-        # self.SITES = self.sites.SITES
-        # self.temp_neigh_sites = []
-        # for g in self.sites.neigh_geometry:
-        #     self.temp_neigh_sites.append(self.sites.process_geometry(g[0]))
-
         self.plotter()
 
 
