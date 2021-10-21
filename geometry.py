@@ -81,7 +81,7 @@ class Geometry(object):
             M[0][0] += ix ** 2
             M[1][1] += iy ** 2
             M[0][1] -= ix * iy
-            M[1][0] -= ix * iy;
+            M[1][0] -= ix * iy
 
         eig = LA.eig(M)[0]
         evalues = [eig[0].real, eig[1].real]
