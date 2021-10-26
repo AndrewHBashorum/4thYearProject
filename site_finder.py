@@ -11,13 +11,21 @@ import psycopg2
 import geometry as geo
 import matplotlib.pyplot as plt
 import time
-import pickle5 as pickle
+if 'lukecoburn' not in str(Path.home()):
+    user = 'andrew'
+    import pickle5 as pickle
+else:
+    user = 'luke'
+    import pickle
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 from houses import Houses
 from sites import Sites
 from geometry import Geometry
 import warnings
 from datetime import date
-warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
 class SiteFinder(object):
 
     def __init__(self):
@@ -68,29 +76,34 @@ class SiteFinder(object):
     def main(self):
 
         self.get_house_dict()
+        house_ID = '67_HA4_9BY'
+        self.sites.take_from_database(self.houses.house_dict[house_ID]['Point_original_x'],
+                                      self.houses.house_dict[house_ID]['Point_original_y'],
+                                      self.houses.house_dict[house_ID]['Point_converted_x'],
+                                      self.houses.house_dict[house_ID]['Point_converted_y'], house_ID)
 
-        for house_ID in self.houses.house_dict.keys():
+        # for house_ID in self.houses.house_dict.keys():
 
-            self.sites.take_from_database(self.houses.house_dict[house_ID]['Point_original_x'],self.houses.house_dict[house_ID]['Point_original_y'],self.houses.house_dict[house_ID]['Point_converted_x'],self.houses.house_dict[house_ID]['Point_converted_y'],house_ID)
+            # self.sites.take_from_database(self.houses.house_dict[house_ID]['Point_original_x'],self.houses.house_dict[house_ID]['Point_original_y'],self.houses.house_dict[house_ID]['Point_converted_x'],self.houses.house_dict[house_ID]['Point_converted_y'],house_ID)
             #self.sites.find_neighs()
-            self.sites.nearby_polygons(self.houses.house_dict[house_ID]['Point_original_x'], self.houses.house_dict[house_ID]['Point_original_y'])
-            self.sites.geometry = self.sites.process_geometry(str(self.sites.geom))
-
-            dupeSiteFound_id = self.checkSitesForDupes(self.sites.geometry)
-            if dupeSiteFound_id != None:
-                print('>>><>', dupeSiteFound_id)
-                self.sites.dict[dupeSiteFound_id]['multi_house'] = True
-                self.sites.dict[dupeSiteFound_id]['house_address_list'].append(house_ID)
-                self.houses.house_dict[house_ID]['sites'].append(dupeSiteFound_id)
-            else:
-                self.sites.add_to_site_list(self.sites.geometry)
-                self.houses.house_dict[house_ID]['sites'].append(self.sites.id)
-
-
-            for g in self.sites.neigh_geometry:
-                self.sites.dict[self.sites.id]['neigh_sites'].append(self.sites.process_geometry(g[0]))
-            if dupeSiteFound_id == None:
-                self.sites.incrementID()
+            # self.sites.nearby_polygons(self.houses.house_dict[house_ID]['Point_original_x'], self.houses.house_dict[house_ID]['Point_original_y'])
+            # self.sites.geometry = self.sites.process_geometry(str(self.sites.geom))
+            #
+            # dupeSiteFound_id = self.checkSitesForDupes(self.sites.geometry)
+            # if dupeSiteFound_id != None:
+            #     print('>>><>', dupeSiteFound_id)
+            #     self.sites.dict[dupeSiteFound_id]['multi_house'] = True
+            #     self.sites.dict[dupeSiteFound_id]['house_address_list'].append(house_ID)
+            #     self.houses.house_dict[house_ID]['sites'].append(dupeSiteFound_id)
+            # else:
+            #     self.sites.add_to_site_list(self.sites.geometry)
+            #     self.houses.house_dict[house_ID]['sites'].append(self.sites.id)
+            #
+            #
+            # for g in self.sites.neigh_geometry:
+            #     self.sites.dict[self.sites.id]['neigh_sites'].append(self.sites.process_geometry(g[0]))
+            # if dupeSiteFound_id == None:
+            #     self.sites.incrementID()
 
         self.sites.con.close()
         self.plotter()

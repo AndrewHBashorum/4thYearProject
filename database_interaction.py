@@ -4,7 +4,7 @@
 
 import numpy as np
 import json
-import pickle5 as pickle
+
 import os
 from os import path
 from pathlib import Path
@@ -18,10 +18,13 @@ sys.path.append(path.abspath(str(Path.home())))
 sys.path.append(path.abspath(str(Path.home()) + '/4thYearProject'))
 if 'lukecoburn' not in str(Path.home()):
     user = 'andrew'
+    import pickle5 as pickle
 else:
     user = 'luke'
+    import pickle
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
 from pathlib import Path
 import psycopg2
 
@@ -50,7 +53,9 @@ class Database(object):
         self.cur.execute(do)
         geometry = self.cur.fetchall()
 
-        self.ST_Transform(x,y,geometry)
+        print('*',geometry[0][0])
+
+        self.ST_Transform(x, y, geometry[0][0])
         return geometry
 
     def ST_DWithin(self, x, y):
@@ -66,10 +71,10 @@ class Database(object):
 
     def ST_Transform(self, x, y, geom):
 
-        do = """SELECT ST_Transform(ST_GeomFromText(""" + str(geom[0].replace(')'), '') + "'),4326)"
+        do = """SELECT ST_AsText(ST_Transform(ST_GeomFromText(""" + "'" + geom + "',4326), 27700)) As wgs_geom"
 
         #""""FROM public."nps_cropped_lynmouth"""
-        print(do)
+        print('$$', do)
         # execute the command and fecth geometry
         self.cur.execute(do)
         geo = self.cur.fetchall()
