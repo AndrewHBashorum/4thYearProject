@@ -16,6 +16,7 @@ from houses import Houses
 from sites import Sites
 from geometry import Geometry
 import warnings
+MatplotlibDeprecationWarning
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
