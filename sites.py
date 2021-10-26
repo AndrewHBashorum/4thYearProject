@@ -4,7 +4,7 @@
 
 import numpy as np
 import json
-import pickle5 as pickle
+
 import os
 from os import path
 from pathlib import Path
@@ -18,8 +18,10 @@ sys.path.append(path.abspath(str(Path.home())))
 sys.path.append(path.abspath(str(Path.home()) + '/4thYearProject'))
 if 'lukecoburn' not in str(Path.home()):
     user = 'andrew'
+    import pickle5 as pickle
 else:
     user = 'luke'
+    import pickle
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
