@@ -120,7 +120,8 @@ class Sites(object):
         temp_dict['x_poly'] = x_poly
         temp_dict['y_poly'] = y_poly
         temp_dict['geom'] = self.geometry
-        temp_dict['org_geom'] = self.geomForDict
+        temp_dict['org_geom'] = self.geomForDict[0][0]
+        temp_dict['org_geom_27700'] = self.GIS.ST_Transform(self.geomForDict[0][0])
         temp_dict['multi_house'] = False
         temp_dict['area'] = abs(self.gt.find_area(x_poly, y_poly))
         temp_dict['neigh_sites'] = []

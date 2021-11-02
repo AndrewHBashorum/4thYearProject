@@ -52,11 +52,9 @@ class Database(object):
 
         self.cur.execute(do)
         geometry = self.cur.fetchall()
+        # print(geometry[0][0])
+        # print('**',self.ST_ShortestLine(geometry[0][0]))
 
-        print('*',geometry[0][0])
-
-        x,y = self.single_spatial_to_x_y_list(geometry[0][0])
-        self.x_y_list_to_single_spatial(x,y)
         return geometry
 
     def single_spatial_to_string(self, geom):
@@ -102,6 +100,7 @@ class Database(object):
 
     def x_y_list_to_single_spatial(self, x, y):
 
+
         multi_string_start = 'MULTIPOLYGON((('
         multi_string_end = ')))'
         multi_string = ''
@@ -112,13 +111,31 @@ class Database(object):
                 multi_string = multi_string + str(x[i]) + ' ' + str(y[i]) + ','
 
         final_multi = multi_string_start + multi_string + multi_string_end
+
+        f = self.ST_Transform_4326(final_multi)
+        print(f)
+        return f
+
+    def x_y_list_to_single_spatial_27700(self, x, y):
+
+        multi_string_start = 'MULTIPOLYGON((('
+        multi_string_end = ')))'
+        multi_string = ''
+        for i in range(0, len(x)):
+            if i == len(y) - 1:
+                multi_string = multi_string + str(x[i]) + ' ' + str(y[i])
+            else:
+                multi_string = multi_string + str(x[i]) + ' ' + str(y[i]) + ','
+
+        final_multi = multi_string_start + multi_string + multi_string_end
+
+
         print(final_multi)
         return final_multi
 
-
     def single_spatial_to_x_y_list(self, geom):
 
-        g = geom
+        g = self.ST_Transform(geom)
 
         g = g.replace("MULTIPOLYGON", "")
         g = g.replace("(", "")
@@ -131,8 +148,8 @@ class Database(object):
         x_list = []
         y_list = []
         for i in range(0, len(g),2):
-            x_list.append(g[i])
-            y_list.append(g[i+1])
+            x_list.append(float(g[i]))
+            y_list.append(float(g[i+1]))
 
         return x_list,y_list
 
@@ -151,31 +168,35 @@ class Database(object):
 
         do = """SELECT ST_AsText(ST_Transform(ST_GeomFromText(""" + "'" + geom + "',4326), 27700)) As wgs_geom"
 
-        print('$$', do)
+        self.cur.execute(do)
+        geo = self.cur.fetchall()[0][0]
+
+        return geo
+
+    def ST_Transform_4326(self, geom):
+
+        do = """SELECT ST_AsText(ST_Transform(ST_GeomFromText(""" + "'" + geom + "',27700), 4326)) As wgs_geom"
 
         self.cur.execute(do)
-        geo = self.cur.fetchall()
-
+        geo = self.cur.fetchall()[0][0]
         return geo
 
     def ST_Area(self, geom):
 
-        do = """SELECT ST_Area(ST_GeomFromText(""" + "'" + geom + ",')) " # ::geometry,4326
+        do = """SELECT ST_Area(ST_GeomFromText(""" + "'" + geom + "'))" # ::geometry,4326
 
         #""""FROM public."nps_cropped_lynmouth"""
 
         # execute the command and fecth geometry
         self.cur.execute(do)
         geo = self.cur.fetchall()
-
+        print(geo)
         return geo
         #return neigh_geometry
 
     def ST_Convex(self, geom):
 
         do = """SELECT ST_AsText(ST_ConvexHull(ST_GeomFromText(""" + "'" + geom + "'))) As wgs_geom "
-
-
 
         self.cur.execute(do)
         geo = self.cur.fetchall()
@@ -188,9 +209,16 @@ class Database(object):
             target_percentage = "0.8"
         do = """SELECT ST_AsText(ST_ConcaveHull(ST_GeomFromText(""" + "'" + geom + "'), """ + target_percentage + """)) As wgs_geom """""
 
-
-
         self.cur.execute(do)
         geo = self.cur.fetchall()
 
+        return geo
+
+    def ST_ShortestLine(self, geom, geom2 = None):
+
+        #geom2 = "MULTIPOLYGON(((-0.404323343163703 51.56647518960175,-0.404249570351462 51.56650116292667,-0.404201381334683 51.566517592737085,-0.404166329034062 51.56652970509332,-0.404126887306755 51.5665435561781,-0.403979215272988 51.56659909767731,-0.403914894786992 51.56662295130784,-0.403898842193669 51.56662812827124,-0.403890868055959 51.56662057431593,-0.403863231632561 51.566594372977704,-0.403856946495648 51.56658844259501,-0.404057165681353 51.56651563157236,-0.404090054765222 51.5665034898307,-0.404209148080772 51.566460598196734,-0.404282231237216 51.56643371630465,-0.404323343163703 51.56647518960175)))"
+        do = """SELECT ST_AsText(ST_ShortestLine(ST_GeomFromText(""" + "'" + geom + "'), """+"ST_GeomFromText(" + "'" + geom2 + "')))"""
+        print(do)
+        self.cur.execute(do)
+        geo = self.cur.fetchall()[0][0]
         return geo
