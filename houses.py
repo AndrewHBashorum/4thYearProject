@@ -38,9 +38,14 @@ class Houses(object):
         self.houses_address = houses
         self.house_dict = {}
 
-    def find_id(self, address):
+    def get_houses_from_pickle(self):
 
-        print(address)
+        with open('site_finder.pickle', 'rb') as f:
+            x = pickle.load(f)
+
+        return x
+
+    def find_id(self, address):
 
         reobj = re.compile(r'(\b[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][ABD-HJLNP-UW-Z]{2}\b)')
         matchobj = reobj.search(address)
@@ -60,7 +65,6 @@ class Houses(object):
     def geo_locate_houses(self):
 
         for address in self.houses_address:
-            print(address)
             geolocator = GoogleV3(api_key=constants.GOOGLE_API_KEY)
             location = geolocator.geocode(address)
             # get coord in EPSG:27700
@@ -76,7 +80,7 @@ class Houses(object):
             dict = {'id':id_house,'address':address,'postcode': self.postcode,'house_number': self.house_number,'Point_original_x': x, 'Point_original_y': y, 'Point_converted_x':x1,'Point_converted_y': y1, 'location': location, 'sites': [], 'neigh_site': [],'potential_neighs': []}
 
             splitAdress = id_house.split('_')
-            print(splitAdress[0])
+
             num = int(splitAdress[0])
 
             dict['potential_neighs'].append(str(int(num + 2)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))

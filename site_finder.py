@@ -60,6 +60,7 @@ class SiteFinder(object):
     def get_house_dict(self):
 
         #self.houses.get_houses_os_walk()
+        #self.gg = self.houses.get_houses_from_pickle()
 
         self.houses.sample_house()
         self.houses.geo_locate_houses()
@@ -75,9 +76,11 @@ class SiteFinder(object):
 
     def main(self):
 
+        print('Getting house dict....')
         self.get_house_dict()
-        # house_ID = '67_HA4_9BY'
-        # #house_ID = '35_HA4_9BY'
+        print('....House dict obtained')
+        #house_ID = '67_HA4_9BY'
+        #house_ID = '35_HA4_9BY'
         # self.sites.take_from_database(self.houses.house_dict[house_ID]['Point_original_x'],
         #                               self.houses.house_dict[house_ID]['Point_original_y'],
         #                               self.houses.house_dict[house_ID]['Point_converted_x'],
@@ -92,37 +95,57 @@ class SiteFinder(object):
 
             dupeSiteFound_id = self.checkSitesForDupes(self.sites.geometry)
             if dupeSiteFound_id != None:
-                print('>>><>', dupeSiteFound_id)
+                print('Dupelicate Found for ID:', dupeSiteFound_id)
                 self.sites.dict[dupeSiteFound_id]['multi_house'] = True
                 self.sites.dict[dupeSiteFound_id]['house_address_list'].append(house_ID)
                 self.houses.house_dict[house_ID]['sites'].append(dupeSiteFound_id)
+                for g in self.sites.neigh_geometry:
+                    self.sites.dict[dupeSiteFound_id]['neigh_sites'].append(self.sites.process_geometry(g[0]))
             else:
                 self.sites.add_to_site_list(self.sites.geometry)
                 self.houses.house_dict[house_ID]['sites'].append(self.sites.id)
-
-
-            for g in self.sites.neigh_geometry:
-                self.sites.dict[self.sites.id]['neigh_sites'].append(self.sites.process_geometry(g[0]))
-            if dupeSiteFound_id == None:
+                for g in self.sites.neigh_geometry:
+                    self.sites.dict[self.sites.id]['neigh_sites'].append(self.sites.process_geometry(g[0]))
                 self.sites.incrementID()
+
+
+
+            print('Site ID:',self.sites.id)
 
         self.sites.con.close()
         self.plotter()
 
+    def main_from_pickle(self):
+
+        with open('site_finder.pickle', 'rb') as f:
+            loadedDict = pickle.load(f)
+
+        self.sites.dict = loadedDict['site_dict']
+        self.houses.house_dict = loadedDict['house_dict']
+        self.plotter()
+
+
 
 if __name__ == '__main__':
 
-    sf = SiteFinder()
-    sf.main()
 
-    date = today = date.today()
-    dict = {
-        'date':date,
-        'sf':sf
-    }
-    #
-    # with open('site_finder.pickle', 'wb') as f:
-    #     pickle.dump(dict, f)
+    load_from_pickle = True
+    sf = SiteFinder()
+
+    if load_from_pickle:
+        sf.main_from_pickle()
+    else:
+        sf.main()
+
+
+        date = today = date.today()
+        dict = {
+            'house_dict':sf.houses.house_dict,
+            'site_dict':sf.sites.dict
+        }
+        #
+        with open('site_finder.pickle', 'wb') as f:
+            pickle.dump(dict, f)
 
     # for i in self.sites.dict.keys():
     #     if self.sites.dict[i]['multi_house'] == True:# sel  self.sites.incrementID()

@@ -73,7 +73,6 @@ class Sites(object):
 
     def process_geometry(self, g):
 
-        print(g)
         g = g.replace("MULTIPOLYGON", "")
         g = g.replace("(", "")
         g = g.replace(")", "")
