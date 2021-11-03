@@ -1,7 +1,7 @@
 
 import numpy as np
 
-class HouseObject(object):
+class House(object):
     def __init__(self):
         self.id = None
         self.address = None

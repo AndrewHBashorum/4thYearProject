@@ -16,7 +16,7 @@ import constants
 from pyproj import Proj, transform
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-from house_object import HouseObject
+from house import House
 
 def get_houses_os_walk():
     houses = [x[0] for x in os.walk(home + '/Dropbox/Lanu/houses/') if '_Lynmouth' in x[0]]
@@ -66,34 +66,34 @@ def geo_locate_houses(house_addresses, house_dict):
         xt, yt = transform(input, output, location.longitude, location.latitude)
 
         id_house, house_number, postcode = find_id(address)
-        house_object = HouseObject()
-        house_object.id = id_house
-        house_object.address = address
-        house_object.postcode = postcode
-        house_object.house_number = int(house_number)
-        house_object.xd = round(xd, 4)
-        house_object.yd = round(yd, 4)
-        house_object.xt = round(xt, 4)
-        house_object.yt = round(yt, 4)
-        house_object.location = location
-        house_object.sites = []
-        house_object.neigh_site = []
-        house_object.potential_neighs = []
+        house = House()
+        house.id = id_house
+        house.address = address
+        house.postcode = postcode
+        house.house_number = int(house_number)
+        house.xd = round(xd, 4)
+        house.yd = round(yd, 4)
+        house.xt = round(xt, 4)
+        house.yt = round(yt, 4)
+        house.location = location
+        house.sites = []
+        house.neigh_site = []
+        house.potential_neighs = []
 
         splitAdress = id_house.split('_')
         num = int(splitAdress[0])
 
-        house_object.potential_neighs.append(num + 2)
-        house_object.potential_neighs.append(num + 4)
-        house_object.potential_neighs.append(num + 6)
-        house_object.potential_neighs.append(num - 2)
-        house_object.potential_neighs.append(num - 4)
-        house_object.potential_neighs.append(num - 6)
+        house.potential_neighs.append(num + 2)
+        house.potential_neighs.append(num + 4)
+        house.potential_neighs.append(num + 6)
+        house.potential_neighs.append(num - 2)
+        house.potential_neighs.append(num - 4)
+        house.potential_neighs.append(num - 6)
 
-        # house_object.potential_neighs.append(str(int(num + 2)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))
-        # house_object.potential_neighs.append(str(int(num + 4)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))
-        # house_object.potential_neighs.append(str(int(num - 2)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))
-        # house_object.potential_neighs.append(str(int(num - 4)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))
+        # house.potential_neighs.append(str(int(num + 2)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))
+        # house.potential_neighs.append(str(int(num + 4)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))
+        # house.potential_neighs.append(str(int(num - 2)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))
+        # house.potential_neighs.append(str(int(num - 4)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))
 
-        house_dict[id_house] = house_object
+        house_dict[id_house] = house
     return house_dict

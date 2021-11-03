@@ -10,8 +10,8 @@ class SiteObject(object):
         self.x_poly = []
         self.y_poly = []
         self.geom = None
-        self.org_geom = None
-        self.org_geom_27700 = None
+        # self.org_geom = None
+        self.geom_27700 = None
         self.multi_house = None
         self.area = None
         self.neigh_sites = []
