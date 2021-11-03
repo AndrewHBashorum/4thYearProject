@@ -1,75 +1,73 @@
 # Author: ANDREW BASHORUM: C00238900
 # 4th YEAR PROJECT
-from geopy.geocoders import GoogleV3
-from pyproj import Proj, transform
-# from pyproj import Transformer
-import os
-from os import path
-import sys
+
 from pathlib import Path
-import psycopg2
-import geometry as geo
-import matplotlib.pyplot as plt
-import time
+
 if 'lukecoburn' not in str(Path.home()):
     user = 'andrew'
     import pickle5 as pickle
 else:
     user = 'luke'
     import pickle
+
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
 
-from houses import Houses
+import matplotlib.pyplot as plt
+
+from houses_utils import get_houses_os_walk, spreadsheet_input, get_houses_from_pickle, geo_locate_houses
 from sites import Sites
 from geometry import Geometry
-import warnings
 from datetime import date
-warnings.filterwarnings("ignore", category=FutureWarning)
+
 class SiteFinder(object):
 
     def __init__(self):
-
-        self.houses = Houses()
         self.sites = Sites()
         self.gt = Geometry()
+
+        self.house_dict = {}
+        self.site_dict = {}
+        self.neigh_site_dict = {}
+
         pass
 
     def plotter(self):
-
         for i in self.sites.dict.keys():
-            for g in self.sites.dict[i]['neigh_sites']:
+            for g in self.sites.dict[i].neigh_sites:
                 if g != []:
                     x_temp = []
                     y_temp = []
-                    for i in range(0, len(g), 2):
-                        x_temp.append(g[i])
-                        y_temp.append(g[i+1])
+                    for j in range(0, len(g), 2):
+                        x_temp.append(g[j])
+                        y_temp.append(g[j+1])
                     aspect_ratio, area = self.gt.get_aspect_ratio_area(x_temp, y_temp)
                     print(aspect_ratio, area)
                     if area < 1000:
                         plt.fill(x_temp, y_temp, '--', fill=False, color='g')
 
         for i in range(len(self.sites.dict)):
-            if self.sites.dict[i]['area'] < 1000:
-                plt.plot(self.sites.dict[i]['x'], self.sites.dict[i]['y'], 'o', color='r')
-                plt.fill(self.sites.dict[i]['x_poly'], self.sites.dict[i]['y_poly'], fill=False, color='b')
-
-
+            if self.sites.dict[i].area < 1000:
+                plt.plot(self.sites.dict[i].x, self.sites.dict[i].y, 'o', color='r')
+                plt.fill(self.sites.dict[i].x_poly, self.sites.dict[i].y_poly, fill=False, color='b')
 
     def get_house_dict(self):
 
-        #self.houses.get_houses_os_walk()
-        #self.gg = self.houses.get_houses_from_pickle()
+        house_addresses = ['67 Lynmouth Dr Ruislip HA4 9BY UK']
+        # house_addresses = get_houses_os_walk()
+        # house_addresses = spreadsheet_input('LynmouthDriveOdd')
+        # house_addresses = get_houses_from_pickle()
+        for h in house_addresses:
+            print(h)
 
-        self.houses.sample_house()
-        self.houses.geo_locate_houses()
+        self.house_dict = geo_locate_houses(house_addresses, self.house_dict)
 
     def checkSitesForDupes(self, geom):
 
         site_id = None
         for site in self.sites.dict.keys():
-            if self.sites.dict[site]['geom'] == geom:
+            if self.sites.dict[site].geom == geom:
                 site_id = site
 
         return site_id
@@ -85,35 +83,34 @@ class SiteFinder(object):
         #                               self.houses.house_dict[house_ID]['Point_original_y'],
         #                               self.houses.house_dict[house_ID]['Point_converted_x'],
         #                               self.houses.house_dict[house_ID]['Point_converted_y'], house_ID)
-
+        """
         for house_ID in self.houses.house_dict.keys():
 
-            self.sites.take_from_database(self.houses.house_dict[house_ID]['Point_original_x'],self.houses.house_dict[house_ID]['Point_original_y'],self.houses.house_dict[house_ID]['Point_converted_x'],self.houses.house_dict[house_ID]['Point_converted_y'],house_ID)
+            self.sites.take_from_database(self.houses.house_dict[house_ID].Point_original_x, self.houses.house_dict[house_ID].Point_original_y,
+                                          self.houses.house_dict[house_ID].Point_converted_x, self.houses.house_dict[house_ID].Point_converted_y, house_ID)
             self.sites.find_neighs()
-            self.sites.nearby_polygons(self.houses.house_dict[house_ID]['Point_original_x'], self.houses.house_dict[house_ID]['Point_original_y'])
+            self.sites.nearby_polygons(self.houses.house_dict[house_ID].Point_original_x, self.houses.house_dict[house_ID].Point_original_y)
             self.sites.geometry = self.sites.process_geometry(str(self.sites.geom))
 
             dupeSiteFound_id = self.checkSitesForDupes(self.sites.geometry)
             if dupeSiteFound_id != None:
                 print('Dupelicate Found for ID:', dupeSiteFound_id)
-                self.sites.dict[dupeSiteFound_id]['multi_house'] = True
-                self.sites.dict[dupeSiteFound_id]['house_address_list'].append(house_ID)
-                self.houses.house_dict[house_ID]['sites'].append(dupeSiteFound_id)
+                self.sites.dict[dupeSiteFound_id].multi_house = True
+                self.sites.dict[dupeSiteFound_id].house_address_list.append(house_ID)
+                self.houses.house_dict[house_ID].sites.append(dupeSiteFound_id)
                 for g in self.sites.neigh_geometry:
-                    self.sites.dict[dupeSiteFound_id]['neigh_sites'].append(self.sites.process_geometry(g[0]))
+                    self.sites.dict[dupeSiteFound_id].neigh_sites.append(self.sites.process_geometry(g[0]))
             else:
                 self.sites.add_to_site_list(self.sites.geometry)
-                self.houses.house_dict[house_ID]['sites'].append(self.sites.id)
+                self.houses.house_dict[house_ID].sites.append(self.sites.id)
                 for g in self.sites.neigh_geometry:
-                    self.sites.dict[self.sites.id]['neigh_sites'].append(self.sites.process_geometry(g[0]))
+                    self.sites.dict[self.sites.id].neigh_sites.append(self.sites.process_geometry(g[0]))
                 self.sites.incrementID()
-
-
 
             print('Site ID:',self.sites.id)
 
         self.sites.con.close()
-        self.plotter()
+        self.plotter()"""
 
     def main_from_pickle(self):
 
@@ -124,28 +121,23 @@ class SiteFinder(object):
         self.houses.house_dict = loadedDict['house_dict']
         self.plotter()
 
-
-
 if __name__ == '__main__':
 
-
-    load_from_pickle = True
+    load_from_pickle = False
     sf = SiteFinder()
 
     if load_from_pickle:
         sf.main_from_pickle()
     else:
         sf.main()
-
-
-        date = today = date.today()
-        dict = {
-            'house_dict':sf.houses.house_dict,
-            'site_dict':sf.sites.dict
-        }
+        # date = today = date.today()
+        # dict = {
+        #     'house_dict': sf.houses.house_dict,
+        #     'site_dict': sf.sites.dict
+        # }
         #
-        with open('site_finder.pickle', 'wb') as f:
-            pickle.dump(dict, f)
+        # with open('site_finder.pickle', 'wb') as f:
+        #     pickle.dump(dict, f)
 
     # for i in self.sites.dict.keys():
     #     if self.sites.dict[i]['multi_house'] == True:# sel  self.sites.incrementID()

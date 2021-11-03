@@ -1,14 +1,8 @@
 # Author: ANDREW BASHORUM: C00238900
 # 4th YEAR PROJECT
 
-
-import numpy as np
-import json
-
-import os
 from os import path
 from pathlib import Path
-import matplotlib.pyplot as plt
 import sys
 from database_interaction import Database
 from geometry import Geometry
@@ -25,8 +19,9 @@ else:
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
-from pathlib import Path
 import psycopg2
+
+from site_object import SiteObject
 
 class Sites(object):
     def __init__(self):
@@ -34,8 +29,8 @@ class Sites(object):
         self.id = 0
         self.gt = Geometry()
         if user == 'andrew':
-            self.con = psycopg2.connect(database="sdb_course", user="postgres", password="$£x25zeD", host="localhost",
-                                   port="5432")
+            self.con = psycopg2.connect(database="sdb_course", user="postgres", password="$£x25zeD",
+                                        host="localhost", port="5432")
         else:
             self.con = psycopg2.connect(database="nps_database_cropped", user="postgres", password="$£x25zeD",
                                         host="localhost", port="5433")
@@ -52,11 +47,10 @@ class Sites(object):
         self.y1 = y1
         self.address = address
 
-        self.geometry = self.GIS.ST_Contains(x,y)
+        self.geometry = self.GIS.ST_Contains(x, y)
         self.geomForDict = self.geometry
         self.geom = self.geometry[0]
         #print(self.geom)
-
 
     def find_neighs(self):
 
@@ -65,7 +59,6 @@ class Sites(object):
         self.cur.execute(do)
         self.neigh_geometry = self.cur.fetchall()
         #self.con.close()
-
 
     def nearby_polygons(self, x, y):
 
@@ -93,7 +86,6 @@ class Sites(object):
         return gTwo
 
     def add_to_site_list(self):
-
         self.site_dict = {}
 
     def incrementID(self):
@@ -103,7 +95,7 @@ class Sites(object):
 
         addressList = []
         addressList.append(self.address)
-        temp_dict = {}
+        site_object = SiteObject()
         m = [float(item) for item in geometry]
         x_poly, y_poly = [], []
         for j in range(int(len(m) / 2)):
@@ -112,18 +104,18 @@ class Sites(object):
         # All polygons have one duplicated point and should be sorted ACW
         if len(x_poly) > 2:
             x_poly, y_poly = self.gt.sort_array_acw(x_poly[1:], y_poly[1:])
-        temp_dict['id'] = self.id
-        temp_dict['house_address_list'] = addressList
-        temp_dict['x'] = self.x1
-        temp_dict['y'] = self.y1
-        temp_dict['x_poly'] = x_poly
-        temp_dict['y_poly'] = y_poly
-        temp_dict['geom'] = self.geometry
-        temp_dict['org_geom'] = self.geomForDict[0][0]
-        temp_dict['org_geom_27700'] = self.GIS.ST_Transform(self.geomForDict[0][0])
-        temp_dict['multi_house'] = False
-        temp_dict['area'] = abs(self.gt.find_area(x_poly, y_poly))
-        temp_dict['neigh_sites'] = []
-        self.dict[self.id] = temp_dict
 
-        return temp_dict
+        site_object.id = self.id
+        site_object.house_address_list = addressList
+        site_object.x = self.x1
+        site_object.y = self.y1
+        site_object.x_poly = x_poly
+        site_object.y_poly = y_poly
+        site_object.geom = self.geometry
+        site_object.org_geom = self.geomForDict[0][0]
+        site_object.org_geom_27700 = self.GIS.ST_Transform(self.geomForDict[0][0])
+        site_object.multi_house = False
+        site_object.area = abs(self.gt.find_area(x_poly, y_poly))
+        site_object.neigh_sites = []
+        self.dict[self.id] = site_object
+
