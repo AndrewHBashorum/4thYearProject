@@ -94,6 +94,18 @@ class Geometry(object):
 
         return aspect_ratio, area, orientation
 
+    def point_in_polygon(self, px, py, x, y):
+        # returns True if point (px, py) is in polygon (x, y) and False otherwise
+        x0, y0 = x[:], y[:]
+        c = False
+        n = len(x0)
+        for i in range(n):
+            j = (i - 1) % len(x0)
+            if (((y0[i] > py) != (y0[j] > py)) and (
+                    px >= ((x0[j] - x0[i]) * (py - y0[i]) / (y0[j] - y0[i])) + x0[i])):
+                c = not c
+        return c
+
     def main(self):
         x = [0, 20, 20, 0]
         y = [0, 0, 100, 100]

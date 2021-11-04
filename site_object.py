@@ -5,6 +5,7 @@ class SiteObject(object):
         self.house_address_list = []
         self.xt = None
         self.yt = None
+        self.gTwo = []
         self.x_poly = []
         self.y_poly = []
         self.geom = None

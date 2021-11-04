@@ -36,12 +36,10 @@ class SiteFinder(object):
         self.neigh_site_dict = {}
 
     def plotter(self):
-        # for i in self.neigh_site_dict.keys():
-        #     x_poly = self.neigh_site_dict[i].x_poly
-        #     y_poly = self.neigh_site_dict[i].y_poly
-        #     aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(x_poly, y_poly)
-        #     if area > 35 and area < 1000 and orientation < 0.85 and orientation > 0.25 :
-        #         plt.fill(x_poly, y_poly, '--', fill=False, color='r')
+        for i in self.neigh_site_dict.keys():
+            x_poly = self.neigh_site_dict[i].x_poly
+            y_poly = self.neigh_site_dict[i].y_poly
+            plt.fill(x_poly, y_poly, ':', fill=False, color='r')
 
         for i in self.site_dict.keys():
             if self.site_dict[i].area < 1000:
@@ -107,6 +105,7 @@ class SiteFinder(object):
                 site_ob.yt = sum(y_poly)/max(1, len(y_poly))
                 site_ob.x_poly = x_poly
                 site_ob.y_poly = y_poly
+                site_ob.gTwo = gTwo
                 aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(x_poly, y_poly)
                 site_ob.aspect_ratio = aspect_ratio
                 site_ob.orientation = orientation
@@ -119,8 +118,10 @@ class SiteFinder(object):
                 self.site_dict[self.id].house_address_list.append(house_ID)
                 self.house_dict[house_ID].sites.append(self.id)
                 for ng in neigh_geom_dist:
-                    gTwo, x_poly_ng, y_poly_ng = process_geometry(ng, self.gt)
-                    self.site_dict[self.id].neigh_sites.append(gTwo)
+                    gTwo_ng, x_poly_ng, y_poly_ng = process_geometry(ng, self.gt)
+                    aspect_ratio_ng, area_ng, orientation_ng = self.gt.get_aspect_ratio_area(x_poly_ng, y_poly_ng)
+                    if abs(orientation_ng - orientation) < 0.1 and area_ng > 35 and area_ng < 1000:
+                        self.site_dict[self.id].neigh_sites.append(gTwo)
 
             for ng in neigh_geom_dist:
                 ng_dupeSiteFound_id_1 = self.checkSitesForDupes(ng, self.neigh_site_dict)
@@ -134,6 +135,7 @@ class SiteFinder(object):
                     n_site_ob.yt = sum(y_poly_ng)/max(1, len(y_poly_ng))
                     n_site_ob.x_poly = x_poly_ng
                     n_site_ob.y_poly = y_poly_ng
+                    n_site_ob.gTwo = gTwo_ng
                     n_site_ob.geom = ng
                     n_site_ob.geom_27700 = self.PostGIS_fns.ST_Transform(ng)
                     self.neigh_site_dict[self.neigh_id] = n_site_ob
@@ -162,14 +164,20 @@ if __name__ == '__main__':
             'site_dict': sf.site_dict,
             'neigh_site_dict': sf.neigh_site_dict
         }
-
         with open('site_finder_luke1.pickle', 'wb') as f:
             pickle.dump(dict, f)
+    gt = Geometry()
+    # for k in sf.house_dict.keys():
+    #     x, y = sf.house_dict[k].xt, sf.house_dict[k].yt
+    #     site_id = sf.house_dict[k].sites[0]
+    #     x_poly, y_poly = sf.site_dict[site_id].x_poly, sf.site_dict[site_id].y_poly
+    #     print(k, site_id, gt.point_in_polygon(x, y, x_poly, y_poly))
 
     end = time.time()
     keys = sf.house_dict.keys()
     for k in keys:
         print(k, sf.house_dict[k].sites)
+
     print('Time Taken:', round(end - start), 'seconds')
 
     # for i in self.sites.dict.keys():

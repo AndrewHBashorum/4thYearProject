@@ -71,8 +71,8 @@ def geo_locate_houses(house_addresses, house_dict):
         house.address = address
         house.postcode = postcode
         house.house_number = int(house_number)
-        house.xd = round(xd, 4)
-        house.yd = round(yd, 4)
+        house.xd = xd
+        house.yd = yd
         house.xt = round(xt, 4)
         house.yt = round(yt, 4)
         house.location = location
