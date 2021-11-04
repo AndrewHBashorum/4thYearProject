@@ -22,7 +22,7 @@ from site_object import SiteObject
 def take_from_database(x, y, PostGIS_fns):
     return PostGIS_fns.ST_Contains(x, y)[0][0]
 
-def find_neighs(geom, cur):
+def find_neighs_overlap(geom, cur):
     do = """SELECT ST_AsText(geom) FROM public."nps_cropped_lynmouth" WHERE _st_overlaps(ST_AsText(geom), ST_GeomFromText('""" + geom + "'))"
     cur.execute(do)
     neigh_geometry = cur.fetchall()

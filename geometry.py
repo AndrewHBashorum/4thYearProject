@@ -17,7 +17,6 @@ import constants
 
 class Geometry(object):
     def __init__(self):
-
         pass
 
     def centre_poly(self, x, y):
@@ -66,7 +65,6 @@ class Geometry(object):
             area += 0.5 * ((x[i] - cx) * (y[j] - cy) - (x[j] - cx) * (y[i] - cy))
         return area
 
-
     def get_aspect_ratio_area(self, x, y):
         M = np.zeros((2, 2))
         cx = sum(x) / max(len(x), 1)
@@ -74,7 +72,6 @@ class Geometry(object):
         area = 0
         for i in range(len(x)):
             i1 = (i + 1) % len(x)
-
             area += 0.5 * abs((x[i1] - cx) * (y[i] - cy) - (x[i] - cx) * (y[i1] - cy))
             ix = x[i] - cx
             iy = y[i] - cy
@@ -84,9 +81,24 @@ class Geometry(object):
             M[1][0] -= ix * iy
 
         eig = LA.eig(M)[0]
+        evec = LA.eig(M)[1]
+        if eig[0] > eig[1]:
+            v = evec[0]
+        else:
+            v = evec[1]
+        orientation = np.arctan2(v[1], v[0])%np.pi
         evalues = [eig[0].real, eig[1].real]
         evalues = [abs(i) for i in evalues]
         aspect_ratio = np.sqrt(max(evalues) / min(evalues))
         area = round(100 * area) / 100
 
-        return aspect_ratio, area
+        return aspect_ratio, area, orientation
+
+    def main(self):
+        x = [0, 20, 20, 0]
+        y = [0, 0, 100, 100]
+        print(self.get_aspect_ratio_area(x, y))
+
+if __name__ == '__main__':
+    gt = Geometry()
+    gt.main()

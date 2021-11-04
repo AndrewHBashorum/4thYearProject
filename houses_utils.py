@@ -89,6 +89,7 @@ def geo_locate_houses(house_addresses, house_dict):
         house.potential_neighs.append(num - 2)
         house.potential_neighs.append(num - 4)
         house.potential_neighs.append(num - 6)
+        house.potential_neighs = [x for x in house.potential_neighs if x >= 0]
 
         # house.potential_neighs.append(str(int(num + 2)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))
         # house.potential_neighs.append(str(int(num + 4)) + '_' + str(splitAdress[1]) + '_' + str(splitAdress[2]))

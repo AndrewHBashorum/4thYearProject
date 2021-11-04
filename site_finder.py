@@ -17,13 +17,15 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 import matplotlib.pyplot as plt
 
 from houses_utils import get_houses_os_walk, spreadsheet_input, get_houses_from_pickle, geo_locate_houses
-from sites_utils import take_from_database, find_neighs, nearby_polygons, process_geometry
+from sites_utils import take_from_database, find_neighs_overlap, nearby_polygons, process_geometry
 from geometry import Geometry
 from database_interaction import Database
 
 from datetime import date
 import psycopg2
 from site_object import SiteObject
+
+import time
 
 class SiteFinder(object):
 
@@ -34,29 +36,25 @@ class SiteFinder(object):
         self.neigh_site_dict = {}
 
     def plotter(self):
-        for i in self.site_dict.keys():
-            for g in self.site_dict[i].neigh_sites:
-                if g != []:
-                    x_temp = []
-                    y_temp = []
-                    for j in range(0, len(g), 2):
-                        x_temp.append(g[j])
-                        y_temp.append(g[j+1])
-                    aspect_ratio, area = self.gt.get_aspect_ratio_area(x_temp, y_temp)
-                    print(aspect_ratio, area)
-                    if area < 1000:
-                        plt.fill(x_temp, y_temp, '--', fill=False, color='g')
+        # for i in self.neigh_site_dict.keys():
+        #     x_poly = self.neigh_site_dict[i].x_poly
+        #     y_poly = self.neigh_site_dict[i].y_poly
+        #     aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(x_poly, y_poly)
+        #     if area > 35 and area < 1000 and orientation < 0.85 and orientation > 0.25 :
+        #         plt.fill(x_poly, y_poly, '--', fill=False, color='r')
 
         for i in self.site_dict.keys():
             if self.site_dict[i].area < 1000:
-                plt.plot(self.site_dict[i].x, self.site_dict[i].y, 'o', color='r')
                 plt.fill(self.site_dict[i].x_poly, self.site_dict[i].y_poly, fill=False, color='b')
+
+        for i in self.house_dict.keys():
+            plt.plot(self.house_dict[i].xt, self.house_dict[i].yt, 'o', color='r')
 
     def checkSitesForDupes(self, geom, dict):
         site_id = None
-        for site in dict.keys():
-            if dict[site].geom == geom:
-                site_id = site
+        for site_temp in dict.keys():
+            if dict[site_temp].geom == geom:
+                site_id = site_temp
 
         return site_id
 
@@ -67,7 +65,7 @@ class SiteFinder(object):
         elif case == 2:
             house_addresses = get_houses_os_walk()
         elif case == 3:
-            house_addresses = spreadsheet_input('LynmouthDriveOdd')
+            house_addresses = spreadsheet_input('test')
         elif case == 4:
             house_addresses = get_houses_from_pickle()
         for h in house_addresses:
@@ -94,30 +92,34 @@ class SiteFinder(object):
             dupeSiteFound_id = self.checkSitesForDupes(geom, self.site_dict)
 
             if dupeSiteFound_id != None:
-                print('Dupelicate Found for ID:', dupeSiteFound_id)
+                print('Duplicate Found for ID:', dupeSiteFound_id)
                 self.site_dict[dupeSiteFound_id].multi_house = True
                 self.site_dict[dupeSiteFound_id].house_address_list.append(house_ID)
                 self.house_dict[house_ID].sites.append(dupeSiteFound_id)
                 for ng in neigh_geom_dist:
-                    gTwo, x_poly, y_poly = process_geometry(ng, self.gt)
+                    gTwo, x_poly_ng, y_poly_ng = process_geometry(ng, self.gt)
                     self.site_dict[dupeSiteFound_id].neigh_sites.append(gTwo)
             else:
                 self.id += 1
-                site_object = SiteObject()
-                site_object.id = self.id
-                site_object.x = self.house_dict[house_ID].xt
-                site_object.y = self.house_dict[house_ID].yt
-                site_object.x_poly = x_poly
-                site_object.y_poly = y_poly
-                site_object.geom = geom
-                site_object.geom_27700 = self.PostGIS_fns.ST_Transform(geom)
-                site_object.multi_house = False
-                site_object.area = abs(self.gt.find_area(x_poly, y_poly))
-                site_object.neigh_sites = []
-                self.site_dict[self.id] = site_object
+                site_ob = SiteObject()
+                site_ob.id = self.id
+                site_ob.xt = sum(x_poly)/max(1, len(x_poly))
+                site_ob.yt = sum(y_poly)/max(1, len(y_poly))
+                site_ob.x_poly = x_poly
+                site_ob.y_poly = y_poly
+                aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(x_poly, y_poly)
+                site_ob.aspect_ratio = aspect_ratio
+                site_ob.orientation = orientation
+                site_ob.geom = geom
+                site_ob.geom_27700 = self.PostGIS_fns.ST_Transform(geom)
+                site_ob.multi_house = False
+                site_ob.area = abs(self.gt.find_area(x_poly, y_poly))
+                site_ob.neigh_sites = []
+                self.site_dict[self.id] = site_ob
+                self.site_dict[self.id].house_address_list.append(house_ID)
                 self.house_dict[house_ID].sites.append(self.id)
                 for ng in neigh_geom_dist:
-                    gTwo, x_poly, y_poly = process_geometry(ng, self.gt)
+                    gTwo, x_poly_ng, y_poly_ng = process_geometry(ng, self.gt)
                     self.site_dict[self.id].neigh_sites.append(gTwo)
 
             for ng in neigh_geom_dist:
@@ -126,19 +128,20 @@ class SiteFinder(object):
                 if ng_dupeSiteFound_id_1 == None and ng_dupeSiteFound_id_2 == None:
                     gTwo_ng, x_poly_ng, y_poly_ng = process_geometry(ng, self.gt)
                     self.neigh_id += 1
-                    n_site_object = SiteObject()
-                    n_site_object.id = self.neigh_id
-                    n_site_object.x = sum(x_poly_ng)/max(1, len(x_poly_ng))
-                    n_site_object.y = sum(y_poly_ng)/max(1, len(y_poly_ng))
-                    n_site_object.x_poly = x_poly_ng
-                    n_site_object.y_poly = y_poly
-                    n_site_object.geom = ng
-                    n_site_object.geom_27700 = self.PostGIS_fns.ST_Transform(ng)
-                    self.neigh_site_dict[self.neigh_id] = n_site_object
+                    n_site_ob = SiteObject()
+                    n_site_ob.id = self.neigh_id
+                    n_site_ob.xt = sum(x_poly_ng)/max(1, len(x_poly_ng))
+                    n_site_ob.yt = sum(y_poly_ng)/max(1, len(y_poly_ng))
+                    n_site_ob.x_poly = x_poly_ng
+                    n_site_ob.y_poly = y_poly_ng
+                    n_site_ob.geom = ng
+                    n_site_ob.geom_27700 = self.PostGIS_fns.ST_Transform(ng)
+                    self.neigh_site_dict[self.neigh_id] = n_site_ob
+
         self.plotter()
 
     def main_from_pickle(self):
-        with open('site_finder_luke.pickle', 'rb') as f:
+        with open('site_finder_luke1.pickle', 'rb') as f:
             loadedDict = pickle.load(f)
         self.site_dict = loadedDict['site_dict']
         self.neigh_site_dict = loadedDict['neigh_site_dict']
@@ -146,13 +149,13 @@ class SiteFinder(object):
         self.plotter()
 
 if __name__ == '__main__':
-
-    load_from_pickle = True
+    start = time.time()
+    load_from_pickle = False
     sf = SiteFinder()
     if load_from_pickle:
         sf.main_from_pickle()
     else:
-        sf.main(1)
+        sf.main(3)
         date = today = date.today()
         dict = {
             'house_dict': sf.house_dict,
@@ -160,8 +163,14 @@ if __name__ == '__main__':
             'neigh_site_dict': sf.neigh_site_dict
         }
 
-        with open('site_finder_luke.pickle', 'wb') as f:
+        with open('site_finder_luke1.pickle', 'wb') as f:
             pickle.dump(dict, f)
+
+    end = time.time()
+    keys = sf.house_dict.keys()
+    for k in keys:
+        print(k, sf.house_dict[k].sites)
+    print('Time Taken:', round(end - start), 'seconds')
 
     # for i in self.sites.dict.keys():
     #     if self.sites.dict[i]['multi_house'] == True:# sel  self.sites.incrementID()
