@@ -79,7 +79,6 @@ class Geometry(object):
             M[1][1] += iy ** 2
             M[0][1] -= ix * iy
             M[1][0] -= ix * iy
-
         eig = LA.eig(M)[0]
         evec = LA.eig(M)[1]
         if eig[0] > eig[1]:

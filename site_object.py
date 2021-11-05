@@ -17,6 +17,7 @@ class SiteObject(object):
         self.neigh_sites_id = []
         self.aspect_ratio = None
         self.orientation = None
+        self.active = True
 
     def main(self):
         pass
