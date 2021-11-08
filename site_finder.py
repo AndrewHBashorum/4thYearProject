@@ -157,8 +157,8 @@ class SiteFinder(object):
                     aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(x_poly, y_poly)
                     site_ob.aspect_ratio = aspect_ratio
                     site_ob.orientation = orientation
-                    site_ob.geom = self.neigh_site_dict[k].geom
-                    site_ob.geom_27700 = self.neigh_site_dict[k].geom_27700
+                    site_ob.geom = self.neigh_site_dict[self.site_dict[k].neigh_sites_id[0]].geom
+                    site_ob.geom_27700 = self.neigh_site_dict[self.site_dict[k].neigh_sites_id[0]].geom_27700
                     site_ob.multi_house = False
                     site_ob.area = abs(self.gt.find_area(x_poly, y_poly))
                     site_ob.neigh_sites = []
