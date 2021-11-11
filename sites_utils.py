@@ -17,8 +17,6 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-from site_object import SiteObject
-
 def take_from_database(x, y, PostGIS_fns):
     return PostGIS_fns.ST_Contains(x, y)[0][0]
 

@@ -4,6 +4,7 @@
 from os import path
 from pathlib import Path
 import sys
+import numpy as np
 
 sys.path.append(path.abspath(str(Path.home())))
 sys.path.append(path.abspath(str(Path.home()) + '/4thYearProject'))
@@ -172,6 +173,37 @@ class Database(object):
         self.cur.execute(do)
         geo = self.cur.fetchall()[0][0]
         return geo
+
+
+    def linestring_to_length(self, geo):
+        g = self.ST_Transform(geo)
+        g = g.replace("LINESTRING", "")
+        g = g.replace("(", "")
+        g = g.replace(")", "")
+        g = g.replace(",", " ")
+        g = g.replace('"', " ")
+        g = g.replace("'", " ")
+        g = g.split()
+        x_list = []
+        y_list = []
+        for i in range(0, len(g), 2):
+            x_list.append(float(g[i]))
+            y_list.append(float(g[i + 1]))
+        return np.sqrt((x_list[0] - x_list[1])**2 + (y_list[0] - y_list[1])**2)
+
+    def centre_site_to_dist(self, g1, g2):
+        x1, y1 = [] , []
+        for i in range(0, len(g1), 2):
+            x1.append(float(g1[i]))
+            y1.append(float(g1[i + 1]))
+        cx1, cy1 = sum(x1)/max(1, len(x1)), sum(y1)/max(1, len(y1))
+        x2, y2 = [] , []
+        for i in range(0, len(g2), 2):
+            x2.append(float(g2[i]))
+            y2.append(float(g2[i + 1]))
+        cx2, cy2 = sum(x2)/max(1, len(x2)), sum(y2)/max(1, len(y2))
+        return np.sqrt((cx2 - cx1) ** 2 + (cy2 - cy1) ** 2)
+
 
     def close_connection(self):
         self.con.close()
