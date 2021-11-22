@@ -105,6 +105,44 @@ class Geometry(object):
                 c = not c
         return c
 
+    def basic_model_from_height_data(self, x, y, plot_bool, house_name=''):
+
+        temp_dict = {'x': x, 'y': y}
+        if len(house_name) > 0:
+            save_data = house_name + '_position.pickle'
+
+            with open(save_data, 'wb') as handle:
+                pickle.dump(temp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+        # Select tile from json files
+        # Tile = self.load_tile(x, y)
+        # # Crop PTS and normals to house bounds
+        # house_tile = self.get_house_tile(Tile, x, y)
+        # # Get Pts and Normals and Ele
+        # Pts, Normals, Ele = self.array_of_pts_and_normals(house_tile)
+        # # Move pts and normals into z,y,z arrays and split vertical groups
+        Pts, Normals, Ele = self.get_pts_normals_elevations(x, y)
+        trim = 1
+        # marker_size = 50
+        x_, y_, zl_, zu_, u_, v_, w_, xf_, yf_, zf_, uf_, vf_, wf_ = self.split_pts_vertical_and_rest(Pts, Ele, Normals, trim)
+        pts = [x_, y_, zl_, zu_]
+        normals = [u_, v_, w_]
+        ptsf = [xf_, yf_, zf_]
+        normalsf = [uf_, vf_, wf_]
+        if plot_bool:
+            self.plot_normals_and_colour_map(pts, normals, ptsf, normalsf)
+
+        # Test v different roof shapes
+        if plot_bool:
+            fig = plt.figure()
+        roof_shape, roof_ridge = self.default_roof_shapes(x, y)
+        roof_ind = self.simple_alignment_cor_fun(roof_shape, roof_ridge, x_, y_, u_, v_, w_, plot_bool)
+
+        # Test v different roof shapes
+        X_, Y_, Z_, faces = self.plot_basic_house(x, y, x_, y_, zl_, zu_, roof_shape, roof_ridge, roof_ind, plot_bool)
+
+        return X_, Y_, Z_, faces, pts, normals, ptsf, normalsf
+
     def main(self):
         x = [0, 20, 20, 0]
         y = [0, 0, 100, 100]

@@ -37,6 +37,7 @@ class SiteFinder(object):
 
     def plotter(self):
         plt.figure()
+        print('gg')
         for i in self.neigh_site_dict.keys():
             if self.neigh_site_dict[i].active:
                 x_poly = self.neigh_site_dict[i].x_poly
@@ -287,6 +288,7 @@ class SiteFinder(object):
     def main_from_pickle(self):
         with open('site_finder_lynmouth_odd.pickle', 'rb') as f:
             loadedDict = pickle.load(f)
+        print(loadedDict)
         self.site_dict = loadedDict['site_dict']
         self.neigh_site_dict = loadedDict['neigh_site_dict']
         self.house_dict = loadedDict['house_dict']
@@ -294,15 +296,59 @@ class SiteFinder(object):
         self.fix_site_duplicate()
         self.plotter()
 
+
+    def cookie_cutter(self):
+
+
+        from cookie_cutter import CookieCutter
+
+        import time
+        import os
+        import sys
+        from os import path
+        from pathlib import Path
+        home = str(Path.home())
+        sys.path.append(path.abspath(home + '/lanuApps/'))
+
+        # Start Clock
+        start_time = time.time()
+
+        # Get house list
+        # houses = [x[0] for x in os.walk(home + '/Dropbox/Lanu/houses/') if '_Lynmouth' in x[0]]
+        # houses = [os.path.basename(h) for h in houses]
+        # houses = [h.replace("_", " ") for h in houses]
+        sample_house = '67 Lynmouth Dr Ruislip HA4 9BY UK'
+        # Get sites
+        houses = sample_house
+        sf = SiteFinder(houses)
+        plot_sites = True
+        load_sites = False
+
+        sf.process_address(plot_sites, load_sites)
+
+        sf.find_neighbours()
+        #
+        sf.save_sites()
+        # Use sites as cookie cutter on height data
+        cc = CookieCutter(sf.HOUSES)
+        cc.get_height_data(False)
+
+        # print time taken
+        end_time = time.time()
+        diff = round(end_time - start_time, 1)
+        print('Time taken: ', diff)
+
+
+
 if __name__ == '__main__':
 
-    sheet_id = 'BemptonDriveOdd'
+    sheet_id = 'LynmouthDriveEven'
     #LynmouthDriveOdd
     #LynmouthDriveEven
     #BemptonDriveEven
 
     start = time.time()
-    load_from_pickle = False
+    load_from_pickle = True
     sf = SiteFinder()
     if load_from_pickle:
         sf.main_from_pickle()
@@ -321,8 +367,7 @@ if __name__ == '__main__':
             'site_dict': sf.site_dict,
             'neigh_site_dict': sf.neigh_site_dict
         }
-        with open('site_finder_BemptonDrive_odd.pickle', 'wb') as f:
-            pickle.dump(dict, f)
+        pickle.dump(dict, sf)
     gt = Geometry()
     # for k in sf.house_dict.keys():
     #     x, y = sf.house_dict[k].xt, sf.house_dict[k].yt
