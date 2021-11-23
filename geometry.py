@@ -4,7 +4,7 @@ import numpy as np
 from numpy import linalg as LA
 
 import json
-import pickle
+import pickle5 as pickle
 import os
 from os import path
 from pathlib import Path
@@ -105,22 +105,139 @@ class Geometry(object):
                 c = not c
         return c
 
-    def basic_model_from_height_data(self, x, y, plot_bool, house_name=''):
+    def get_pts_normals_elevations(self, x, y):
 
-        temp_dict = {'x': x, 'y': y}
+        Pts = []
+        Normals = []
+        Ele = []
+
+        with open('../tileSections/Tile_bounds.pickle', 'rb') as f:
+            Tile = pickle.load(f)
+
+        tile_ind = []
+        for i in range(len(x)):
+            for count, tile in enumerate(Tile):
+                x_tile, y_tile = tile[0], tile[1]
+                if self.point_in_polygon(x[i], y[i], x_tile, y_tile):
+                    tile_ind.append(count)
+        tile_ind = list(set(tile_ind))
+
+        for tile in tile_ind:
+
+            with open('../tileSections/Tile_-20_7_section_pts_' + str(tile) + '.pickle','rb') as f:
+                temp_pts = pickle.load(f)
+
+            with open('../tileSections/Tile_-20_7_section_normals_' + str(tile) + '.pickle','rb') as f:
+                temp_normals = pickle.load(f)
+
+            with open('../tileSections/Tile_-20_7_section_ele_' + str(tile) + '.pickle','rb') as f:
+                temp_ele = pickle.load(f)
+
+            for i in range(len(temp_pts)):
+                p = temp_pts[i]
+                e = temp_ele[i]
+                n = temp_normals[i]
+                if self.point_in_polygon(p[0],p[1], x, y):
+                    Ele.append(e)
+                    Pts.append(p)
+                    Normals.append(n)
+
+            # with open('../tileSections/Tile_-20_7_section_pts_' + str(tile) + '.txt') as f:
+            #     temp_pts = f.readlines()
+            #     temp_pts = ast.literal_eval(temp_pts[0])
+            #     Pts = Pts + temp_pts
+            # with open('../tileSections/Tile_-20_7_section_normals_' + str(tile) + '.txt') as f:
+            #     temp_normals = f.readlines()
+            #     temp_normals = ast.literal_eval(temp_normals[0])
+            #     Normals = Normals + temp_normals[0]
+            # with open('../tileSections/Tile_-20_7_section_ele_' + str(tile) + '.txt') as f:
+            #     temp_ele = f.readlines()
+            #     temp_ele = ast.literal_eval(temp_ele[0])
+            #     Ele = Ele + temp_ele
+
+        return Pts, Normals, Ele
+
+    def split_pts_vertical_and_rest(self, Pts, Ele, Normals, trim):
+
+        # Points and normals of house
+        x_, y_, zl_, zu_, u_, v_, w_ = [], [], [], [], [], [], []
+        # Points and normals of flat parts
+        xf_, yf_, zf_, uf_, vf_, wf_ = [], [], [], [], [], []
+
+        for i1 in range(int(len(Pts) / trim)):
+            i = trim * i1
+            px = Pts[i][0]
+            py = Pts[i][1]
+
+            if (Normals[i][1]) < 0.8:
+                x_.append(Pts[i][0])
+                y_.append(Pts[i][1])
+                zl_.append(Ele[i])
+                zu_.append(Ele[i] + Pts[i][2])
+                if Normals[i][1] > 0:
+                    u_.append(Normals[i][0])
+                    v_.append(Normals[i][1])
+                    w_.append(Normals[i][2])
+                else:
+                    u_.append(-Normals[i][0])
+                    v_.append(-Normals[i][1])
+                    w_.append(-Normals[i][2])
+            else:
+                xf_.append(Pts[i][0])
+                yf_.append(Pts[i][1])
+                zf_.append(Ele[i] + Pts[i][2])
+                uf_.append(Normals[i][0])
+                vf_.append(Normals[i][1])
+                wf_.append(Normals[i][2])
+
+        return x_, y_, zl_, zu_, u_, v_, w_, xf_, yf_, zf_, uf_, vf_, wf_
+
+    def plot_normals_and_colour_map(self, pts, normals, ptsf, normalsf, house_name=''):
+
+        x_, y_, zl_, zu_ = pts[0], pts[1], pts[2], pts[3]
+        u_, v_, w_ = normals[0], normals[1], normals[2]
+        xf_, yf_, zf_ = ptsf[0], ptsf[1], ptsf[2]
+        uf_, vf_, wf_ = normalsf[0], normalsf[1], normalsf[2]
+        if len(uf_) > 0:
+            max_u, min_u = max(max(u_), max(uf_)), min(min(u_), min(uf_))
+            max_v, min_v = max(max(v_), max(vf_)), min(min(v_), min(vf_))
+            max_w, min_w = max(max(w_), max(wf_)), min(min(w_), min(wf_))
+        elif len(u_) > 0:
+            max_u, min_u = max(u_), min(u_)
+            max_v, min_v = max(v_), min(v_)
+            max_w, min_w = max(w_), min(w_)
+
+        fig = plt.figure()
+        plt.axis("off")
+        for i in range(len(x_)):
+            col = [(u_[i] - min_u) / (max_u - min_u), (v_[i] - min_v) / (max_v - min_v),
+                   (w_[i] - min_w) / (max_w - min_w)]
+            plt.scatter(x_[i], y_[i], s=50, color=col)  # s=marker_size,
+        for i in range(len(xf_)):
+            col = [(uf_[i] - min_u) / (max_u - min_u), (vf_[i] - min_v) / (max_v - min_v),
+                   (wf_[i] - min_w) / (max_w - min_w)]
+            plt.scatter(xf_[i], yf_[i], s=50, color=col)
+        plt.show()
+
         if len(house_name) > 0:
-            save_data = house_name + '_position.pickle'
-
+            plt.savefig(house_name + ".png", format='png', bbox_inches='tight', dpi=300)
+            # plt.savefig(png_file, format='png', bbox_inches='tight', dpi=300)
+            temp_dict = {'x_': x_, 'y_': y_, 'zl_': zl_, 'zu_': zu_, 'u_': u_, 'v_': v_, 'w_': w_, 'xf_': xf_,
+                         'yf_': yf_, 'zf_': zf_, 'uf_': uf_, 'vf_': vf_, 'wf_': wf_, }
+            save_data = house_name + '_data.pickle'
             with open(save_data, 'wb') as handle:
                 pickle.dump(temp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-        # Select tile from json files
-        # Tile = self.load_tile(x, y)
-        # # Crop PTS and normals to house bounds
-        # house_tile = self.get_house_tile(Tile, x, y)
-        # # Get Pts and Normals and Ele
-        # Pts, Normals, Ele = self.array_of_pts_and_normals(house_tile)
-        # # Move pts and normals into z,y,z arrays and split vertical groups
+        dx, dy, dz = max(x_) - min(x_), max(y_) - min(y_), max(zu_) - min(zu_)
+        d = max(dx, dy, dz)
+        delta = 2
+        mx, my, mz = 0.5 * (max(x_) + min(x_)), 0.5 * (max(y_) + min(y_)), 0.5 * (max(zu_) + min(zu_))
+
+        fig = plt.figure()
+
+
+    def basic_model_from_height_data(self, x, y, plot_bool):
+
         Pts, Normals, Ele = self.get_pts_normals_elevations(x, y)
         trim = 1
         # marker_size = 50
@@ -129,19 +246,22 @@ class Geometry(object):
         normals = [u_, v_, w_]
         ptsf = [xf_, yf_, zf_]
         normalsf = [uf_, vf_, wf_]
+        print('ALright')
         if plot_bool:
             self.plot_normals_and_colour_map(pts, normals, ptsf, normalsf)
 
         # Test v different roof shapes
+        fig = plt.figure()
+
         if plot_bool:
             fig = plt.figure()
-        roof_shape, roof_ridge = self.default_roof_shapes(x, y)
-        roof_ind = self.simple_alignment_cor_fun(roof_shape, roof_ridge, x_, y_, u_, v_, w_, plot_bool)
-
-        # Test v different roof shapes
-        X_, Y_, Z_, faces = self.plot_basic_house(x, y, x_, y_, zl_, zu_, roof_shape, roof_ridge, roof_ind, plot_bool)
-
-        return X_, Y_, Z_, faces, pts, normals, ptsf, normalsf
+        # roof_shape, roof_ridge = self.default_roof_shapes(x, y)
+        # roof_ind = self.simple_alignment_cor_fun(roof_shape, roof_ridge, x_, y_, u_, v_, w_, plot_bool)
+        # print('ok')
+        # # Test v different roof shapes
+        # X_, Y_, Z_, faces = self.plot_basic_house(x, y, x_, y_, zl_, zu_, roof_shape, roof_ridge, roof_ind, plot_bool)
+        # print('manta')
+        return pts, normals, ptsf, normalsf
 
     def main(self):
         x = [0, 20, 20, 0]
@@ -149,5 +269,6 @@ class Geometry(object):
         print(self.get_aspect_ratio_area(x, y))
 
 if __name__ == '__main__':
+
     gt = Geometry()
     gt.main()

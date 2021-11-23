@@ -75,6 +75,7 @@ class SiteFinder(object):
         site_keys = self.site_dict.keys()
         site_object_list = []
         num_sites = len(self.site_dict)
+
         for k in site_keys:
             if sf.site_dict[k].multi_house:
                 house_address_list = self.site_dict[k].house_address_list
@@ -286,77 +287,36 @@ class SiteFinder(object):
         self.plotter()
 
     def main_from_pickle(self):
-        with open('site_finder_lynmouth_odd.pickle', 'rb') as f:
+
+        with open('BeverleyRoadEven.pickle', 'rb') as f:
             loadedDict = pickle.load(f)
         print(loadedDict)
         self.site_dict = loadedDict['site_dict']
         self.neigh_site_dict = loadedDict['neigh_site_dict']
         self.house_dict = loadedDict['house_dict']
 
-        self.fix_site_duplicate()
+        # self.fix_site_duplicate()
         self.plotter()
-
-
-    def cookie_cutter(self):
-
-
-        from cookie_cutter import CookieCutter
-
-        import time
-        import os
-        import sys
-        from os import path
-        from pathlib import Path
-        home = str(Path.home())
-        sys.path.append(path.abspath(home + '/lanuApps/'))
-
-        # Start Clock
-        start_time = time.time()
-
-        # Get house list
-        # houses = [x[0] for x in os.walk(home + '/Dropbox/Lanu/houses/') if '_Lynmouth' in x[0]]
-        # houses = [os.path.basename(h) for h in houses]
-        # houses = [h.replace("_", " ") for h in houses]
-        sample_house = '67 Lynmouth Dr Ruislip HA4 9BY UK'
-        # Get sites
-        houses = sample_house
-        sf = SiteFinder(houses)
-        plot_sites = True
-        load_sites = False
-
-        sf.process_address(plot_sites, load_sites)
-
-        sf.find_neighbours()
-        #
-        sf.save_sites()
-        # Use sites as cookie cutter on height data
-        cc = CookieCutter(sf.HOUSES)
-        cc.get_height_data(False)
-
-        # print time taken
-        end_time = time.time()
-        diff = round(end_time - start_time, 1)
-        print('Time taken: ', diff)
 
 
 
 if __name__ == '__main__':
 
-    sheet_id = 'LynmouthDriveEven'
+    sheet_id = 'LynmouthDriveOdd'
     #LynmouthDriveOdd
     #LynmouthDriveEven
     #BemptonDriveEven
 
     start = time.time()
-    load_from_pickle = True
+    load_from_pickle = False
     sf = SiteFinder()
     if load_from_pickle:
         sf.main_from_pickle()
-        # dict = {
-        #     'house_dict': sf.house_dict,
-        #     'site_dict': sf.site_dict,
-        #     'neigh_site_dict': sf.neigh_site_dict
-        # }
+        dict = {
+            'house_dict': sf.house_dict,
+            'site_dict': sf.site_dict,
+            'neigh_site_dict': sf.neigh_site_dict
+        }
         # with open('site_finder_lynmouth_odd.pickle', 'wb') as f:
         #     pickle.dump(dict, f)
     else:
@@ -367,7 +327,10 @@ if __name__ == '__main__':
             'site_dict': sf.site_dict,
             'neigh_site_dict': sf.neigh_site_dict
         }
-        pickle.dump(dict, sf)
+        # pickle.dump(dict, sf)
+
+        with open('site_finder_lynmouth_odd.pickle', 'wb') as f:
+            pickle.dump(dict, f)
     gt = Geometry()
     # for k in sf.house_dict.keys():
     #     x, y = sf.house_dict[k].xt, sf.house_dict[k].yt
@@ -379,15 +342,3 @@ if __name__ == '__main__':
     keys = sf.house_dict.keys()
 
     print('Time Taken:', round(end - start), 'seconds')
-
-    # for i in self.sites.dict.keys():
-    #     if self.sites.dict[i]['multi_house'] == True:# sel  self.sites.incrementID()
-    #         for address in self.sites.dict[i]['house_address_list']:
-    #             splitAddress = address.split('_')
-    #             number = int(splitAddress[0])
-    #             # self.houses.house_dict[address]['potential_neighs'].append(str(number + 2) + '_' + splitAddress[1] + '_' + splitAddress[2])
-    #             # self.houses.house_dict[address]['potential_neighs'].append(str(number - 2) + '_' + splitAddress[1] + '_' + splitAddress[2])
-    #             # self.houses.house_dict[address]['potential_neighs'].append(str(number + 4) + '_' + splitAddress[1] + '_' + splitAddress[2])
-    #             # self.houses.house_dict[address]['potential_neighs'].append(str(number - 4) + '_' + splitAddress[1] + '_' + splitAddress[2])
-    #
-    #         print(self.sites.dict[i]['id'])
