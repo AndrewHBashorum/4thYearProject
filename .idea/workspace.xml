@@ -19,7 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="" />
+    <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/geometry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/os_feature_test.html" beforeDir="false" afterPath="$PROJECT_DIR$/os_feature_test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_qgis_libs.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_qgis_libs.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,7 +42,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="luke" />
+        <entry key="$PROJECT_DIR$" value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -52,7 +58,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.site_finder">
+  <component name="RunManager" selected="Python.test_run_sh">
     <configuration name="geometry" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -78,9 +84,6 @@
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="$PROJECT_DIR$/../lanuApps/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -141,9 +144,6 @@
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />

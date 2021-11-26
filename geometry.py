@@ -14,10 +14,41 @@ import math
 import random
 from pathlib import Path
 import constants
+from pyproj import Proj, transform
 
 class Geometry(object):
     def __init__(self):
         pass
+
+    def convert_lat_lon_to_27700(self, lat, lon):
+        inProj = Proj(init='epsg:4326')
+        outProj = Proj(init='epsg:27700')
+        return transform(inProj, outProj, lat, lon)
+
+    def convert_27700_to_lat_lon(self, x1, y1):
+        inProj = Proj(init='epsg:27700')
+        outProj = Proj(init='epsg:4326')
+        return transform(inProj, outProj, x1, y1)
+
+    def convert_list_lat_lon_to_27700(self, lat_list, lon_list):
+        inProj = Proj(init='epsg:4326')
+        outProj = Proj(init='epsg:27700')
+        X, Y = [], []
+        for p in range(len(lat_list)):
+            x_temp, y_temp = transform(inProj, outProj, lat_list[p], lon_list[p])
+            X.append(x_temp)
+            Y.append(y_temp)
+        return X, Y
+
+    def convert_list_27700_to_lat_lon(self, X_list, Y_list):
+        inProj = Proj(init='epsg:27700')
+        outProj = Proj(init='epsg:4326')
+        lat_list, lon_list = [], []
+        for p in range(len(X_list)):
+            lat_temp, lon_temp = transform(inProj, outProj, X_list[p], Y_list[p])
+            lat_list.append(lat_temp)
+            lon_list.append(lon_temp)
+        return lat_list, lon_list
 
     def centre_poly(self, x, y):
         cx = sum(x) / max(1, len(x))
