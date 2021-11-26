@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="luke" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1zQJJHzjztHGDAMLWaxOwVmAuXt" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="RunManager" selected="Python.site_finder">
+    <configuration name="geometry" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/geometry.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="site_finder" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../lanuApps/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/site_finder.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_os_paw" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../.conda/envs/lanu_app_test/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_os_paw.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_qgis_libs" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../.conda/envs/lanu_algo/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_qgis_libs.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_run_sh" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_run_sh.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.geometry" />
+      <item itemvalue="Python.site_finder" />
+      <item itemvalue="Python.test_os_paw" />
+      <item itemvalue="Python.test_qgis_libs" />
+      <item itemvalue="Python.test_run_sh" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="" />
+      <created>1634074305218</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1634074305218</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Implemented st_dwithin function to find nearby sites. Changed process_geometry so that it takes a geometry as input. Plotting neigh sites and main site. Also created a simple switch. Also removed future warning thing.">
+      <created>1634622158244</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1634622158244</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Some changes">
+      <created>1635269940388</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1635269940388</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Some changes to st_transform">
+      <created>1635272910781</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1635272910781</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Some changes to st_transform">
+      <created>1635273086176</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1635273086176</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Changed houses.py to houses utils and created house object class. Did the saemf or sites">
+      <created>1635945193130</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1635945193134</updated>
+    </task>
+    <task id="LOCAL-00006" summary="houses in house_dict, sites into sites_dict, neigh_sites into neigh_sites_dict. sites_utils script, house_utils script, site_object and house_object">
+      <created>1635960306242</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1635960306242</updated>
+    </task>
+    <task id="LOCAL-00007" summary="houses in house_dict, sites into sites_dict, neigh_sites into neigh_sites_dict. sites_utils script, house_utils script, site_object and house_object">
+      <created>1635960318438</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1635960318438</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Some minor fixes">
+      <created>1636023442873</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1636023442873</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Some minor fixes">
+      <created>1636029556360</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1636029556360</updated>
+    </task>
+    <task id="LOCAL-00010" summary="some minor changes">
+      <created>1636121426775</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1636121426775</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Basic fix of sites in sitefinder">
+      <created>1636370638041</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1636370638041</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Basic fix of sites in sitefinder">
+      <created>1636370854567</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1636370854567</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Extra vars in house object">
+      <created>1637339306845</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1637339306845</updated>
+    </task>
+    <task id="LOCAL-00014" summary="added os-paw tetsing script">
+      <created>1637679750214</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1637679750215</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added shell script to load qgis modules in python. Also testing html script to run os datahyb api calls">
+      <created>1637924073956</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1637924073956</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Implemented st_dwithin function to find nearby sites. Changed process_geometry so that it takes a geometry as input. Plotting neigh sites and main site" />
+    <MESSAGE value="Implemented st_dwithin function to find nearby sites. Changed process_geometry so that it takes a geometry as input. Plotting neigh sites and main site. Also created a simple switch. Also removed future warning thing." />
+    <MESSAGE value="Some changes" />
+    <MESSAGE value="Some changes to st_transform" />
+    <MESSAGE value="Changed houses.py to houses utils and created house object class. Did the saemf or sites" />
+    <MESSAGE value="houses in house_dict, sites into sites_dict, neigh_sites into neigh_sites_dict. sites_utils script, house_utils script, site_object and house_object" />
+    <MESSAGE value="Some minor fixes" />
+    <MESSAGE value="some minor changes" />
+    <MESSAGE value="Basic fix of sites in sitefinder" />
+    <MESSAGE value="Extra vars in house object" />
+    <MESSAGE value="added os-paw tetsing script" />
+    <MESSAGE value="Added shell script to load qgis modules in python. Also testing html script to run os datahyb api calls" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added shell script to load qgis modules in python. Also testing html script to run os datahyb api calls" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="360" y="210" width="1071" height="777" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1637877901678">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state x="360" y="207" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1047@0.25.1792.1047" timestamp="1634074805013" />
+    <state x="360" y="210" width="1071" height="777" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1061@0.25.1792.1061" timestamp="1637877901678" />
+    <state x="360" y="210" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1636019990769" />
+    <state width="1750" height="340" key="GridCell.Tab.0.bottom" timestamp="1637924722442">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state width="1750" height="340" key="GridCell.Tab.0.bottom/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722442" />
+    <state width="875" height="351" key="GridCell.Tab.0.bottom/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738578" />
+    <state width="1750" height="340" key="GridCell.Tab.0.center" timestamp="1637924722442">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state width="1750" height="340" key="GridCell.Tab.0.center/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722442" />
+    <state width="875" height="351" key="GridCell.Tab.0.center/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738566" />
+    <state width="1750" height="340" key="GridCell.Tab.0.left" timestamp="1637924722441">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state width="1750" height="340" key="GridCell.Tab.0.left/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722441" />
+    <state width="875" height="351" key="GridCell.Tab.0.left/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738559" />
+    <state width="1750" height="340" key="GridCell.Tab.0.right" timestamp="1637924722442">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state width="1750" height="340" key="GridCell.Tab.0.right/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722442" />
+    <state width="875" height="351" key="GridCell.Tab.0.right/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738576" />
+    <state width="1750" height="340" key="GridCell.Tab.1.bottom" timestamp="1637924722443">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state width="1750" height="340" key="GridCell.Tab.1.bottom/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722443" />
+    <state width="875" height="351" key="GridCell.Tab.1.bottom/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738579" />
+    <state width="1750" height="340" key="GridCell.Tab.1.center" timestamp="1637924722443">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state width="1750" height="340" key="GridCell.Tab.1.center/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722443" />
+    <state width="875" height="351" key="GridCell.Tab.1.center/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738579" />
+    <state width="1750" height="340" key="GridCell.Tab.1.left" timestamp="1637924722443">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state width="1750" height="340" key="GridCell.Tab.1.left/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722443" />
+    <state width="875" height="351" key="GridCell.Tab.1.left/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738578" />
+    <state width="1750" height="340" key="GridCell.Tab.1.right" timestamp="1637924722443">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state width="1750" height="340" key="GridCell.Tab.1.right/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722443" />
+    <state width="875" height="351" key="GridCell.Tab.1.right/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738579" />
+    <state x="510" y="323" key="IDE.errors.dialog" timestamp="1635936170593">
+      <screen x="0" y="25" width="1792" height="1063" />
+    </state>
+    <state x="510" y="323" key="IDE.errors.dialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635936170593" />
+    <state x="179" y="109" key="MergeDialog" timestamp="1635865987520">
+      <screen x="0" y="25" width="1792" height="1063" />
+    </state>
+    <state x="179" y="109" key="MergeDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635865987520" />
+    <state x="534" y="314" key="MultipleFileMergeDialog" timestamp="1635865987594">
+      <screen x="0" y="25" width="1792" height="1063" />
+    </state>
+    <state x="534" y="314" key="MultipleFileMergeDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635865987594" />
+    <state x="405" y="186" key="SettingsEditor" timestamp="1637924600747">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state x="405" y="184" key="SettingsEditor/0.25.1792.1047@0.25.1792.1047" timestamp="1634074819882" />
+    <state x="405" y="186" key="SettingsEditor/0.25.1792.1061@0.25.1792.1061" timestamp="1637924600747" />
+    <state x="405" y="186" key="SettingsEditor/0.25.1792.1063@0.25.1792.1063" timestamp="1636016712351" />
+    <state x="465" y="275" key="Vcs.Push.Dialog.v2" timestamp="1637924613749">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state x="280" y="202" key="Vcs.Push.Dialog.v2/0.25.1080.751@0.25.1080.751" timestamp="1637339310430" />
+    <state x="496" y="272" key="Vcs.Push.Dialog.v2/0.25.1792.1047@0.25.1792.1047" timestamp="1634622159838" />
+    <state x="465" y="275" key="Vcs.Push.Dialog.v2/0.25.1792.1061@0.25.1792.1061" timestamp="1637924613749" />
+    <state x="496" y="276" key="Vcs.Push.Dialog.v2/0.25.1792.1063@0.25.1792.1063" timestamp="1636370856015" />
+    <state x="100" y="125" width="1592" height="847" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1635273008326">
+      <screen x="0" y="25" width="1792" height="1063" />
+    </state>
+    <state x="100" y="125" width="1592" height="847" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635273008326" />
+    <state x="697" y="465" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1637924686800">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state x="697" y="465" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1792.1061@0.25.1792.1061" timestamp="1637924686800" />
+    <state x="697" y="466" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1792.1063@0.25.1792.1063" timestamp="1635960341544" />
+    <state x="646" y="332" width="597" height="490" key="find.popup" timestamp="1635936908797">
+      <screen x="0" y="25" width="1792" height="1063" />
+    </state>
+    <state x="646" y="332" width="597" height="490" key="find.popup/0.25.1792.1063@0.25.1792.1063" timestamp="1635936908797" />
+    <state x="649" y="265" key="git4idea.branch.GitSmartOperationDialog" timestamp="1635865871721">
+      <screen x="0" y="25" width="1792" height="1063" />
+    </state>
+    <state x="649" y="265" key="git4idea.branch.GitSmartOperationDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635865871721" />
+  </component>
+</project>
