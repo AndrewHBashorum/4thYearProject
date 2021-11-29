@@ -57,7 +57,7 @@ class FixData(object):
             plt.plot([self.house_dict[house_id].X_bounds4[0], self.house_dict[house_id].X_bounds4[1]], [self.house_dict[house_id].Y_bounds4[0],self.house_dict[house_id].Y_bounds4[1]], '-', color='r', linewidth=2)
             xb = 0.5*(self.site_dict[site_id].x_poly4[2] + self.site_dict[site_id].x_poly4[3])
             yb = 0.5*(self.site_dict[site_id].y_poly4[2] + self.site_dict[site_id].y_poly4[3])
-            plt.quiver(xb, yb, np.cos(self.site_dict[site_id].orientation), np.sin(self.site_dict[site_id].orientation), scale=0.000000001)
+            # plt.quiver(xb, yb, np.cos(self.site_dict[site_id].orientation), np.sin(self.site_dict[site_id].orientation), scale=0.00000000000001)
             # for i in range(len(self.site_dict[site_id].X_extra)):
             #     plt.fill(self.site_dict[site_id].X_extra[i], self.site_dict[site_id].Y_extra[i], color='r', fill=False, linewidth=2)
 
@@ -159,22 +159,37 @@ class FixData(object):
             self.house_dict[house_id].left_distance = min(self.gt.distance(q0, q3, p0), self.gt.distance(q0, q3, p3))
             self.house_dict[house_id].right_distance = min(self.gt.distance(q1, q2, p1), self.gt.distance(q1, q2, p2))
 
+    def main(self, pickle_file_name):
+        self.load_from_pickle(pickle_file_name + '.pickle')
+        self.fix_house_address_list()
+        self.create_box_around_polygons()
+        self.fix_centres()
+        self.find_back_and_front_of_polygon()
+        self.correct_site_orientation()
+        self.side_distances()
+
+        self.make_plot()
+        pickle_file_name = 'site_finder_lynmouth_odd2'
+        self.save_to_pickle(pickle_file_name + '.pickle')
+
 if __name__ == '__main__':
 
     fd = FixData()
-    # load all sites and houses from pickle
     pickle_file_name = 'site_finder_lynmouth_odd1'
-    fd.load_from_pickle(pickle_file_name + '.pickle')
-    fd.fix_house_address_list()
-    fd.create_box_around_polygons()
-    fd.fix_centres()
-    fd.find_back_and_front_of_polygon()
-    fd.correct_site_orientation()
-    fd.side_distances()
-
-    fd.make_plot()
-    pickle_file_name = 'site_finder_lynmouth_odd2'
-    fd.save_to_pickle(pickle_file_name + '.pickle')
+    fd.main(pickle_file_name)
+    # # load all sites and houses from pickle
+    # pickle_file_name = 'site_finder_lynmouth_odd1'
+    # fd.load_from_pickle(pickle_file_name + '.pickle')
+    # fd.fix_house_address_list()
+    # fd.create_box_around_polygons()
+    # fd.fix_centres()
+    # fd.find_back_and_front_of_polygon()
+    # fd.correct_site_orientation()
+    # fd.side_distances()
+    #
+    # fd.make_plot()
+    # pickle_file_name = 'site_finder_lynmouth_odd2'
+    # fd.save_to_pickle(pickle_file_name + '.pickle')
 
 
     # fd.plot_single_house(6)
