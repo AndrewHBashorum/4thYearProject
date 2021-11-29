@@ -25,6 +25,8 @@ class House(object):
         self.cluster_centre_x = None
         self.cluster_centre_y = None
         self.img_link = ''
+        self.X_bounds = []
+        self.Y_bounds = []
 
     def main(self):
         pass

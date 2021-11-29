@@ -20,11 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fix_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/house_finder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/os_get_buildings_near_pt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/geometry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/os_feature_test.html" beforeDir="false" afterPath="$PROJECT_DIR$/os_feature_test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/house.py" beforeDir="false" afterPath="$PROJECT_DIR$/house.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lanu_app_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site_finder_lynmouth_odd1.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/site_finder_lynmouth_odd1.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/site_object.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_qgis_libs.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_qgis_libs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_run_sh.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_run_sh.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,15 +40,15 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="luke" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,9 +62,27 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.test_run_sh">
+  <component name="RunManager" selected="Python.fix_data">
+    <configuration name="fix_data" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fix_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="geometry" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -80,10 +104,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="house_finder" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/house_finder.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="site_finder" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="$PROJECT_DIR$/../lanuApps/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -144,7 +192,10 @@
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../lanuApps/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -159,11 +210,13 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.fix_data" />
       <item itemvalue="Python.geometry" />
       <item itemvalue="Python.site_finder" />
       <item itemvalue="Python.test_os_paw" />
       <item itemvalue="Python.test_qgis_libs" />
       <item itemvalue="Python.test_run_sh" />
+      <item itemvalue="Python.house_finder" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -280,7 +333,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637924073956</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Testing around with lanu app">
+      <created>1637931360162</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1637931360162</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -308,54 +368,59 @@
     <MESSAGE value="Extra vars in house object" />
     <MESSAGE value="added os-paw tetsing script" />
     <MESSAGE value="Added shell script to load qgis modules in python. Also testing html script to run os datahyb api calls" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added shell script to load qgis modules in python. Also testing html script to run os datahyb api calls" />
+    <MESSAGE value="Testing around with lanu app" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing around with lanu app" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="360" y="210" width="1071" height="777" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1637877901678">
+    <state x="360" y="210" width="1071" height="825" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1638176500370">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
     <state x="360" y="207" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1047@0.25.1792.1047" timestamp="1634074805013" />
-    <state x="360" y="210" width="1071" height="777" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1061@0.25.1792.1061" timestamp="1637877901678" />
+    <state x="360" y="210" width="1071" height="825" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1061@0.25.1792.1061" timestamp="1638176500370" />
     <state x="360" y="210" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1636019990769" />
-    <state width="1750" height="340" key="GridCell.Tab.0.bottom" timestamp="1637924722442">
+    <state x="613" y="361" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1638024671170">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
-    <state width="1750" height="340" key="GridCell.Tab.0.bottom/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722442" />
+    <state x="613" y="361" key="#com.intellij.fileTypes.FileTypeChooser/0.25.1792.1061@0.25.1792.1061" timestamp="1638024671170" />
+    <state width="1750" height="355" key="GridCell.Tab.0.bottom" timestamp="1638190116767">
+      <screen x="0" y="25" width="1792" height="1061" />
+    </state>
+    <state width="1750" height="355" key="GridCell.Tab.0.bottom/0.25.1792.1061@0.25.1792.1061" timestamp="1638190116767" />
     <state width="875" height="351" key="GridCell.Tab.0.bottom/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738578" />
-    <state width="1750" height="340" key="GridCell.Tab.0.center" timestamp="1637924722442">
+    <state width="1750" height="355" key="GridCell.Tab.0.center" timestamp="1638190116766">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
-    <state width="1750" height="340" key="GridCell.Tab.0.center/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722442" />
+    <state width="1750" height="355" key="GridCell.Tab.0.center/0.25.1792.1061@0.25.1792.1061" timestamp="1638190116766" />
     <state width="875" height="351" key="GridCell.Tab.0.center/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738566" />
-    <state width="1750" height="340" key="GridCell.Tab.0.left" timestamp="1637924722441">
+    <state width="1750" height="355" key="GridCell.Tab.0.left" timestamp="1638190116766">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
-    <state width="1750" height="340" key="GridCell.Tab.0.left/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722441" />
+    <state width="1750" height="355" key="GridCell.Tab.0.left/0.25.1792.1061@0.25.1792.1061" timestamp="1638190116766" />
     <state width="875" height="351" key="GridCell.Tab.0.left/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738559" />
-    <state width="1750" height="340" key="GridCell.Tab.0.right" timestamp="1637924722442">
+    <state width="1750" height="355" key="GridCell.Tab.0.right" timestamp="1638190116767">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
-    <state width="1750" height="340" key="GridCell.Tab.0.right/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722442" />
+    <state width="1750" height="355" key="GridCell.Tab.0.right/0.25.1792.1061@0.25.1792.1061" timestamp="1638190116767" />
     <state width="875" height="351" key="GridCell.Tab.0.right/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738576" />
-    <state width="1750" height="340" key="GridCell.Tab.1.bottom" timestamp="1637924722443">
+    <state width="1750" height="355" key="GridCell.Tab.1.bottom" timestamp="1638190116768">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
-    <state width="1750" height="340" key="GridCell.Tab.1.bottom/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722443" />
+    <state width="1750" height="355" key="GridCell.Tab.1.bottom/0.25.1792.1061@0.25.1792.1061" timestamp="1638190116768" />
     <state width="875" height="351" key="GridCell.Tab.1.bottom/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738579" />
-    <state width="1750" height="340" key="GridCell.Tab.1.center" timestamp="1637924722443">
+    <state width="1750" height="355" key="GridCell.Tab.1.center" timestamp="1638190116768">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
-    <state width="1750" height="340" key="GridCell.Tab.1.center/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722443" />
+    <state width="1750" height="355" key="GridCell.Tab.1.center/0.25.1792.1061@0.25.1792.1061" timestamp="1638190116768" />
     <state width="875" height="351" key="GridCell.Tab.1.center/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738579" />
-    <state width="1750" height="340" key="GridCell.Tab.1.left" timestamp="1637924722443">
+    <state width="1750" height="355" key="GridCell.Tab.1.left" timestamp="1638190116767">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
-    <state width="1750" height="340" key="GridCell.Tab.1.left/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722443" />
+    <state width="1750" height="355" key="GridCell.Tab.1.left/0.25.1792.1061@0.25.1792.1061" timestamp="1638190116767" />
     <state width="875" height="351" key="GridCell.Tab.1.left/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738578" />
-    <state width="1750" height="340" key="GridCell.Tab.1.right" timestamp="1637924722443">
+    <state width="1750" height="355" key="GridCell.Tab.1.right" timestamp="1638190116768">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
-    <state width="1750" height="340" key="GridCell.Tab.1.right/0.25.1792.1061@0.25.1792.1061" timestamp="1637924722443" />
+    <state width="1750" height="355" key="GridCell.Tab.1.right/0.25.1792.1061@0.25.1792.1061" timestamp="1638190116768" />
     <state width="875" height="351" key="GridCell.Tab.1.right/0.25.1792.1063@0.25.1792.1063" timestamp="1635955738579" />
     <state x="510" y="323" key="IDE.errors.dialog" timestamp="1635936170593">
       <screen x="0" y="25" width="1792" height="1063" />
@@ -369,18 +434,18 @@
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
     <state x="534" y="314" key="MultipleFileMergeDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635865987594" />
-    <state x="405" y="186" key="SettingsEditor" timestamp="1637924600747">
+    <state x="405" y="186" key="SettingsEditor" timestamp="1638023167685">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
     <state x="405" y="184" key="SettingsEditor/0.25.1792.1047@0.25.1792.1047" timestamp="1634074819882" />
-    <state x="405" y="186" key="SettingsEditor/0.25.1792.1061@0.25.1792.1061" timestamp="1637924600747" />
+    <state x="405" y="186" key="SettingsEditor/0.25.1792.1061@0.25.1792.1061" timestamp="1638023167685" />
     <state x="405" y="186" key="SettingsEditor/0.25.1792.1063@0.25.1792.1063" timestamp="1636016712351" />
-    <state x="465" y="275" key="Vcs.Push.Dialog.v2" timestamp="1637924613749">
+    <state x="465" y="275" key="Vcs.Push.Dialog.v2" timestamp="1637931361416">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
     <state x="280" y="202" key="Vcs.Push.Dialog.v2/0.25.1080.751@0.25.1080.751" timestamp="1637339310430" />
     <state x="496" y="272" key="Vcs.Push.Dialog.v2/0.25.1792.1047@0.25.1792.1047" timestamp="1634622159838" />
-    <state x="465" y="275" key="Vcs.Push.Dialog.v2/0.25.1792.1061@0.25.1792.1061" timestamp="1637924613749" />
+    <state x="465" y="275" key="Vcs.Push.Dialog.v2/0.25.1792.1061@0.25.1792.1061" timestamp="1637931361416" />
     <state x="496" y="276" key="Vcs.Push.Dialog.v2/0.25.1792.1063@0.25.1792.1063" timestamp="1636370856015" />
     <state x="100" y="125" width="1592" height="847" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1635273008326">
       <screen x="0" y="25" width="1792" height="1063" />

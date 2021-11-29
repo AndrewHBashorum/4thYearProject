@@ -18,6 +18,10 @@ class SiteObject(object):
         self.aspect_ratio = None
         self.orientation = None
         self.active = True
+        self.X_main = []
+        self.Y_main = []
+        self.X_extra = []
+        self.Y_extra = []
 
     def main(self):
         pass
