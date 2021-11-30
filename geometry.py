@@ -137,7 +137,8 @@ class Geometry(object):
                 p = temp_pts[i]
                 e = temp_ele[i]
                 n = temp_normals[i]
-                if self.point_in_polygon(p[0],p[1], x, y):
+                l = np.sqrt(n[0]**2 + n[1]**2 + n[2]**2)
+                if self.point_in_polygon(p[0],p[1], x, y) and l > 0.1:
                     Ele.append(e)
                     Pts.append(p)
                     Normals.append(n)
@@ -157,6 +158,22 @@ class Geometry(object):
 
         return Pts, Normals, Ele
 
+
+    def find_centre(self, x, y):
+
+        g = 0
+        for i in x:
+            g = g + x
+        centreX = g / len(x)
+
+        for i in y:
+            f = f + x
+        centreY = f / len(x)
+
+        centre = [centreX,centreY]
+        return centre
+
+
     def split_pts_vertical_and_rest(self, Pts, Ele, Normals, trim):
 
         # Points and normals of house
@@ -169,7 +186,7 @@ class Geometry(object):
             px = Pts[i][0]
             py = Pts[i][1]
 
-            if (Normals[i][1]) < 0.8:
+            if (Normals[i][1]) < 0.9:
                 x_.append(Pts[i][0])
                 y_.append(Pts[i][1])
                 zl_.append(Ele[i])
@@ -207,6 +224,7 @@ class Geometry(object):
             max_v, min_v = max(v_), min(v_)
             max_w, min_w = max(w_), min(w_)
 
+        print('*', len(x_))
         fig = plt.figure()
         plt.axis("off")
         for i in range(len(x_)):
@@ -218,49 +236,50 @@ class Geometry(object):
                    (wf_[i] - min_w) / (max_w - min_w)]
             plt.scatter(xf_[i], yf_[i], s=50, color=col)
         plt.show()
-
-        if len(house_name) > 0:
-            plt.savefig(house_name + ".png", format='png', bbox_inches='tight', dpi=300)
-            # plt.savefig(png_file, format='png', bbox_inches='tight', dpi=300)
-            temp_dict = {'x_': x_, 'y_': y_, 'zl_': zl_, 'zu_': zu_, 'u_': u_, 'v_': v_, 'w_': w_, 'xf_': xf_,
-                         'yf_': yf_, 'zf_': zf_, 'uf_': uf_, 'vf_': vf_, 'wf_': wf_, }
-            save_data = house_name + '_data.pickle'
-            with open(save_data, 'wb') as handle:
-                pickle.dump(temp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        plt.savefig('images/vector_images/' + house_name + ".png", format='png', bbox_inches='tight', dpi=300)
+        # if len(house_name) > 0:
+        #     plt.savefig('images/vector_images/'+house_name+ ".png", format='png', bbox_inches='tight', dpi=300)
+        #     # plt.savefig(png_file, format='png', bbox_inches='tight', dpi=300)
+        #     temp_dict = {'x_': x_, 'y_': y_, 'zl_': zl_, 'zu_': zu_, 'u_': u_, 'v_': v_, 'w_': w_, 'xf_': xf_,
+        #                  'yf_': yf_, 'zf_': zf_, 'uf_': uf_, 'vf_': vf_, 'wf_': wf_, }
+        #     save_data = house_name + '_data.pickle'
+        #     with open(save_data, 'wb') as handle:
+        #         pickle.dump(temp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
         dx, dy, dz = max(x_) - min(x_), max(y_) - min(y_), max(zu_) - min(zu_)
         d = max(dx, dy, dz)
         delta = 2
         mx, my, mz = 0.5 * (max(x_) + min(x_)), 0.5 * (max(y_) + min(y_)), 0.5 * (max(zu_) + min(zu_))
 
-        fig = plt.figure()
+        #fig = plt.figure()
 
 
-    def basic_model_from_height_data(self, x, y, plot_bool):
+    def basic_model_from_height_data(self, x, y, plot_bool,house_key):
 
         Pts, Normals, Ele = self.get_pts_normals_elevations(x, y)
         trim = 1
         # marker_size = 50
         x_, y_, zl_, zu_, u_, v_, w_, xf_, yf_, zf_, uf_, vf_, wf_ = self.split_pts_vertical_and_rest(Pts, Ele, Normals, trim)
         pts = [x_, y_, zl_, zu_]
+        # center = self.find_centre(x_,y_)
         normals = [u_, v_, w_]
         ptsf = [xf_, yf_, zf_]
         normalsf = [uf_, vf_, wf_]
-        print('ALright')
+
         if plot_bool:
-            self.plot_normals_and_colour_map(pts, normals, ptsf, normalsf)
+            self.plot_normals_and_colour_map(pts, normals, ptsf, normalsf,house_key)
 
         # Test v different roof shapes
-        fig = plt.figure()
+        #fig = plt.figure()
 
-        if plot_bool:
-            fig = plt.figure()
+        # if plot_bool:
+        #     fig = plt.figure()
         # roof_shape, roof_ridge = self.default_roof_shapes(x, y)
         # roof_ind = self.simple_alignment_cor_fun(roof_shape, roof_ridge, x_, y_, u_, v_, w_, plot_bool)
-        # print('ok')
+
         # # Test v different roof shapes
         # X_, Y_, Z_, faces = self.plot_basic_house(x, y, x_, y_, zl_, zu_, roof_shape, roof_ridge, roof_ind, plot_bool)
-        # print('manta')
+
         return pts, normals, ptsf, normalsf
 
     def main(self):

@@ -288,9 +288,9 @@ class SiteFinder(object):
 
     def main_from_pickle(self):
 
-        with open('BeverleyRoadEven.pickle', 'rb') as f:
+        with open('house_site_pickle/BeverleyRoadEven.pickle', 'rb') as f:
             loadedDict = pickle.load(f)
-        print(loadedDict)
+
         self.site_dict = loadedDict['site_dict']
         self.neigh_site_dict = loadedDict['neigh_site_dict']
         self.house_dict = loadedDict['house_dict']
@@ -300,9 +300,10 @@ class SiteFinder(object):
 
 
 
+
 if __name__ == '__main__':
 
-    sheet_id = 'LynmouthDriveOdd'
+    sheet_id = 'LynmouthDriveEven'
     #LynmouthDriveOdd
     #LynmouthDriveEven
     #BemptonDriveEven
@@ -329,7 +330,7 @@ if __name__ == '__main__':
         }
         # pickle.dump(dict, sf)
 
-        with open('site_finder_lynmouth_odd.pickle', 'wb') as f:
+        with open('house_site_pickle/LynmouthDriveEven.pickle', 'wb') as f:
             pickle.dump(dict, f)
     gt = Geometry()
     # for k in sf.house_dict.keys():
