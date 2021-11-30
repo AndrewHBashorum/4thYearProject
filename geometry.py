@@ -137,14 +137,29 @@ class Geometry(object):
                 c = not c
         return c
 
-    def polygon_in_enlarged_polygon(self, qx, qy, x, y, scale_factor):
-        cx = sum(x)/len(x)
-        cy = sum(y)/len(y)
-        x_temp = []
-        y_temp = []
+
+    def rotate_polygon(self, x, y, alpha):
+
+        x_ = x[:]
+        y_ = y[:]
+        cx, cy = sum(x) / len(x), sum(y) / len(y)
+        for i in range(len(x)):
+            x[i] = ((x_[i] - cx) * np.cos(alpha) - (y_[i] - cy) * np.sin(alpha)) + cx
+            y[i] = ((x_[i] - cx) * np.sin(alpha) + (y_[i] - cy) * np.cos(alpha)) + cy
+        return x, y
+
+    def enlarge_polygon(self, x, y, scale_factor):
+
+        cx, cy = sum(x) / len(x), sum(y) / len(y)
+        x_temp, y_temp = [], []
         for i in range(len(x)):
             x_temp.append(scale_factor*(x[i] - cx) + cx)
             y_temp.append(scale_factor*(y[i] - cy) + cy)
+
+        return x_temp, y_temp
+
+    def polygon_in_enlarged_polygon(self, qx, qy, x, y, scale_factor):
+        x_temp, y_temp = self.enlarge_polygon(x, y, scale_factor)
         poly_in_poly = True
         for i in range(len(qx)):
             if not self.point_in_polygon(qx[i], qy[i], x_temp, y_temp):
@@ -281,6 +296,12 @@ class Geometry(object):
     def shift_list(self, seq, n):
         n = n % len(seq)
         return seq[n:] + seq[:n]
+
+    def shift_polygon(self, x, y, dx, dy):
+        for i in range(len(x)):
+            x[i] += dx
+            y[i] += dy
+        return x, y
 
     def main(self):
         x = [0, 20, 20, 0]
