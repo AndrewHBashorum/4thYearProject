@@ -11,6 +11,7 @@ from qgis.PyQt.QtWidgets import *
 from constants import OS_API_KEY
 
 import sys
+
 xp = float(sys.argv[1])
 yp = float(sys.argv[2])
 tolerance = float(sys.argv[3])

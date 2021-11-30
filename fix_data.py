@@ -46,20 +46,20 @@ class FixData(object):
         plt.figure()
         # Make plot
         for site_id in self.site_keys:
-            # plt.plot(self.site_dict[site_id].xt, self.site_dict[site_id].yt, 'o', color='b')
+            plt.plot(self.site_dict[site_id].xt, self.site_dict[site_id].yt, 'o', color='b')
             plt.fill(self.site_dict[site_id].x_poly, self.site_dict[site_id].y_poly, color='b', linewidth=1, fill=False)
             plt.fill(self.site_dict[site_id].x_poly4, self.site_dict[site_id].y_poly4, color='c', fill=False, linewidth=1)
             plt.plot([self.site_dict[site_id].x_poly4[0], self.site_dict[site_id].x_poly4[1]], [self.site_dict[site_id].y_poly4[0],self.site_dict[site_id].y_poly4[1]], '-', color='r', linewidth=2)
             house_id = self.site_dict[site_id].house_address_list[0]
-            # plt.plot(self.house_dict[house_id].xt, self.house_dict[house_id].yt, 'o', color='g')
+            plt.plot(self.house_dict[house_id].xt, self.house_dict[house_id].yt, 'o', color='g')
             plt.fill(self.house_dict[house_id].X_bounds, self.house_dict[house_id].Y_bounds, color='g', fill=False, linewidth=1)
             plt.fill(self.house_dict[house_id].X_bounds4, self.house_dict[house_id].Y_bounds4, color='orange', fill=False, linewidth=2)
             plt.plot([self.house_dict[house_id].X_bounds4[0], self.house_dict[house_id].X_bounds4[1]], [self.house_dict[house_id].Y_bounds4[0],self.house_dict[house_id].Y_bounds4[1]], '-', color='r', linewidth=2)
             xb = 0.5*(self.site_dict[site_id].x_poly4[2] + self.site_dict[site_id].x_poly4[3])
             yb = 0.5*(self.site_dict[site_id].y_poly4[2] + self.site_dict[site_id].y_poly4[3])
             # plt.quiver(xb, yb, np.cos(self.site_dict[site_id].orientation), np.sin(self.site_dict[site_id].orientation), scale=0.00000000000001)
-            # for i in range(len(self.site_dict[site_id].X_extra)):
-            #     plt.fill(self.site_dict[site_id].X_extra[i], self.site_dict[site_id].Y_extra[i], color='r', fill=False, linewidth=2)
+            for i in range(len(self.site_dict[site_id].X_extra)):
+                plt.fill(self.site_dict[site_id].X_extra[i], self.site_dict[site_id].Y_extra[i], color='darkred', fill=False, linewidth=2)
 
     def plot_single_house(self, site_id):
         house_id = self.site_dict[site_id].house_address_list[0]
@@ -177,6 +177,7 @@ if __name__ == '__main__':
     fd = FixData()
     pickle_file_name = 'site_finder_lynmouth_odd1'
     fd.main(pickle_file_name)
+
     # # load all sites and houses from pickle
     # pickle_file_name = 'site_finder_lynmouth_odd1'
     # fd.load_from_pickle(pickle_file_name + '.pickle')

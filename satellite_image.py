@@ -68,7 +68,6 @@ class SatelliteImage(object):
         result.save('/Users/lukecoburn/Desktop/test_building/temp_builing_'+str(site_id)+'.png')
         # result.show()
 
-
     def pixels_to_coords(self, lon, lat, img, url):
         w = img.size[0]/2
         h = img.size[1]/2
