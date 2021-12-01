@@ -174,14 +174,22 @@ class SiteFinder(object):
             for i in range(len(site_object_list)):
                 self.site_dict[num_sites + i + 1] = site_object_list[i]
 
-    def main(self, case):
+    def main(self, case, pickle_file=None):
+        if pickle_file is None:
+            pickle_file = 'site_finder_lynmouth_odd'
+
+        if pickle_file == 'site_finder_lynmouth_odd':
+            tab_str = 'LynmouthDriveOdd'
+        elif pickle_file == 'site_finder_lynmouth_even':
+            tab_str = 'LynmouthDriveEven'
+
         print('Getting house dict....')
         if case == 1:
-            house_addresses = ['67 Lynmouth Dr Ruislip HA4 9BY UK','51 Lynmouth Dr Ruislip HA4 9BY UK']
+            house_addresses = ['67 Lynmouth Dr Ruislip HA4 9BY UK', '51 Lynmouth Dr Ruislip HA4 9BY UK']
         elif case == 2:
             house_addresses = get_houses_os_walk()
         elif case == 3:
-            house_addresses = spreadsheet_input('LynmouthDriveOdd')
+            house_addresses = spreadsheet_input(tab_str)
 
         self.house_dict = geo_locate_houses(house_addresses, self.house_dict)
         print('....House dict obtained')
@@ -294,29 +302,26 @@ class SiteFinder(object):
         self.fix_site_duplicate()
         self.plotter()
 
+    def save_to_pickle(self, pickle_file):
+        dict = {
+            'house_dict': self.house_dict,
+            'site_dict': self.site_dict,
+            'neigh_site_dict': self.neigh_site_dict
+        }
+        with open(pickle_file, 'wb') as f:
+            pickle.dump(dict, f)
+
 if __name__ == '__main__':
     start = time.time()
-    load_from_pickle = True
+    pickle_file = 'LynmouthDriveOdd'
+    load_from_pickle = False
     sf = SiteFinder()
     if load_from_pickle:
         sf.main_from_pickle()
-        # dict = {
-        #     'house_dict': sf.house_dict,
-        #     'site_dict': sf.site_dict,
-        #     'neigh_site_dict': sf.neigh_site_dict
-        # }
-        # with open('site_finder_lynmouth_odd.pickle', 'wb') as f:
-        #     pickle.dump(dict, f)
     else:
-        sf.main(3)
+        sf.main(3, pickle_file)
         date = today = date.today()
-        dict = {
-            'house_dict': sf.house_dict,
-            'site_dict': sf.site_dict,
-            'neigh_site_dict': sf.neigh_site_dict
-        }
-        with open('site_finder_lynmouth_odd.pickle', 'wb') as f:
-            pickle.dump(dict, f)
+    sf.save_to_pickle(pickle_file)
     gt = Geometry()
     # for k in sf.house_dict.keys():
     #     x, y = sf.house_dict[k].xt, sf.house_dict[k].yt

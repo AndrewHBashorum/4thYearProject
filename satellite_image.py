@@ -8,6 +8,15 @@ import warnings
 import matplotlib.pyplot as plt
 import numpy as np
 
+from pathlib import Path
+
+if 'lukecoburn' not in str(Path.home()):
+    user = 'andrew'
+    aerial_im_str = '/Users/andrewbashorum/Dropbox/auto_processing/aerial_images'
+else:
+    user = 'luke'
+    aerial_im_str = '/Users/lukecoburn/Dropbox/auto_processing/aerial_images'
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 class SatelliteImage(object):
@@ -25,33 +34,34 @@ class SatelliteImage(object):
         self.site_keys = list(self.site_dict.keys())
         self.house_keys = list(self.house_dict.keys())
 
+    def save_to_pickle(self, pickle_file):
+        dict = {
+            'house_dict': self.house_dict,
+            'site_dict': self.site_dict,
+            'neigh_site_dict': self.neigh_site_dict
+        }
+        with open(pickle_file + '.pickle', 'wb') as f:
+            pickle.dump(dict, f)
+
     def load_image(self, site_id):
         house_id = self.site_dict[site_id].house_address_list[0]
+        dx, dy = 0.000016, 0.000016
         lon, lat = self.gt.convert_27700_to_lat_lon(si.house_dict[house_id].xt, self.house_dict[house_id].yt)
-        url = self.url1 + str(round(lat, 6)) + ',%20' + str(round(lon, 6)) + self.url2
+        url = self.url1 + str(round(lat + dy, 6)) + ',%20' + str(round(lon + dx, 6)) + self.url2
         urllib.request.urlretrieve(url, "temp.png")
         img = Image.open("temp.png")
         xcp, ycp = self.pixels_to_coords(lon, lat, img, url)
         print('image corner coords', xcp, ycp)
-        xh, yh = self.gt.convert_list_27700_to_lat_lon(si.house_dict[house_id].X_bounds, si.house_dict[house_id].Y_bounds)
+        xh, yh = self.gt.convert_list_27700_to_lat_lon(si.house_dict[house_id].X_bounds4, si.house_dict[house_id].Y_bounds4)
         print('bounds', xh, yh)
         xp, yp = self.coords_to_pixels(xh, yh, xcp, ycp, img)
-        xp, yp = self.gt.shift_polygon(xp, yp, 40, -10)
-        xp, yp = self.gt.rotate_polygon(xp, yp, np.pi)
-        xp, yp = self.gt.enlarge_polygon(xp, yp, 1.4)
+        # xp, yp = self.gt.shift_polygon(xp, yp, 40, -10)
+        # xp, yp = self.gt.rotate_polygon(xp, yp, np.pi)
+        xp, yp = self.gt.enlarge_polygon(xp, yp, 1.5)
         xy = [(xp[i], yp[i]) for i in range(len(xp))]
 
-        # ytest = [51.56735999872797,51.567361665973316,51.56721161364827,51.56720161014245]
-        # xtest = [-0.4050866940076454,-0.40480841484695107,-0.40479969766190255, -0.4050860234489301]
-        # xt, yt = self.gt.convert_list_lat_lon_to_27700(xtest, ytest)
-        # print('image corner coords', xt, yt)
-
-        # plt.fill(xcp, ycp, fill=False)
-        # plt.fill(xh, yh, fill=False)
-        # plt.fill(xp, yp, fill=False)
-
-        # draw = ImageDraw.Draw(img)
-        # draw.polygon(xy)
+        draw = ImageDraw.Draw(img)
+        draw.polygon(xy)
         # img.show()
         # img = img.rotate(180)
 
@@ -61,12 +71,14 @@ class SatelliteImage(object):
         black = Image.new("RGBA", img.size, (0, 0, 0, 0))
         result = Image.composite(img, black, mask)
         result.save("result.png")
-        orientation = self.site_dict[site_id].orientation
+        orientation = self.house_dict[house_id].orientation
         angle = 360*(np.pi/2 - orientation)/(2*np.pi)
         result = result.rotate(angle)
         result = result.crop(result.getbbox())
-        result.save('/Users/lukecoburn/Desktop/test_building/temp_builing_'+str(site_id)+'.png')
+        im_str = aerial_im_str + '/aerial_' + str(house_id) + '.png'
+        result.save(im_str)
         # result.show()
+        self.house_dict[house_id].satellite_image = im_str
 
     def pixels_to_coords(self, lon, lat, img, url):
         w = img.size[0]/2
@@ -103,7 +115,8 @@ if __name__ == '__main__':
     si.load_from_pickle(pickle_file_name)
     for site_id in si.site_keys:
         si.load_image(site_id)
-
+    pickle_file_name = 'site_finder_lynmouth_odd3'
+    si.save_to_pickle(pickle_file_name)
 
     # https://maps.googleapis.com/maps/api/staticmap?center=51.565702,%20-0.403389&zoom=20&size=200x200&maptype=satellite&format=png&scale=2&key=AIzaSyAcQIYA9e_qvw7MBLBzqLXMe4m8VIN2agYif
     # https://maps.googleapis.com/maps/api/staticmap?center=51.567337,%20-0.404980&zoom=20&size=200x200&maptype=satellite&format=png&scale=2&key=rv682gWPTxfWYoNEuyKBdjrnGhZDwHaF

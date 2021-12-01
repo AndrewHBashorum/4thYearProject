@@ -148,6 +148,19 @@ class FixData(object):
             #     orientation = (orientation + np.pi)%2*np.pi
             self.site_dict[k].orientation = orientation
 
+    def get_house_orientation(self):
+            for k in self.house_keys:
+                # get data out of dictionaries
+                xs, ys = self.house_dict[k].X_bounds4, self.house_dict[k].Y_bounds4
+                aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(xs, ys)
+                u = [xs[2] - xs[1], ys[2] - ys[1]]
+                l = np.sqrt(u[0] ** 2 + u[1] ** 2)
+                u = [u[0] / l, u[1] / l]
+                orientation = np.arctan2(u[1], u[0])
+                # if np.dot(u, [np.cos(orientation), np.sin(orientation)]) < 0:
+                #     orientation = (orientation + np.pi)%2*np.pi
+                self.house_dict[k].orientation = orientation
+
     def side_distances(self):
         for k in self.site_keys:
             # get data out of dictionaries
@@ -166,6 +179,7 @@ class FixData(object):
         self.fix_centres()
         self.find_back_and_front_of_polygon()
         self.correct_site_orientation()
+        self.get_house_orientation()
         self.side_distances()
 
         self.make_plot()

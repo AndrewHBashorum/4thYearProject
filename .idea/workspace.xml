@@ -20,10 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/main_autoprocessing_script.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fix_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/fix_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/os_get_buildings_near_pt.py" beforeDir="false" afterPath="$PROJECT_DIR$/os_get_buildings_near_pt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/house_lists.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/house_lists.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/satellite_image.py" beforeDir="false" afterPath="$PROJECT_DIR$/satellite_image.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/site_finder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site_finder_lynmouth_odd2.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/site_finder_lynmouth_odd2.pickle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +60,28 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.fix_data">
+  <component name="RunManager" selected="Python.main_autoprocessing_script">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="fix_data" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -118,13 +142,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="satellite_image" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+    <configuration name="main_autoprocessing_script" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_autoprocessing_script.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="satellite_image" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -152,6 +194,24 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/site_finder.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="temp_img_edit" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/temp_img_edit.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -223,9 +283,40 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.fix_data" />
       <item itemvalue="Python.satellite_image" />
+      <item itemvalue="Python.main_autoprocessing_script" />
+      <item itemvalue="Python.temp_img_edit" />
       <item itemvalue="Python.geometry" />
       <item itemvalue="Python.site_finder" />
       <item itemvalue="Python.test_os_paw" />
@@ -387,11 +478,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="Testing around with lanu app" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="360" y="210" width="1071" height="849" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1638203747483">
+    <state x="360" y="189" width="1071" height="897" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1638364972188">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
     <state x="360" y="207" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1047@0.25.1792.1047" timestamp="1634074805013" />
-    <state x="360" y="210" width="1071" height="849" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1061@0.25.1792.1061" timestamp="1638203747483" />
+    <state x="360" y="189" width="1071" height="897" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1061@0.25.1792.1061" timestamp="1638364972188" />
     <state x="360" y="210" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1636019990769" />
     <state x="613" y="361" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1638024671170">
       <screen x="0" y="25" width="1792" height="1061" />
