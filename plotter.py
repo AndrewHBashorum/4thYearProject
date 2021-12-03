@@ -58,7 +58,6 @@ class Plotter(object):
         self.neigh_site_id_list = []
 
         for i in self.loadedDict.keys():
-            print(i)
             self.site_dict_list.append(self.loadedDict[i]['site_dict'])
             self.neigh_site_dict_list.append(self.loadedDict[i]['neigh_site_dict'])
             self.house_dict_list.append(self.loadedDict[i]['house_dict'])
@@ -80,9 +79,6 @@ class Plotter(object):
                              linewidth=3)
             count +=1
 
-        # for i in self.site_id_list:
-        #     plt.fill(self.site_dict_list[i].x_poly, self.site_dict_list[i].y_poly, fill=False, color='b')
-        #
 
 
 if __name__ == '__main__':
