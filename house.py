@@ -17,6 +17,16 @@ class House(object):
         self.sites = None
         self.neigh_site = None
         self.potential_neighs = None
+        self.pts = []
+        self.vectors = []
+        self.ptsf = []
+        self.vectorsf = []
+        self.ground_height = None
+        self.cluster_centre_x = None
+        self.cluster_centre_y = None
+        self.img_link = ''
+        self.X_bounds = []
+        self.Y_bounds = []
 
     def main(self):
         pass
