@@ -303,7 +303,7 @@ class SiteFinder(object):
 
 if __name__ == '__main__':
 
-    sheet_id = 'LynmouthDriveEven'
+    sheet_id = 'BeverleyRoadEven'
     #LynmouthDriveOdd
     #LynmouthDriveEven
     #BemptonDriveEven
@@ -318,8 +318,8 @@ if __name__ == '__main__':
             'site_dict': sf.site_dict,
             'neigh_site_dict': sf.neigh_site_dict
         }
-        # with open('site_finder_lynmouth_odd.pickle', 'wb') as f:
-        #     pickle.dump(dict, f)
+        with open('site_finder_lynmouth_odd.pickle', 'wb') as f:
+            pickle.dump(dict, f)
     else:
         sf.main(3,sheet_id)
         date = today = date.today()
@@ -328,9 +328,9 @@ if __name__ == '__main__':
             'site_dict': sf.site_dict,
             'neigh_site_dict': sf.neigh_site_dict
         }
-        # pickle.dump(dict, sf)
 
-        with open('house_site_pickle/LynmouthDriveEven.pickle', 'wb') as f:
+
+        with open('house_site_pickle/BeverleyRoadEven.pickle', 'wb') as f:
             pickle.dump(dict, f)
     gt = Geometry()
     # for k in sf.house_dict.keys():

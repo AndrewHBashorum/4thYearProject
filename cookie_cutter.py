@@ -26,6 +26,8 @@ class CookieCutter(object):
             xf_, yf_, zf_ = np.array(ptsf[0]), np.array(ptsf[1]), np.array(ptsf[2])
             uf_, vf_, wf_ = np.array(normalsf[0]), np.array(normalsf[1]), np.array(normalsf[2])
 
+            self.save_vector_pickle(i,pts, normals, ptsf, normalsf)
+
             l_ = np.sqrt(np.multiply(u_, u_) + np.multiply(v_, v_) + np.multiply(w_, w_))
             lf_ = np.sqrt(np.multiply(uf_, uf_) + np.multiply(vf_, vf_) + np.multiply(wf_, wf_))
             p_ = l_ > 0.0
@@ -133,18 +135,18 @@ class CookieCutter(object):
 if __name__ == '__main__':
 
     start = time.perf_counter()
-
-    street = 'lynmouthDriveOdd'
-    house = '53_HA4_9BY'
-
+    #
+    # street = 'lynmouthDriveOdd'
+    # house = '53_HA4_9BY'
+    #
     cc = CookieCutter()
     #cc.findImage()
-    #cc.combinePickleFiles()
-    cc.open_pickle()
+    cc.combinePickleFiles()
+    #cc.open_pickle()
     #cc.singleStreetSide(street)
     # print(cc.house_dict['1_HA4_9BY'])
-    cc.singleHouse(street,house)
-    cc.get_height_data(True)
+    #cc.singleHouse(street,house)
+    #cc.get_height_data(True)
 
     end = time.perf_counter()
     print(f"Finished in {(start - end) / 60 :0.4f} minutes")
