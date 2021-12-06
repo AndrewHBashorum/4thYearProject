@@ -315,6 +315,33 @@ class Geometry(object):
         model = LinearRegression().fit(np.array(x).reshape((-1, 1)), np.array(y))
         return np.arctan2(model.coef_[0], 1)
 
+    def basic_model_from_height_data(self, x, y, plot_bool, house_key):
+
+        Pts, Normals, Ele = self.get_pts_normals_elevations(x, y)
+        trim = 1
+        # marker_size = 50
+        x_, y_, zl_, zu_, u_, v_, w_, xf_, yf_, zf_, uf_, vf_, wf_ = self.split_pts_vertical_and_rest(Pts, Ele, Normals, trim)
+        pts = [x_, y_, zl_, zu_]
+        normals = [u_, v_, w_]
+        ptsf = [xf_, yf_, zf_]
+        normalsf = [uf_, vf_, wf_]
+
+        if plot_bool:
+            self.plot_normals_and_colour_map(pts, normals, ptsf, normalsf, house_key)
+
+        # Test v different roof shapes
+        # fig = plt.figure()
+
+        # if plot_bool:
+        #     fig = plt.figure()
+        # roof_shape, roof_ridge = self.default_roof_shapes(x, y)
+        # roof_ind = self.simple_alignment_cor_fun(roof_shape, roof_ridge, x_, y_, u_, v_, w_, plot_bool)
+
+        # # Test v different roof shapes
+        # X_, Y_, Z_, faces = self.plot_basic_house(x, y, x_, y_, zl_, zu_, roof_shape, roof_ridge, roof_ind, plot_bool)
+
+        return pts, normals, ptsf, normalsf
+
     def main(self):
         x = [0, 20, 20, 0]
         y = [0, 0, 100, 100]
