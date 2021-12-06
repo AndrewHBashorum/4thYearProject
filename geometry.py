@@ -315,6 +315,125 @@ class Geometry(object):
         model = LinearRegression().fit(np.array(x).reshape((-1, 1)), np.array(y))
         return np.arctan2(model.coef_[0], 1)
 
+    def get_pts_normals_elevations(self, x, y):
+        Pts = []
+        Normals = []
+        Ele = []
+        with open('../tileSections/Tile_bounds.pickle', 'rb') as f:
+            Tile = pickle.load(f)
+        tile_ind = []
+        for i in range(len(x)):
+            for count, tile in enumerate(Tile):
+                x_tile, y_tile = tile[0], tile[1]
+                if self.point_in_polygon(x[i], y[i], x_tile, y_tile):
+                    tile_ind.append(count)
+        tile_ind = list(set(tile_ind))
+
+        for tile in tile_ind:
+            with open('../tileSections/Tile_-20_7_section_pts_' + str(tile) + '.pickle','rb') as f:
+                temp_pts = pickle.load(f)
+            with open('../tileSections/Tile_-20_7_section_normals_' + str(tile) + '.pickle','rb') as f:
+                temp_normals = pickle.load(f)
+            with open('../tileSections/Tile_-20_7_section_ele_' + str(tile) + '.pickle','rb') as f:
+                temp_ele = pickle.load(f)
+
+            for i in range(len(temp_pts)):
+                p = temp_pts[i]
+                e = temp_ele[i]
+                n = temp_normals[i]
+                l = np.sqrt(n[0]**2 + n[1]**2 + n[2]**2)
+                if self.point_in_polygon(p[0],p[1], x, y) and l > 0.1:
+                    Ele.append(e)
+                    Pts.append(p)
+                    Normals.append(n)
+
+        return Pts, Normals, Ele
+
+    def find_centre(self, x, y):
+
+        g = 0
+        for i in x:
+            g = g + x
+        centreX = g / len(x)
+
+        for i in y:
+            f = f + x
+        centreY = f / len(x)
+
+        centre = [centreX,centreY]
+        return centre
+
+    def split_pts_vertical_and_rest(self, Pts, Ele, Normals, trim):
+
+        # Points and normals of house
+        x_, y_, zl_, zu_, u_, v_, w_ = [], [], [], [], [], [], []
+        # Points and normals of flat parts
+        xf_, yf_, zf_, uf_, vf_, wf_ = [], [], [], [], [], []
+
+        for i1 in range(int(len(Pts) / trim)):
+            i = trim * i1
+            px = Pts[i][0]
+            py = Pts[i][1]
+
+            if (Normals[i][1]) < 0.9:
+                x_.append(Pts[i][0])
+                y_.append(Pts[i][1])
+                zl_.append(Ele[i])
+                zu_.append(Ele[i] + Pts[i][2])
+                if Normals[i][1] > 0:
+                    u_.append(Normals[i][0])
+                    v_.append(Normals[i][1])
+                    w_.append(Normals[i][2])
+                else:
+                    u_.append(-Normals[i][0])
+                    v_.append(-Normals[i][1])
+                    w_.append(-Normals[i][2])
+            else:
+                xf_.append(Pts[i][0])
+                yf_.append(Pts[i][1])
+                zf_.append(Ele[i] + Pts[i][2])
+                uf_.append(Normals[i][0])
+                vf_.append(Normals[i][1])
+                wf_.append(Normals[i][2])
+
+        return x_, y_, zl_, zu_, u_, v_, w_, xf_, yf_, zf_, uf_, vf_, wf_
+
+    def plot_normals_and_colour_map(self, pts, normals, ptsf, normalsf, house_name=''):
+
+        x_, y_, zl_, zu_ = pts[0], pts[1], pts[2], pts[3]
+        u_, v_, w_ = normals[0], normals[1], normals[2]
+        xf_, yf_, zf_ = ptsf[0], ptsf[1], ptsf[2]
+        uf_, vf_, wf_ = normalsf[0], normalsf[1], normalsf[2]
+        if len(uf_) > 0:
+            max_u, min_u = max(max(u_), max(uf_)), min(min(u_), min(uf_))
+            max_v, min_v = max(max(v_), max(vf_)), min(min(v_), min(vf_))
+            max_w, min_w = max(max(w_), max(wf_)), min(min(w_), min(wf_))
+        elif len(u_) > 0:
+            max_u, min_u = max(u_), min(u_)
+            max_v, min_v = max(v_), min(v_)
+            max_w, min_w = max(w_), min(w_)
+
+        plt.figure()
+        plt.axis("off")
+        for i in range(len(x_)):
+            col = [(u_[i] - min_u) / (max_u - min_u), (v_[i] - min_v) / (max_v - min_v),
+                   (w_[i] - min_w) / (max_w - min_w)]
+            plt.scatter(x_[i], y_[i], s=50, color=col)  # s=marker_size,
+        for i in range(len(xf_)):
+            col = [(uf_[i] - min_u) / (max_u - min_u), (vf_[i] - min_v) / (max_v - min_v),
+                   (wf_[i] - min_w) / (max_w - min_w)]
+            plt.scatter(xf_[i], yf_[i], s=50, color=col)
+        plt.show()
+
+        # plt.savefig('images/vector_images/' + house_name + ".png", format='png', bbox_inches='tight', dpi=300)
+        #
+        # dx, dy, dz = max(x_) - min(x_), max(y_) - min(y_), max(zu_) - min(zu_)
+        # d = max(dx, dy, dz)
+        # delta = 2
+        # mx, my, mz = 0.5 * (max(x_) + min(x_)), 0.5 * (max(y_) + min(y_)), 0.5 * (max(zu_) + min(zu_))
+        #
+        # #fig = plt.figure()
+
     def basic_model_from_height_data(self, x, y, plot_bool, house_key):
 
         Pts, Normals, Ele = self.get_pts_normals_elevations(x, y)
