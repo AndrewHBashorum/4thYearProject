@@ -78,7 +78,7 @@ for pickle_file in pickle_file_list:
         si.load_from_pickle(pickle_file_folder + pickle_file + '2.pickle')
         for site_id in si.site_keys:
             si.load_image(site_id)
-        # si.save_to_pickle(pickle_file_folder + pickle_file + '3.pickle')
+        si.save_to_pickle(pickle_file_folder + pickle_file + '3.pickle')
 
 # Run Cookie Cutter
 if run_cookie_cutter:
