@@ -26,7 +26,7 @@ class SatelliteImage(object):
         self.url2 = "&zoom=20&size=200x200&maptype=satellite&format=png&scale=2&key=" + GOOGLE_API_KEY
 
     def load_from_pickle(self, pickle_file):
-        with open(pickle_file, 'rb') as f:
+        with open(pickle_file + '.pickle', 'rb') as f:
             loadedDict = pickle.load(f)
         self.site_dict = loadedDict['site_dict']
         self.neigh_site_dict = loadedDict['neigh_site_dict']

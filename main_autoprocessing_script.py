@@ -1,14 +1,11 @@
-import matplotlib.pyplot as plt
 from pathlib import Path
 
 if 'lukecoburn' not in str(Path.home()):
     user = 'andrew'
-    import pickle5 as pickle
     pickle_file_folder = '/Users/andrewbashorum/Dropbox/auto_processing/pickle_files/'
     excel_file_folder = '/Users/andrewbashorum/Dropbox/auto_processing/excel_files/'
 else:
     user = 'luke'
-    import pickle
     pickle_file_folder = '/Users/lukecoburn/Dropbox/auto_processing/pickle_files/'
     excel_file_folder = '/Users/lukecoburn/Dropbox/auto_processing/excel_files/'
 
@@ -18,7 +15,6 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 import time
-from datetime import date
 import openpyxl
 
 from site_finder import SiteFinder
@@ -75,10 +71,10 @@ for pickle_file in pickle_file_list:
     # Run Satellite Image
     if run_satellite_image:
         si = SatelliteImage()
-        si.load_from_pickle(pickle_file_folder + pickle_file + '2.pickle')
+        si.load_from_pickle(pickle_file_folder + pickle_file + '2')
         for site_id in si.site_keys:
             si.load_image(site_id)
-        si.save_to_pickle(pickle_file_folder + pickle_file + '3.pickle')
+        si.save_to_pickle(pickle_file_folder + pickle_file + '3')
 
 # Run Cookie Cutter
 if run_cookie_cutter:

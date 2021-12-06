@@ -20,18 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cookie_cutter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/database_interaction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fix_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/fix_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/geometry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/house.py" beforeDir="false" afterPath="$PROJECT_DIR$/house.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/house_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/house_finder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/house_lists.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/house_lists.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/houses_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/houses_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_autoprocessing_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_autoprocessing_script.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/satellite_image.py" beforeDir="false" afterPath="$PROJECT_DIR$/satellite_image.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/site_finder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/site_object.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +56,25 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.main_autoprocessing_script">
+  <component name="RunManager" selected="Python.cookie_cutter">
+    <configuration name="cookie_cutter" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../.pyenv/versions/3.8.5/bin/python3.8" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cookie_cutter.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="fix_data" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -133,6 +142,9 @@
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="$PROJECT_DIR$/../lanuApps/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -277,6 +289,7 @@
       <item itemvalue="Python.fix_data" />
       <item itemvalue="Python.satellite_image" />
       <item itemvalue="Python.main_autoprocessing_script" />
+      <item itemvalue="Python.cookie_cutter" />
       <item itemvalue="Python.temp_img_edit" />
       <item itemvalue="Python.geometry" />
       <item itemvalue="Python.test_os_paw" />
@@ -444,12 +457,12 @@
     <option name="LAST_COMMIT_MESSAGE" value="Testing around with lanu app" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="360" y="189" width="1071" height="897" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1638446398768">
-      <screen x="0" y="25" width="1792" height="1061" />
+    <state x="360" y="210" width="1071" height="730" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1638808069016">
+      <screen x="0" y="25" width="1792" height="1063" />
     </state>
     <state x="360" y="207" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1047@0.25.1792.1047" timestamp="1634074805013" />
     <state x="360" y="189" width="1071" height="897" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1061@0.25.1792.1061" timestamp="1638446398768" />
-    <state x="360" y="210" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1636019990769" />
+    <state x="360" y="210" width="1071" height="730" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1638808069016" />
     <state x="613" y="361" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1638024671170">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
@@ -510,12 +523,12 @@
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
     <state x="534" y="314" key="MultipleFileMergeDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635865987594" />
-    <state x="405" y="186" key="SettingsEditor" timestamp="1638654296726">
+    <state x="405" y="186" key="SettingsEditor" timestamp="1638808046613">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
     <state x="405" y="184" key="SettingsEditor/0.25.1792.1047@0.25.1792.1047" timestamp="1634074819882" />
     <state x="405" y="186" key="SettingsEditor/0.25.1792.1061@0.25.1792.1061" timestamp="1638023167685" />
-    <state x="405" y="186" key="SettingsEditor/0.25.1792.1063@0.25.1792.1063" timestamp="1638654296726" />
+    <state x="405" y="186" key="SettingsEditor/0.25.1792.1063@0.25.1792.1063" timestamp="1638808046613" />
     <state x="465" y="275" key="Vcs.Push.Dialog.v2" timestamp="1638202228536">
       <screen x="0" y="25" width="1792" height="1061" />
     </state>
