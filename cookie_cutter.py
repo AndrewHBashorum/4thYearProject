@@ -50,8 +50,9 @@ class CookieCutter(object):
     def get_height_data(self, plot_bool, house_id, img_folder, pickle_folder):
 
         x, y = self.house_dict[house_id].X_bounds4, self.house_dict[house_id].Y_bounds4
+        x1, y1 = self.site_dict[self.house_dict[house_id].site].x_poly4, self.site_dict[self.house_dict[house_id].site].y_poly4
         x, y = self.gt.enlarge_polygon(x, y, 1.2)
-        pts, normals, ptsf, normalsf = self.gt.basic_model_from_height_data(x, y, plot_bool, house_id, self.house_dict[house_id].orientation, img_folder)
+        pts, normals, ptsf, normalsf = self.gt.basic_model_from_height_data(x, y, x1, y1, plot_bool, house_id, self.house_dict[house_id].orientation, img_folder)
         dict = {}
         dict['pts'] = pts
         dict['normals'] = normals

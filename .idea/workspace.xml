@@ -24,7 +24,6 @@
       <change beforePath="$PROJECT_DIR$/cookie_cutter.py" beforeDir="false" afterPath="$PROJECT_DIR$/cookie_cutter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/geometry.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_autoprocessing_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_autoprocessing_script.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/site_finder.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -431,7 +430,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638809644414</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="introduced cookie cutter">
+      <created>1638830137601</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1638830137601</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -461,7 +467,8 @@
     <MESSAGE value="Added shell script to load qgis modules in python. Also testing html script to run os datahyb api calls" />
     <MESSAGE value="Testing around with lanu app" />
     <MESSAGE value="Introducing cookie cutter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Introducing cookie cutter" />
+    <MESSAGE value="introduced cookie cutter" />
+    <option name="LAST_COMMIT_MESSAGE" value="introduced cookie cutter" />
   </component>
   <component name="WindowStateProjectService">
     <state x="360" y="210" width="1071" height="730" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1638808069016">
@@ -536,13 +543,13 @@
     <state x="405" y="184" key="SettingsEditor/0.25.1792.1047@0.25.1792.1047" timestamp="1634074819882" />
     <state x="405" y="186" key="SettingsEditor/0.25.1792.1061@0.25.1792.1061" timestamp="1638023167685" />
     <state x="405" y="186" key="SettingsEditor/0.25.1792.1063@0.25.1792.1063" timestamp="1638808046613" />
-    <state x="496" y="276" key="Vcs.Push.Dialog.v2" timestamp="1638809645662">
+    <state x="496" y="276" key="Vcs.Push.Dialog.v2" timestamp="1638830139729">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
     <state x="280" y="202" key="Vcs.Push.Dialog.v2/0.25.1080.751@0.25.1080.751" timestamp="1637339310430" />
     <state x="496" y="272" key="Vcs.Push.Dialog.v2/0.25.1792.1047@0.25.1792.1047" timestamp="1634622159838" />
     <state x="465" y="275" key="Vcs.Push.Dialog.v2/0.25.1792.1061@0.25.1792.1061" timestamp="1638202228536" />
-    <state x="496" y="276" key="Vcs.Push.Dialog.v2/0.25.1792.1063@0.25.1792.1063" timestamp="1638809645662" />
+    <state x="496" y="276" key="Vcs.Push.Dialog.v2/0.25.1792.1063@0.25.1792.1063" timestamp="1638830139729" />
     <state x="100" y="125" width="1592" height="847" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1635273008326">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>

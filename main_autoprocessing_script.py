@@ -84,9 +84,10 @@ for pickle_file in pickle_file_list:
         cc.load_from_pickle(pickle_file_folder + pickle_file + '3.pickle')
         count = 0
         for house_id in cc.house_keys:
-            count += 1
-            print(count, '/', len(cc.house_keys), house_id, pickle_file)
-            cc.get_height_data(True, house_id, height_file_folder + pickle_file + '/', pickle_file_folder + pickle_file + '_height/')
+            if house_id == '1_HA4_9BY':
+                count += 1
+                print(count, '/', len(cc.house_keys), house_id, pickle_file)
+                cc.get_height_data(True, house_id, height_file_folder + pickle_file + '/', pickle_file_folder + pickle_file + '_height/')
         cc.save_to_pickle(pickle_file_folder + pickle_file + '4.pickle')
 
 end = time.time()

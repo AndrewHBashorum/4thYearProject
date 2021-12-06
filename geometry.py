@@ -332,7 +332,7 @@ class Geometry(object):
         model = LinearRegression().fit(np.array(x).reshape((-1, 1)), np.array(y))
         return np.arctan2(model.coef_[0], 1)
 
-    def get_pts_normals_elevations(self, x, y):
+    def get_pts_normals_elevations(self, x, y, x1, y1):
         Pts = []
         Normals = []
         Ele = []
@@ -359,7 +359,7 @@ class Geometry(object):
                 e = temp_ele[i]
                 n = temp_normals[i]
                 l = np.sqrt(n[0]**2 + n[1]**2 + n[2]**2)
-                if self.point_in_polygon(p[0],p[1], x, y) and l > 0.1:
+                if self.point_in_polygon(p[0], p[1], x, y) and self.point_in_polygon(p[0], p[1], x1, y1) and l > 0.1:
                     Ele.append(e)
                     Pts.append(p)
                     Normals.append(n)
@@ -388,7 +388,6 @@ class Geometry(object):
         xf_, yf_, zf_, uf_, vf_, wf_ = [], [], [], [], [], []
         # print(Pts.size())
         # x, y = self.rotate_polygon(x, y, np.pi / 2 - alpha)
-
 
         for i1 in range(int(len(Pts) / trim)):
             i = trim * i1
@@ -436,12 +435,12 @@ class Geometry(object):
         plt.figure()
         plt.axis("off")
         for i in range(len(x_)):
-            col = [(u_[i] - min_u) / (max_u - min_u), (v_[i] - min_v) / (max_v - min_v),
-                   (w_[i] - min_w) / (max_w - min_w)]
+            col = [0.75*(u_[i] - min_u) / (max_u - min_u), 0.75*(v_[i] - min_v) / (max_v - min_v),
+                   0.75*(w_[i] - min_w) / (max_w - min_w)]
             plt.scatter(x_[i], y_[i], s=50, color=col)  # s=marker_size,
         for i in range(len(xf_)):
-            col = [(uf_[i] - min_u) / (max_u - min_u), (vf_[i] - min_v) / (max_v - min_v),
-                   (wf_[i] - min_w) / (max_w - min_w)]
+            col = [0.75*(uf_[i] - min_u) / (max_u - min_u), 0.75*(vf_[i] - min_v) / (max_v - min_v),
+                   0.75*(wf_[i] - min_w) / (max_w - min_w)]
             plt.scatter(xf_[i], yf_[i], s=50, color=col)
         plt.show()
 
@@ -458,9 +457,9 @@ class Geometry(object):
         #
         # #fig = plt.figure()
 
-    def basic_model_from_height_data(self, x, y, plot_bool, house_id, alpha, img_folder):
+    def basic_model_from_height_data(self, x, y, x1, y1, plot_bool, house_id, alpha, img_folder):
         pts, normals, ptsf, normalsf = None, None, None, None
-        Pts, Normals, Ele = self.get_pts_normals_elevations(x, y)
+        Pts, Normals, Ele = self.get_pts_normals_elevations(x, y, x1, y1)
 
         trim = 1
         marker_size = 50
@@ -473,8 +472,8 @@ class Geometry(object):
         # x, y     = self.rotate_polygon(x,   y,   np.pi/2 - alpha)
         x_, y_   = self.rotate_polygon_alt(x_[:],  y_[:],  np.pi/2 - alpha)
         xf_, yf_ = self.rotate_polygon_alt(xf_[:], yf_[:], np.pi/2 - alpha)
-        u_, v_   = self.rotate_polygon_alt(u_[:],  v_[:],  np.pi/2 - alpha)
-        uf_, vf_ = self.rotate_polygon_alt(uf_[:], vf_[:], np.pi/2 - alpha)
+        u_, v_   = self.rotate_polygon(u_[:],  v_[:],  np.pi/2 - alpha)
+        uf_, vf_ = self.rotate_polygon(uf_[:], vf_[:], np.pi/2 - alpha)
         pts = [x_, y_, zl_, zu_]
         normals = [u_, v_, w_]
         ptsf = [xf_, yf_, zf_]
