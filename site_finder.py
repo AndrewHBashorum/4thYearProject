@@ -34,7 +34,6 @@ from site_object import SiteObject
 import time
 
 class SiteFinder(object):
-
     def __init__(self, pickle_file_folder=None, excel_file_folder=None):
         self.gt = Geometry()
         self.house_dict = {}
@@ -384,7 +383,7 @@ class SiteFinder(object):
             # self.site_dict[k].neigh_sites = [list(x) for x in set(tuple(x) for x in ng_gtwo_list_temp)]
             self.site_dict[k].neigh_sites = list(set(neigh_sites_id))
 
-        # self.fix_site_duplicate()
+        self.fix_site_duplicate()
         self.plotter(tab_str)
 
     def main_from_pickle(self, tab_str):

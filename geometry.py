@@ -18,6 +18,14 @@ import constants
 from pyproj import Proj, transform
 from sklearn.linear_model import LinearRegression
 
+if 'lukecoburn' not in str(Path.home()):
+    user = 'andrew'
+    import pickle5 as pickle
+else:
+    user = 'luke'
+    import pickle
+
+
 class Geometry(object):
     def __init__(self):
         pass
@@ -145,6 +153,15 @@ class Geometry(object):
         x_ = x[:]
         y_ = y[:]
         cx, cy = sum(x) / len(x), sum(y) / len(y)
+        for i in range(len(x)):
+            x[i] = ((x_[i] - cx) * np.cos(alpha) - (y_[i] - cy) * np.sin(alpha)) + cx
+            y[i] = ((x_[i] - cx) * np.sin(alpha) + (y_[i] - cy) * np.cos(alpha)) + cy
+        return x, y
+
+    def rotate_polygon_alt(self, x, y, alpha):
+        x_ = x[:]
+        y_ = y[:]
+        cx, cy = 0, 0
         for i in range(len(x)):
             x[i] = ((x_[i] - cx) * np.cos(alpha) - (y_[i] - cy) * np.sin(alpha)) + cx
             y[i] = ((x_[i] - cx) * np.sin(alpha) + (y_[i] - cy) * np.cos(alpha)) + cy
@@ -360,15 +377,18 @@ class Geometry(object):
             f = f + x
         centreY = f / len(x)
 
-        centre = [centreX,centreY]
+        centre = [centreX, centreY]
         return centre
 
-    def split_pts_vertical_and_rest(self, Pts, Ele, Normals, trim):
+    def split_pts_vertical_and_rest(self, Pts, Ele, Normals, trim, alpha):
 
         # Points and normals of house
         x_, y_, zl_, zu_, u_, v_, w_ = [], [], [], [], [], [], []
         # Points and normals of flat parts
         xf_, yf_, zf_, uf_, vf_, wf_ = [], [], [], [], [], []
+        # print(Pts.size())
+        # x, y = self.rotate_polygon(x, y, np.pi / 2 - alpha)
+
 
         for i1 in range(int(len(Pts) / trim)):
             i = trim * i1
@@ -398,7 +418,7 @@ class Geometry(object):
 
         return x_, y_, zl_, zu_, u_, v_, w_, xf_, yf_, zf_, uf_, vf_, wf_
 
-    def plot_normals_and_colour_map(self, pts, normals, ptsf, normalsf, house_name=''):
+    def plot_normals_and_colour_map(self, pts, normals, ptsf, normalsf, house_id, img_folder):
 
         x_, y_, zl_, zu_ = pts[0], pts[1], pts[2], pts[3]
         u_, v_, w_ = normals[0], normals[1], normals[2]
@@ -425,6 +445,10 @@ class Geometry(object):
             plt.scatter(xf_[i], yf_[i], s=50, color=col)
         plt.show()
 
+        im_str = img_folder + '/height_' + str(house_id) + '.png'
+        plt.savefig(im_str)
+        plt.close("all")
+
         # plt.savefig('images/vector_images/' + house_name + ".png", format='png', bbox_inches='tight', dpi=300)
         #
         # dx, dy, dz = max(x_) - min(x_), max(y_) - min(y_), max(zu_) - min(zu_)
@@ -434,19 +458,30 @@ class Geometry(object):
         #
         # #fig = plt.figure()
 
-    def basic_model_from_height_data(self, x, y, plot_bool, house_key):
-
+    def basic_model_from_height_data(self, x, y, plot_bool, house_id, alpha, img_folder):
+        pts, normals, ptsf, normalsf = None, None, None, None
         Pts, Normals, Ele = self.get_pts_normals_elevations(x, y)
+
         trim = 1
-        # marker_size = 50
-        x_, y_, zl_, zu_, u_, v_, w_, xf_, yf_, zf_, uf_, vf_, wf_ = self.split_pts_vertical_and_rest(Pts, Ele, Normals, trim)
+        marker_size = 50
+        x_, y_, zl_, zu_, u_, v_, w_, xf_, yf_, zf_, uf_, vf_, wf_ = self.split_pts_vertical_and_rest(Pts, Ele, Normals, trim, alpha)
+        del Pts
+        del Ele
+        del Normals
+
+        # Rotate all height data
+        # x, y     = self.rotate_polygon(x,   y,   np.pi/2 - alpha)
+        x_, y_   = self.rotate_polygon_alt(x_[:],  y_[:],  np.pi/2 - alpha)
+        xf_, yf_ = self.rotate_polygon_alt(xf_[:], yf_[:], np.pi/2 - alpha)
+        u_, v_   = self.rotate_polygon_alt(u_[:],  v_[:],  np.pi/2 - alpha)
+        uf_, vf_ = self.rotate_polygon_alt(uf_[:], vf_[:], np.pi/2 - alpha)
         pts = [x_, y_, zl_, zu_]
         normals = [u_, v_, w_]
         ptsf = [xf_, yf_, zf_]
         normalsf = [uf_, vf_, wf_]
 
         if plot_bool:
-            self.plot_normals_and_colour_map(pts, normals, ptsf, normalsf, house_key)
+            self.plot_normals_and_colour_map(pts, normals, ptsf, normalsf, house_id, img_folder)
 
         # Test v different roof shapes
         # fig = plt.figure()

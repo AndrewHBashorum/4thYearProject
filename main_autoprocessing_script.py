@@ -4,11 +4,12 @@ if 'lukecoburn' not in str(Path.home()):
     user = 'andrew'
     pickle_file_folder = '/Users/andrewbashorum/Dropbox/auto_processing/pickle_files/'
     excel_file_folder = '/Users/andrewbashorum/Dropbox/auto_processing/excel_files/'
+    height_file_folder = '/Users/andrewbashorum/Dropbox/auto_processing/height_data_images/'
 else:
     user = 'luke'
     pickle_file_folder = '/Users/lukecoburn/Dropbox/auto_processing/pickle_files/'
     excel_file_folder = '/Users/lukecoburn/Dropbox/auto_processing/excel_files/'
-
+    height_file_folder = '/Users/lukecoburn/Dropbox/auto_processing/height_data_images/'
 
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -21,6 +22,7 @@ from site_finder import SiteFinder
 from house_finder import HouseFinder
 from fix_data import FixData
 from satellite_image import SatelliteImage
+from cookie_cutter import CookieCutter
 
 #start timer
 start = time.time()
@@ -29,8 +31,8 @@ start = time.time()
 run_site_finder = False
 run_house_finder = False
 run_fix_data = False
-run_satellite_image = True
-run_cookie_cutter = False
+run_satellite_image = False
+run_cookie_cutter = True
 
 # Choose street for processing
 wb = openpyxl.load_workbook(excel_file_folder + 'house_lists.xlsx')
@@ -76,10 +78,16 @@ for pickle_file in pickle_file_list:
             si.load_image(site_id)
         si.save_to_pickle(pickle_file_folder + pickle_file + '3')
 
-# Run Cookie Cutter
-if run_cookie_cutter:
-    pass
+    # Run Cookie Cutter
+    if run_cookie_cutter:
+        cc = CookieCutter()
+        cc.load_from_pickle(pickle_file_folder + pickle_file + '3.pickle')
+        count = 0
+        for house_id in cc.house_keys:
+            count += 1
+            print(count, '/', len(cc.house_keys), house_id, pickle_file)
+            cc.get_height_data(True, house_id, height_file_folder + pickle_file + '/', pickle_file_folder + pickle_file + '_height/')
+        cc.save_to_pickle(pickle_file_folder + pickle_file + '4.pickle')
 
 end = time.time()
-print(pickle_file)
 print('Time Taken:', round(end - start), 'seconds')
