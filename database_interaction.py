@@ -157,10 +157,8 @@ class Database(object):
 
         return geo
 
-    def ST_Concave(self, geom, target_percentage = None):
+    def ST_Concave(self, geom, target_percentage = 0.8):
 
-        if target_percentage == None:
-            target_percentage = "0.8"
         do = """SELECT ST_AsText(ST_ConcaveHull(ST_GeomFromText(""" + "'" + geom + "'), """ + target_percentage + """)) As wgs_geom """""
         self.cur.execute(do)
         geo = self.cur.fetchall()

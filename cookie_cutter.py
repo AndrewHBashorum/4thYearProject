@@ -146,7 +146,7 @@ if __name__ == '__main__':
     #cc.singleStreetSide(street)
     # print(cc.house_dict['1_HA4_9BY'])
     #cc.singleHouse(street,house)
-    #cc.get_height_data(True)
+    cc.get_height_data(True)
 
     end = time.perf_counter()
     print(f"Finished in {(start - end) / 60 :0.4f} minutes")
