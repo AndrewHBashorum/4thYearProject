@@ -16,6 +16,7 @@ import random
 from pathlib import Path
 import constants
 from pyproj import Proj, transform
+from sklearn.linear_model import LinearRegression
 
 class Geometry(object):
     def __init__(self):
@@ -120,7 +121,10 @@ class Geometry(object):
         orientation = np.arctan2(v[1], v[0])%np.pi
         evalues = [eig[0].real, eig[1].real]
         evalues = [abs(i) for i in evalues]
-        aspect_ratio = np.sqrt(max(evalues) / min(evalues))
+        if max(evalues) > 0:
+            aspect_ratio = np.sqrt(max(evalues) / min(1, min(evalues)))
+        else:
+            aspect_ratio = 0
         area = round(100 * area) / 100
 
         return aspect_ratio, area, orientation
@@ -137,9 +141,7 @@ class Geometry(object):
                 c = not c
         return c
 
-
     def rotate_polygon(self, x, y, alpha):
-
         x_ = x[:]
         y_ = y[:]
         cx, cy = sum(x) / len(x), sum(y) / len(y)
@@ -149,7 +151,6 @@ class Geometry(object):
         return x, y
 
     def enlarge_polygon(self, x, y, scale_factor):
-
         cx, cy = sum(x) / len(x), sum(y) / len(y)
         x_temp, y_temp = [], []
         for i in range(len(x)):
@@ -224,7 +225,6 @@ class Geometry(object):
         b = self.line_intersection(p1[0], p1[1], p2[0], p2[1], aq1[0], aq1[1], aq2[0], aq2[1])
         d = self.line_intersection(ap1[0], ap1[1], ap2[0], ap2[1], q1[0], q1[1], q2[0], q2[1])
         c = self.line_intersection(ap1[0], ap1[1], ap2[0], ap2[1], aq1[0], aq1[1], aq2[0], aq2[1])
-
         s = self.distance(a, b, c) * math.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2)
 
         return s, a, b, c, d
@@ -235,6 +235,14 @@ class Geometry(object):
             return abs(((p2[1] - p1[1]) * p[0] - (p2[0] - p1[0]) * p[1] + p2[0] * p1[1] - p2[1] * p1[0]) / denom)
         else:
             return 0
+
+    def minimum_pt_pt_dist(self, x1, y1, x2, y2, min_d):
+        for i in range(len(x1)):
+            for j in range(len(x2)):
+                d = np.sqrt((x1[i] - x2[j])**2 + (y1[i] - y2[j])**2)
+                if d < min_d:
+                    min_d = d
+        return min_d
 
     def minimum_containing_paralleogram(self, x, y):
         # returns score, area, points from top-left, clockwise , favouring low area
@@ -302,6 +310,10 @@ class Geometry(object):
             x[i] += dx
             y[i] += dy
         return x, y
+
+    def linear_regression_to_angle(self, x, y):
+        model = LinearRegression().fit(np.array(x).reshape((-1, 1)), np.array(y))
+        return np.arctan2(model.coef_[0], 1)
 
     def main(self):
         x = [0, 20, 20, 0]

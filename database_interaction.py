@@ -20,11 +20,9 @@ import psycopg2
 class Database(object):
     def __init__(self):
         if user == 'andrew':
-            self.con = psycopg2.connect(database="sdb_course", user="postgres", password="$£x25zeD", host="localhost",
-                                   port="5432")
+            self.con = psycopg2.connect(database="sdb_course", user="postgres", password="$£x25zeD", host="localhost", port="5432")
         else:
-            self.con = psycopg2.connect(database="nps_database_cropped", user="postgres", password="$£x25zeD",
-                                        host="localhost", port="5433")
+            self.con = psycopg2.connect(database="nps_database_cropped", user="postgres", password="$£x25zeD", host="localhost", port="5433")
         self.cur = self.con.cursor()
 
     def ST_Contains(self, x, y):
@@ -114,7 +112,6 @@ class Database(object):
         for i in range(0, len(g), 2):
             x_list.append(float(g[i]))
             y_list.append(float(g[i+1]))
-
         return x_list, y_list
 
     def ST_DWithin(self, x, y, d):
@@ -123,7 +120,6 @@ class Database(object):
             x) + " " + str(y) + ")')," + str(d) + ")"
         self.cur.execute(do)
         neigh_geometry = self.cur.fetchall()
-
         return neigh_geometry
 
     def ST_Transform(self, geom):
@@ -131,7 +127,6 @@ class Database(object):
         do = """SELECT ST_AsText(ST_Transform(ST_GeomFromText(""" + "'" + geom + "',4326), 27700)) As wgs_geom"
         self.cur.execute(do)
         geo = self.cur.fetchall()[0][0]
-
         return geo
 
     def ST_Transform_4326(self, geom):
@@ -146,7 +141,6 @@ class Database(object):
         do = """SELECT ST_Area(ST_GeomFromText(""" + "'" + geom + "'))"
         self.cur.execute(do)
         geo = self.cur.fetchall()
-
         return geo
 
     def ST_Convex(self, geom):
@@ -154,7 +148,6 @@ class Database(object):
         do = """SELECT ST_AsText(ST_ConvexHull(ST_GeomFromText(""" + "'" + geom + "'))) As wgs_geom "
         self.cur.execute(do)
         geo = self.cur.fetchall()
-
         return geo
 
     def ST_Concave(self, geom, target_percentage = None):
@@ -164,16 +157,14 @@ class Database(object):
         do = """SELECT ST_AsText(ST_ConcaveHull(ST_GeomFromText(""" + "'" + geom + "'), """ + target_percentage + """)) As wgs_geom """""
         self.cur.execute(do)
         geo = self.cur.fetchall()
-
         return geo
 
-    def ST_ShortestLine(self, geom, geom2 = None):
+    def ST_ShortestLine(self, geom, geom2=None):
 
         do = """SELECT ST_AsText(ST_ShortestLine(ST_GeomFromText(""" + "'" + geom + "'), """+"ST_GeomFromText(" + "'" + geom2 + "')))"""
         self.cur.execute(do)
         geo = self.cur.fetchall()[0][0]
         return geo
-
 
     def linestring_to_length(self, geo):
         g = self.ST_Transform(geo)

@@ -24,8 +24,8 @@ def get_houses_os_walk():
     houses = [h.replace("_", " ") for h in houses]
     return houses
 
-def spreadsheet_input(sheet_id):
-    wb = openpyxl.load_workbook('house_lists.xlsx')
+def spreadsheet_input(sheet_id, excel_file_folder):
+    wb = openpyxl.load_workbook(excel_file_folder + 'house_lists.xlsx')
     ws = wb[sheet_id]
     houses = []
     for row in ws['A']:

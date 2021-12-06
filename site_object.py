@@ -1,23 +1,23 @@
 
 class SiteObject(object):
     def __init__(self):
-        self.id = None
-        self.house_address_list = []
+        self.house_address = []
         self.xt = None
         self.yt = None
         self.gTwo = []
         self.x_poly = []
         self.y_poly = []
+        self.x_poly4 = []
+        self.y_poly4 = []
         self.geom = None
-        # self.org_geom = None
         self.geom_27700 = None
-        self.multi_house = False
-        self.area = None
+        self.num_houses = False
         self.neigh_sites = []
-        self.neigh_sites_id = []
+        self.area = None
         self.aspect_ratio = None
         self.orientation = None
         self.active = True
+        self.assigned = False
         self.X_main = []
         self.Y_main = []
         self.X_extra = []
