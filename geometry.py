@@ -152,10 +152,11 @@ class Geometry(object):
     def rotate_polygon(self, x, y, alpha):
         x_ = x[:]
         y_ = y[:]
-        cx, cy = sum(x) / len(x), sum(y) / len(y)
-        for i in range(len(x)):
-            x[i] = ((x_[i] - cx) * np.cos(alpha) - (y_[i] - cy) * np.sin(alpha)) + cx
-            y[i] = ((x_[i] - cx) * np.sin(alpha) + (y_[i] - cy) * np.cos(alpha)) + cy
+        if len(x) > 0:
+            cx, cy = sum(x) / len(x), sum(y) / len(y)
+            for i in range(len(x)):
+                x[i] = ((x_[i] - cx) * np.cos(alpha) - (y_[i] - cy) * np.sin(alpha)) + cx
+                y[i] = ((x_[i] - cx) * np.sin(alpha) + (y_[i] - cy) * np.cos(alpha)) + cy
         return x, y
 
     def rotate_polygon_alt(self, x, y, alpha):
@@ -423,30 +424,35 @@ class Geometry(object):
         u_, v_, w_ = normals[0], normals[1], normals[2]
         xf_, yf_, zf_ = ptsf[0], ptsf[1], ptsf[2]
         uf_, vf_, wf_ = normalsf[0], normalsf[1], normalsf[2]
-        if len(uf_) > 0:
-            max_u, min_u = max(max(u_), max(uf_)), min(min(u_), min(uf_))
-            max_v, min_v = max(max(v_), max(vf_)), min(min(v_), min(vf_))
-            max_w, min_w = max(max(w_), max(wf_)), min(min(w_), min(wf_))
-        elif len(u_) > 0:
-            max_u, min_u = max(u_), min(u_)
-            max_v, min_v = max(v_), min(v_)
-            max_w, min_w = max(w_), min(w_)
+        if len(u_) > 0 or len(uf_) > 0:
+            if len(uf_) > 0 and  len(u_) > 0:
+                max_u, min_u = max(max(u_), max(uf_)), min(min(u_), min(uf_))
+                max_v, min_v = max(max(v_), max(vf_)), min(min(v_), min(vf_))
+                max_w, min_w = max(max(w_), max(wf_)), min(min(w_), min(wf_))
+            elif len(u_) > 0:
+                max_u, min_u = max(u_), min(u_)
+                max_v, min_v = max(v_), min(v_)
+                max_w, min_w = max(w_), min(w_)
+            elif len(uf_) > 0:
+                max_u, min_u = max(uf_), min(uf_)
+                max_v, min_v = max(vf_), min(vf_)
+                max_w, min_w = max(wf_), min(wf_)
 
-        plt.figure()
-        plt.axis("off")
-        for i in range(len(x_)):
-            col = [0.75*(u_[i] - min_u) / (max_u - min_u), 0.75*(v_[i] - min_v) / (max_v - min_v),
-                   0.75*(w_[i] - min_w) / (max_w - min_w)]
-            plt.scatter(x_[i], y_[i], s=50, color=col)  # s=marker_size,
-        for i in range(len(xf_)):
-            col = [0.75*(uf_[i] - min_u) / (max_u - min_u), 0.75*(vf_[i] - min_v) / (max_v - min_v),
-                   0.75*(wf_[i] - min_w) / (max_w - min_w)]
-            plt.scatter(xf_[i], yf_[i], s=50, color=col)
-        plt.show()
+            plt.figure()
+            plt.axis("off")
+            for i in range(len(x_)):
+                col = [0.75*(u_[i] - min_u) / (max_u - min_u), 0.75*(v_[i] - min_v) / (max_v - min_v),
+                       0.75*(w_[i] - min_w) / (max_w - min_w)]
+                plt.scatter(x_[i], y_[i], s=50, color=col)  # s=marker_size,
+            for i in range(len(xf_)):
+                col = [0.75*(uf_[i] - min_u) / (max_u - min_u), 0.75*(vf_[i] - min_v) / (max_v - min_v),
+                       0.75*(wf_[i] - min_w) / (max_w - min_w)]
+                plt.scatter(xf_[i], yf_[i], s=50, color=col)
+            plt.show()
 
-        im_str = img_folder + '/height_' + str(house_id) + '.png'
-        plt.savefig(im_str)
-        plt.close("all")
+            im_str = img_folder + '/height_' + str(house_id) + '.png'
+            plt.savefig(im_str)
+            plt.close("all")
 
         # plt.savefig('images/vector_images/' + house_name + ".png", format='png', bbox_inches='tight', dpi=300)
         #
