@@ -22,11 +22,14 @@ class Plotter(object):
 
     def open_pickle(self):
 
-        with open('house_site_pickle/site_finder_all.pickle', 'rb') as f:
+
+        # with open('house_site_pickle/site_finder_all.pickle', 'rb') as f:
+        #     self.loadedDict = pickle.load(f)
+        with open('/Users/andrewbashorm/Dropbox/auto_processing/pickle_files/BeverleyRoadEven4.pickle', 'rb') as f:
             self.loadedDict = pickle.load(f)
 
 
-    def singleStreetSide(self, streetSide):
+    def singleStreetSide2(self, streetSide):
         self.site_dict = self.loadedDict[streetSide]['site_dict']
         self.neigh_site_dict = self.loadedDict[streetSide]['neigh_site_dict']
         self.house_dict = self.loadedDict[streetSide]['house_dict']
@@ -36,6 +39,15 @@ class Plotter(object):
 
         self.plotSites(self.neigh_site_id_list,self.neigh_site_dict,self.site_id_list,self.site_dict)
 
+    def singleStreetSide(self):
+        self.site_dict = self.loadedDict['site_dict']
+        self.neigh_site_dict = self.loadedDict['neigh_site_dict']
+        self.house_dict = self.loadedDict['house_dict']
+
+        self.site_id_list = self.site_dict.keys()
+        self.neigh_site_id_list = self.neigh_site_dict.keys()
+
+        self.plotSites(self.neigh_site_id_list,self.neigh_site_dict,self.site_id_list,self.site_dict)
 
 
     def singleHouse(self, streetSide, house):
@@ -151,6 +163,6 @@ if __name__ == '__main__':
     #house = '53_HA4_9BY'
 
     plotter = Plotter()
-    # plotter.singleStreetSide(street)
+    plotter.singleStreetSide()
     # plotter.singleHouse(street,house)
-    plotter.entire()
+    # plotter.entire()
