@@ -30,16 +30,16 @@ start = time.time()
 # Switch on and off parts of the script
 run_site_finder = False
 run_house_finder = False
-run_fix_data = True
+run_fix_data = False
 run_satellite_image = False
-run_cookie_cutter = False
+run_cookie_cutter = True
 
 # Choose street for processing
 wb = openpyxl.load_workbook(excel_file_folder + 'house_lists.xlsx')
 pickle_file_list = list(wb.sheetnames)
 pickle_file = pickle_file_list[0]
 
-for pickle_file in pickle_file_list[6:]:
+for pickle_file in [pickle_file_list[0]]:
     print(pickle_file)
     # Run Site Finder
     if run_site_finder:
@@ -81,13 +81,13 @@ for pickle_file in pickle_file_list[6:]:
     # Run Cookie Cutter
     if run_cookie_cutter:
         cc = CookieCutter()
-        cc.load_from_pickle(pickle_file_folder + pickle_file + '3.pickle')
-        count = 0
-        for house_id in cc.house_keys:
-            count += 1
-            print(count, '/', len(cc.house_keys), house_id, pickle_file)
-            cc.get_height_data(True, house_id, height_file_folder + pickle_file + '/', pickle_file_folder + pickle_file + '_height/')
-        cc.save_to_pickle(pickle_file_folder + pickle_file + '4.pickle')
+        cc.load_from_pickle(pickle_file_folder + pickle_file + '4.pickle')
+        # count = 0
+        # for house_id in cc.house_keys:
+        #     count += 1
+        #     print(count, '/', len(cc.house_keys), house_id, pickle_file)
+        #     cc.get_height_data(True, house_id, height_file_folder + pickle_file + '/', pickle_file_folder + pickle_file + '_height/')
+        # cc.save_to_pickle(pickle_file_folder + pickle_file + '4.pickle')
 
 end = time.time()
 print('Time Taken:', round(end - start), 'seconds')
