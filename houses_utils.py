@@ -24,8 +24,8 @@ def get_houses_os_walk():
     houses = [h.replace("_", " ") for h in houses]
     return houses
 
-def spreadsheet_input(sheet_id):
-    wb = openpyxl.load_workbook('house_lists.xlsx')
+def spreadsheet_input(sheet_id, excel_file_folder):
+    wb = openpyxl.load_workbook(excel_file_folder + 'house_lists.xlsx')
     ws = wb[sheet_id]
     houses = []
     for row in ws['A']:
@@ -98,3 +98,22 @@ def geo_locate_houses(house_addresses, house_dict):
 
         house_dict[id_house] = house
     return house_dict
+
+
+def geo_locate_houses_alt(address):
+
+    geolocator = GoogleV3(api_key=constants.GOOGLE_API_KEY)
+    location = geolocator.geocode(address)
+
+    # get coord in EPSG:27700
+    input = Proj(init='EPSG:4326')
+    output = Proj(init='EPSG:4326')
+    xd, yd = transform(input, output, location.longitude, location.latitude)
+
+    input = Proj(init='EPSG:4326')
+    output = Proj(init='EPSG:27700')
+    xt, yt = transform(input, output, location.longitude, location.latitude)
+
+    id_house, house_number, postcode = find_id(address)
+
+    return id_house, house_number, postcode, xt, yt, xd, yd

@@ -10,23 +10,23 @@ class HouseFinder(object):
         self.tolerance = tolerance
         self.cur_dir = os.path.dirname(os.path.realpath(__file__))
 
-    def load_from_pickle(self, pickle_file):
-        with open(pickle_file, 'rb') as f:
+    def load_from_pickle(self, pickle_file, pickle_file_folder):
+        with open(pickle_file_folder + pickle_file + '.pickle', 'rb') as f:
             loadedDict = pickle.load(f)
         self.site_dict = loadedDict['site_dict']
         self.neigh_site_dict = loadedDict['neigh_site_dict']
         self.house_dict = loadedDict['house_dict']
         self.site_keys = list(self.site_dict.keys())
         self.house_keys = list(self.house_dict.keys())
+        self.pickle_file = os.path.basename(pickle_file).split('.')[0]
 
-
-    def save_to_pickle(self, pickle_file):
+    def save_to_pickle(self, pickle_file, pickle_file_folder):
         dict = {
             'house_dict': self.house_dict,
             'site_dict': self.site_dict,
             'neigh_site_dict': self.neigh_site_dict
         }
-        with open(pickle_file, 'wb') as f:
+        with open(pickle_file_folder + pickle_file + '.pickle', 'wb') as f:
             pickle.dump(dict, f)
 
     def run_shell_script_to_find_house_bounds(self, site_id):
@@ -34,6 +34,7 @@ class HouseFinder(object):
         yt = self.site_dict[site_id].yt
         x_poly = self.site_dict[site_id].x_poly
         y_poly = self.site_dict[site_id].y_poly
+        house_id = self.site_dict[site_id].house_address[0]
 
         # fig = plt.figure()
         command = '/Applications/QGIS-LTR.app/Contents/MacOS/bin/./run.sh'
@@ -47,37 +48,48 @@ class HouseFinder(object):
         X_buildings, Y_buildings = dict['X'], dict['Y']
         X_temp, Y_temp, A_temp = [], [], []
         for i in range(len(X_buildings)):
-            if self.gt.polygon_in_enlarged_polygon(X_buildings[i], Y_buildings[i], x_poly, y_poly, 1.2):
+            cx = sum(X_buildings[i])/len(X_buildings[i])
+            cy = sum(Y_buildings[i])/len(Y_buildings[i])
+            if self.gt.point_in_polygon(cx, cy, x_poly, y_poly):
+            # if self.gt.polygon_in_enlarged_polygon(X_buildings[i], Y_buildings[i], x_poly, y_poly, 1.6):
                 X_temp.append(X_buildings[i])
                 Y_temp.append(Y_buildings[i])
                 A_temp.append(abs(self.gt.find_area(X_buildings[i], Y_buildings[i])))
         largest_area = max(A_temp)
         index_of_largest = A_temp.index(largest_area)
+
         X_main, Y_main, X_extra, Y_extra = X_temp, Y_temp, [], []
         if len(A_temp) == 1:
             X_main, Y_main = X_temp[0], Y_temp[0]
         elif len(A_temp) > 1:
             largest_area = max(A_temp)
             index_of_largest = A_temp.index(largest_area)
+            if ('54' in house_id or '58' in house_id) and self.pickle_file == 'LynmouthDriveEven':
+                A_temp1 = A_temp[:]
+                A_temp1.remove(max(A_temp1))
+                second_largest_area = max(A_temp1)
+                index_of_largest = A_temp.index(second_largest_area)
+
             X_main, Y_main = X_temp[index_of_largest], Y_temp[index_of_largest]
             for i in range(len(X_temp)):
                 if i != index_of_largest:
                     X_extra.append(X_temp[i])
                     Y_extra.append(Y_temp[i])
+
         if type(X_main[0]) is list:
             X_main, Y_main = X_main[0], Y_main[0]
         self.site_dict[site_id].X_main = X_main
         self.site_dict[site_id].Y_main = Y_main
         self.site_dict[site_id].X_extra = X_extra
         self.site_dict[site_id].Y_extra = Y_extra
-        if type(self.site_dict[site_id].house_address_list) is list:
-            house_address = self.site_dict[site_id].house_address_list[0]
-        elif type(self.site_dict[site_id].house_address_list) is str:
-            house_address = self.site_dict[site_id].house_address_list
+        if type(self.site_dict[site_id].house_address) is list:
+            house_address = self.site_dict[site_id].house_address[0]
+        elif type(self.site_dict[site_id].house_address) is str:
+            house_address = self.site_dict[site_id].house_address
         self.house_dict[house_address].X_bounds = X_main
         self.house_dict[house_address].Y_bounds = Y_main
 
-        self.make_plot_single_site_and_house(xt, yt, x_poly, y_poly, X_main, Y_main, X_extra, Y_extra, X_buildings, Y_buildings)
+        # self.make_plot_single_site_and_house(xt, yt, x_poly, y_poly, X_main, Y_main, X_extra, Y_extra, X_buildings, Y_buildings)
 
     def make_plot_single_site_and_house(self, xt, yt, x_poly, y_poly, X_main, Y_main, X_extra, Y_extra, X_buildings, Y_buildings):
         plt.figure()
@@ -106,14 +118,4 @@ if __name__ == '__main__':
         print(site_id)
         hf.run_shell_script_to_find_house_bounds(site_id)
     hf.save_to_pickle(pickle_file_name + '1.pickle')
-
-    # go through sites and get site centre and bounds and house address id
-    # run shell script and retrieve buildings inside site
-    # find biggest one and assign the bounds to house_dict
-    # find centre of house bounds and change in house dict objects
-    # find centre of site bounds and change in site dict objects
-    # make convex rectangular hull around the site and find front and correct orientation vector
-    # break rectangular hull into front, back, right, left
-    # repeat for house
-    # save pickle file again
 

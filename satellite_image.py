@@ -5,8 +5,8 @@ from geometry import Geometry
 import pickle
 import math
 import warnings
-import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 from pathlib import Path
 
@@ -33,6 +33,7 @@ class SatelliteImage(object):
         self.house_dict = loadedDict['house_dict']
         self.site_keys = list(self.site_dict.keys())
         self.house_keys = list(self.house_dict.keys())
+        self.pickle_file = os.path.basename(pickle_file).split('2')[0]
 
     def save_to_pickle(self, pickle_file):
         dict = {
@@ -44,20 +45,21 @@ class SatelliteImage(object):
             pickle.dump(dict, f)
 
     def load_image(self, site_id):
-        house_id = self.site_dict[site_id].house_address_list[0]
+        print(site_id,'/',len(self.site_keys))
+        house_id = self.site_dict[site_id].house_address[0]
         dx, dy = 0.000016, 0.000016
-        lon, lat = self.gt.convert_27700_to_lat_lon(si.house_dict[house_id].xt, self.house_dict[house_id].yt)
+        lon, lat = self.gt.convert_27700_to_lat_lon(self.house_dict[house_id].xt, self.house_dict[house_id].yt)
         url = self.url1 + str(round(lat + dy, 6)) + ',%20' + str(round(lon + dx, 6)) + self.url2
         urllib.request.urlretrieve(url, "temp.png")
         img = Image.open("temp.png")
         xcp, ycp = self.pixels_to_coords(lon, lat, img, url)
-        print('image corner coords', xcp, ycp)
-        xh, yh = self.gt.convert_list_27700_to_lat_lon(si.house_dict[house_id].X_bounds4, si.house_dict[house_id].Y_bounds4)
-        print('bounds', xh, yh)
+        # print('image corner coords', xcp, ycp)
+        xh, yh = self.gt.convert_list_27700_to_lat_lon(self.house_dict[house_id].X_bounds4, self.house_dict[house_id].Y_bounds4)
+        # print('bounds', xh, yh)
         xp, yp = self.coords_to_pixels(xh, yh, xcp, ycp, img)
         # xp, yp = self.gt.shift_polygon(xp, yp, 40, -10)
         # xp, yp = self.gt.rotate_polygon(xp, yp, np.pi)
-        xp, yp = self.gt.enlarge_polygon(xp, yp, 1.5)
+        xp, yp = self.gt.enlarge_polygon(xp, yp, 1.65)
         xy = [(xp[i], yp[i]) for i in range(len(xp))]
 
         draw = ImageDraw.Draw(img)
@@ -75,7 +77,7 @@ class SatelliteImage(object):
         angle = 360*(np.pi/2 - orientation)/(2*np.pi)
         result = result.rotate(angle)
         result = result.crop(result.getbbox())
-        im_str = aerial_im_str + '/aerial_' + str(house_id) + '.png'
+        im_str = aerial_im_str + '/' + self.pickle_file + '/aerial_' + str(house_id) + '.png'
         result.save(im_str)
         # result.show()
         self.house_dict[house_id].satellite_image = im_str
@@ -108,6 +110,7 @@ class SatelliteImage(object):
             xp.append(round(w*x_rat))
             yp.append(h-round(h*y_rat))
         return xp, yp
+
 
 if __name__ == '__main__':
     si = SatelliteImage()
