@@ -33,6 +33,7 @@ run_house_finder = False
 run_fix_data = False
 run_satellite_image = False
 run_cookie_cutter = True
+run_machine_part = True
 
 # Choose street for processing
 wb = openpyxl.load_workbook(excel_file_folder + 'house_lists.xlsx')

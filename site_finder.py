@@ -47,10 +47,10 @@ class SiteFinder(object):
 
         for i in self.site_keys:
             plt.fill(self.site_dict[i].x_poly, self.site_dict[i].y_poly, fill=False, color='b')
-            plt.fill(self.site_dict[i].x_poly, self.site_dict[i].y_poly, fill=True, color='lightblue')
+            plt.fill(self.site_dict[i].x_poly, self.site_dict[i].y_poly, fill=True,  color='lightblue')
 
         for i in self.site_keys:
-            plt.plot(self.site_dict[i].xt, self.site_dict[i].yt, '.',color='r')
+            plt.plot(self.site_dict[i].xt, self.site_dict[i].yt, '.', color='r')
 
         for i in self.house_keys:
             text = i.split('_')[0]

@@ -1,32 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </select>
+    <expand />
+    <select />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/AndrewBashorum_4thYearProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AndrewBashorum_4thYearProject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_autoprocessing_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_autoprocessing_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/site_finder.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -482,7 +464,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638885051299</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Test commit">
+      <created>1641366879614</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1641366879614</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -520,7 +509,8 @@
     <MESSAGE value="Introducing cookie cutter" />
     <MESSAGE value="introduced cookie cutter" />
     <MESSAGE value="Full main autoprocessing first run through" />
-    <option name="LAST_COMMIT_MESSAGE" value="Full main autoprocessing first run through" />
+    <MESSAGE value="Test commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test commit" />
   </component>
   <component name="WindowStateProjectService">
     <state x="360" y="210" width="1071" height="754" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1639313170854">
@@ -595,13 +585,13 @@
     <state x="405" y="184" key="SettingsEditor/0.25.1792.1047@0.25.1792.1047" timestamp="1634074819882" />
     <state x="405" y="186" key="SettingsEditor/0.25.1792.1061@0.25.1792.1061" timestamp="1638023167685" />
     <state x="405" y="186" key="SettingsEditor/0.25.1792.1063@0.25.1792.1063" timestamp="1638808046613" />
-    <state x="496" y="276" key="Vcs.Push.Dialog.v2" timestamp="1641366566528">
+    <state x="496" y="276" key="Vcs.Push.Dialog.v2" timestamp="1641366881226">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
     <state x="280" y="202" key="Vcs.Push.Dialog.v2/0.25.1080.751@0.25.1080.751" timestamp="1637339310430" />
     <state x="496" y="272" key="Vcs.Push.Dialog.v2/0.25.1792.1047@0.25.1792.1047" timestamp="1634622159838" />
     <state x="465" y="275" key="Vcs.Push.Dialog.v2/0.25.1792.1061@0.25.1792.1061" timestamp="1638202228536" />
-    <state x="496" y="276" key="Vcs.Push.Dialog.v2/0.25.1792.1063@0.25.1792.1063" timestamp="1641366566528" />
+    <state x="496" y="276" key="Vcs.Push.Dialog.v2/0.25.1792.1063@0.25.1792.1063" timestamp="1641366881226" />
     <state x="100" y="125" width="1592" height="847" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1635273008326">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
@@ -611,10 +601,10 @@
     </state>
     <state x="697" y="465" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1792.1061@0.25.1792.1061" timestamp="1638202238143" />
     <state x="697" y="466" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1792.1063@0.25.1792.1063" timestamp="1635960341544" />
-    <state x="646" y="332" width="597" height="490" key="find.popup" timestamp="1635936908797">
+    <state x="646" y="332" width="597" height="490" key="find.popup" timestamp="1641752819757">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
-    <state x="646" y="332" width="597" height="490" key="find.popup/0.25.1792.1063@0.25.1792.1063" timestamp="1635936908797" />
+    <state x="646" y="332" width="597" height="490" key="find.popup/0.25.1792.1063@0.25.1792.1063" timestamp="1641752819757" />
     <state x="649" y="265" key="git4idea.branch.GitSmartOperationDialog" timestamp="1635865871721">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
