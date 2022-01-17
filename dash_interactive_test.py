@@ -5,6 +5,13 @@ from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 import pandas as pd
 import ssl
+import dash
+from dash import dcc
+from dash import html
+from dash.dependencies import Input, Output
+import plotly.graph_objs as go
+import pandas as pd
+import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 import dash_auth
 import dash
@@ -21,20 +28,26 @@ warnings.filterwarnings("ignore", category=UserWarning)
 USERNAME_PASSWORD_PAIRS = [
     ['JamesBond', '007'], ['LouisArmstrong', 'satchmo']
 ]
+ssl._create_default_https_context = ssl._create_unverified_context
 
 
+def getPickleFiles(streetKeys):
 
+    with open('/Users/andrewbashorm/Dropbox/auto_processing/pickle_files/' + streetKeys + '4.pickle', 'rb') as f:
+            loadedDict = pickle.load(f)
+    return loadedDict['house_dict']
+
+def encode_image(image_file):
+    encoded = base64.b64encode(open(image_file, 'rb').read())
+    return 'data:image/png;base64,{}'.format(encoded.decode())
+
+streetKeys = ['BemptonDriveOdd', 'LynmouthDriveEven','LynmouthDriveOdd','BemptonDriveEven','BeverleyRoadOddA','BeverleyRoadOddB','BeverleyRoadEven']
+graphOptions = ['Height Data', 'Aerial','Street']
 
 app = dash.Dash()
 auth = dash_auth.BasicAuth(app,USERNAME_PASSWORD_PAIRS)
 server = app.server
 
-
-df = pd.read_csv(
-    'https://gist.githubusercontent.com/chriddyp/'
-    'cb5392c35661370d95f300086accea51/raw/'
-    '8e0768211f6b747c0db42a9ce9a0937dafcbd8b2/'
-    'indicators.csv')
 
 lat_center = 53.34035434171382
 long_center = -6.189352520464214
@@ -50,103 +63,77 @@ app.layout = html.Div([
     html.Div(id='page-content')
 ])
 
-
 index_page = html.Div([
-    dcc.Link('Go to Page 1', href='/page-1'),
+    dcc.Link('Go to Graph Finder', href='/page-1'),
     html.Br(),
-    dcc.Link('Go to Page 2', href='/page-2'),
+    dcc.Link('Go to Map', href='/page-2'),
 ])
-
-
-
-
-available_indicators = df['Indicator Name'].unique()
-
 
 finderLayout = html.Div([
     html.Div([
+    dcc.Link('Go to Index page', href='/index_page'),
+    html.Br(),
         html.Div([
             dcc.Dropdown(
-                id='xaxis-column',
-                options=[{'label': i, 'value': i} for i in available_indicators],
-                value='Fertility rate, total (births per woman)'
+                id='street_choice',
+                options=[{'label': i, 'value': i} for i in streetKeys],
+                value='Steet Side'
             ),
-            dcc.RadioItems(
-                id='xaxis-type',
-                options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
-                value='Linear',
-                labelStyle={'display': 'inline-block'}
-            )
+
         ],
-        style={'width': '48%', 'display': 'inline-block'}),
+        style={'width': '20%', 'display': 'inline-block'}),
 
         html.Div([
             dcc.Dropdown(
-                id='yaxis-column',
-                options=[{'label': i, 'value': i} for i in available_indicators],
-                value='Life expectancy at birth, total (years)'
+                id='house_choice',
+                value='House'
             ),
-            dcc.RadioItems(
-                id='yaxis-type',
-                options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
-                value='Linear',
-                labelStyle={'display': 'inline-block'}
-            )
-        ],style={'width': '48%', 'float': 'right', 'display': 'inline-block'})
-    ]),
+        ],style={'width': '20%', 'display': 'inline-block'}),
 
-    dcc.Graph(id='indicator-graphic'),
+        html.Div([
+            dcc.Dropdown(
+                id='graph_choice',
+                options=[{'label': i, 'value': i} for i in graphOptions],
+                value='House'
+            ),
+        ], style={'width': '20%', 'float': 'right', 'display': 'inline-block'}),
+        html.Hr(),
+        html.Div([
+            html.Img(id='display_image', src='children')
+        ],style={'float': 'centre', 'display': 'inline-block'} )
 
-    dcc.Slider(
-        id='year--slider',
-        min=df['Year'].min(),
-        max=df['Year'].max(),
-        value=df['Year'].max(),
-        step=None,
-        marks={str(year): str(year) for year in df['Year'].unique()}
-    )
+    ],
+    ),
 ], style={'padding':10})
 
 @app.callback(
-    Output('indicator-graphic', 'figure'),
-    [Input('xaxis-column', 'value'),
-     Input('yaxis-column', 'value'),
-     Input('xaxis-type', 'value'),
-     Input('yaxis-type', 'value'),
-     Input('year--slider', 'value')])
-def update_graph(xaxis_column_name, yaxis_column_name: object,
-                 xaxis_type, yaxis_type,
-                 year_value):
-    dff = df[df['Year'] == year_value]
-    return {
-        'data': [go.Scatter(
-            x=dff[dff['Indicator Name'] == xaxis_column_name]['Value'],
-            y=dff[dff['Indicator Name'] == yaxis_column_name]['Value'],
-            text=dff[dff['Indicator Name'] == yaxis_column_name]['Country Name'],
-            mode='markers',
-            marker={
-                'size': 15,
-                'opacity': 0.5,
-                'line': {'width': 0.5, 'color': 'white'}
-            }
-        )],
-        'layout': go.Layout(
-            xaxis={
-                'title': xaxis_column_name,
-                'type': 'linear' if xaxis_type == 'Linear' else 'log'
-            },
-            yaxis={
-                'title': yaxis_column_name,
-                'type': 'linear' if yaxis_type == 'Linear' else 'log'
-            },
-            margin={'l': 40, 'b': 40, 't': 10, 'r': 0},
-            hovermode='closest'
-        )
-    }
+    Output('house_choice', 'options'),
+    Input('street_choice', 'value'))
+def findHouseOptions(selected_street):
 
+    house_keys = getPickleFiles(selected_street)
+    return [{'label': i, 'value': i} for i in house_keys.keys()]
+
+@app.callback(
+    Output('display_image', 'src'),
+    [Input('house_choice', 'value'),
+    Input('street_choice', 'value')],
+    Input('graph_choice', 'value'))
+def findHouseOptions(selected_house, selected_street, selected_image):
+    path = '/Users/andrewbashorm/Dropbox/auto_processing/'
+    # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
+
+    if selected_image == 'Aerial':
+       path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'
+
+    if selected_image == 'Height Data':
+        path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'
+
+    return encode_image(path)
 
 mapLayout = html.Div(
     html.Div([
+        dcc.Link('Go to Index page', href='/index_page'),
         html.H1(children='Load Map from Address'),
         html.H3('Enter address: (67 Lynmouth Drive Ruislip HA4 9BY)', style={'paddingRight': '30px'}),
         dcc.Input(id="input_address", type="text", placeholder="",
@@ -260,6 +247,10 @@ def display_page(pathname):
         return mapLayout
     else:
         return index_page
+
+if __name__ == '__main__':
+    app.run_server()
+
 
 if __name__ == '__main__':
     app.run_server()
