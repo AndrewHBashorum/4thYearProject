@@ -1,3 +1,8 @@
+import base64
+import os
+import pickle
+from pathlib import Path
+
 import dash
 from dash import dcc
 from dash import html
@@ -19,21 +24,44 @@ import dash
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 
-from houses_utils import geo_locate_houses_alt
+from houses_utils import geo_locate_houses_alt, find_id
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
-
+home = Path.home()
 USERNAME_PASSWORD_PAIRS = [
     ['JamesBond', '007'], ['LouisArmstrong', 'satchmo']
 ]
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
+def makePathFromInfoAndAddress(address, info = None):
+    # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
+    #67 Lynmouth Drive Ruislip HA4 9BY
+    address = address.split(' ')
+    key = address[1] + address[2]
+
+    if int(address[0]) % 2 == 0:
+        key += 'Even'
+    else:
+        key += 'Odd'
+        if 'ver' in address[1]:
+            if int(address[0]) > 178:
+                key += 'B'
+            elif int(address[0]) < 178:
+                key += 'A'
+
+
+    id,num,postcode = find_id(address)
+    path = str(home) + '/Dropbox/auto_processing/aerial_images/' + key + '/' + id + '.png'
+
+    return path, key, id
+
+
 def getPickleFiles(streetKeys):
 
-    with open('/Users/andrewbashorm/Dropbox/auto_processing/pickle_files/' + streetKeys + '4.pickle', 'rb') as f:
+    with open(str(home)+ '/Dropbox/auto_processing/pickle_files/' + streetKeys + '4.pickle', 'rb') as f:
             loadedDict = pickle.load(f)
     return loadedDict['house_dict']
 
@@ -56,22 +84,14 @@ geo_coord_str = "Lat: " + str(lat_center) +", Long:" + str(long_center)
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 
-app = dash.Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__,  external_stylesheets=external_stylesheets)
 
-app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
-])
-
-index_page = html.Div([
-    dcc.Link('Go to Graph Finder', href='/page-1'),
-    html.Br(),
-    dcc.Link('Go to Map', href='/page-2'),
-])
 
 finderLayout = html.Div([
+
     html.Div([
-    dcc.Link('Go to Index page', href='/index_page'),
+
+    # dcc.Link('Go to Index page', href='/index_page'),
     html.Br(),
         html.Div([
             dcc.Dropdown(
@@ -82,6 +102,10 @@ finderLayout = html.Div([
 
         ],
         style={'width': '20%', 'display': 'inline-block'}),
+
+        html.Div([
+
+        ], id='bb',style={'width': '20%', 'display': 'inline-block'}),
 
         html.Div([
             dcc.Dropdown(
@@ -99,7 +123,8 @@ finderLayout = html.Div([
         ], style={'width': '20%', 'float': 'right', 'display': 'inline-block'}),
         html.Hr(),
         html.Div([
-            html.Img(id='display_image', src='children')
+            html.Img(id='display_image', src='children'),
+            html.Img(id='display_imageMap', src='children')
         ],style={'float': 'centre', 'display': 'inline-block'} )
 
     ],
@@ -110,19 +135,20 @@ finderLayout = html.Div([
     Output('house_choice', 'options'),
     Input('street_choice', 'value'))
 def findHouseOptions(selected_street):
-
+    print(selected_street)
     house_keys = getPickleFiles(selected_street)
     return [{'label': i, 'value': i} for i in house_keys.keys()]
+
 
 @app.callback(
     Output('display_image', 'src'),
     [Input('house_choice', 'value'),
     Input('street_choice', 'value')],
     Input('graph_choice', 'value'))
-def findHouseOptions(selected_house, selected_street, selected_image):
-    path = '/Users/andrewbashorm/Dropbox/auto_processing/'
+def findHouseOptions2(selected_house, selected_street, selected_image):
+    path = str(home) +'/Dropbox/auto_processing/'
     # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
-
+    print(path)
     if selected_image == 'Aerial':
        path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'
 
@@ -131,10 +157,29 @@ def findHouseOptions(selected_house, selected_street, selected_image):
 
     return encode_image(path)
 
+@app.callback(
+    Output('display_imageMap', 'src'),
+    [Input('street', 'value'),
+     Input('houseID', 'value'),
+        Input('graph_choice', 'value')])
+def findHouseOptionsFromMap(selected_house, selected_street, selected_image):
+    path = str(home) +'/Dropbox/auto_processing/'
+    # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
+
+    # if selected_image == 'Aerial':
+    #     path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'
+    #
+    # if selected_image == 'Height Data':
+    #     path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'
+
+    path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'
+    print('***',path)
+    return encode_image(path)
+
 mapLayout = html.Div(
     html.Div([
-        dcc.Link('Go to Index page', href='/index_page'),
-        html.H1(children='Load Map from Address'),
+        #dcc.Link('Go to Index page', href='/index_page'),
+        html.H1(children='Load Map from Address', id='maph1'),
         html.H3('Enter address: (67 Lynmouth Drive Ruislip HA4 9BY)', style={'paddingRight': '30px'}),
         dcc.Input(id="input_address", type="text", placeholder="",
                   style={'paddingRight': '30px', 'width': 500}),
@@ -180,6 +225,7 @@ mapLayout = html.Div(
     [Input('submit_button', 'n_clicks')],
     [State('input_address', 'value')])
 def geolocate_address(n_clicks, input_value):
+    print()
     if input_value is not None:
         global long_center
         global lat_center
@@ -191,6 +237,32 @@ def geolocate_address(n_clicks, input_value):
     [Input('print_info', 'children')])
 def update_lat_long_div(value):
     return "latitude: " + str(lat_center) + ", longitude:" + str(long_center)
+
+
+
+# @app.callback(
+#     Output('houseID', 'value'),
+#     [Input('print_info', 'children'),
+#      Input('input_address', 'children')])
+# def get_houseID(info,address):
+#
+#     path, key, id = makePathFromInfoAndAddress(info,address)
+#     if os.path.exists(path):
+#         return id
+#     else:
+#         pass
+#
+# @app.callback(
+#     Output('street', 'value'),
+#     [Input('print_info', 'children'),
+#      Input('input_address', 'children')])
+# def check_if_house_is_input_else_display(info,address):
+#
+#     path, key, id = makePathFromInfoAndAddress(info, address)
+#     if os.path.exists(path):
+#         return key
+#     else:
+#         pass
 
 @app.callback(
     Output('MapPlot1', 'figure'),
@@ -235,22 +307,55 @@ def update_map2(value):
         marker={'size': 10}))
     return figure
 
-@app.callback(dash.dependencies.Output('page-content', 'children'),
-              [dash.dependencies.Input('url', 'pathname')])
+
+@app.callback(
+    Output('maph1', 'children'),
+    [Input('gg', 'value')])
+def update_map2(value):
+    return value
+
+app.layout = html.Div([
+    #dcc.Location(id='url', refresh=False),
+    #dcc.Store(id='session', storage_type='session'),
+    dcc.Store(id='path'),
+    dcc.Store(id='street'),
+    dcc.Store(id='houseID'),
+    dcc.Tabs(id="tabs-example-graph", value='tab-1-example-graph', children=[
+        dcc.Tab(label='Tab One', value='tab-1-example-graph', children=
+                mapLayout),
+        dcc.Tab(label='Tab Two', value='tab-2-example-graph',children=
+                finderLayout),
+    ]),
+    html.Div(id='page-content')
+])
+
+# @app.callback(dash.dependencies.Output('page-content', 'children'),
+#               dash.dependencies.Input('tabs-example-graph', 'value'))
+# def render_content(tab):
+#     print('lol')
+#     if tab == 'tab-1-example-graph':
+#         return finderLayout
+#     elif tab == 'tab-2-example-graph':
+#         return html.div('lol')
+#     else:
+#         return html.div('lol')
+#
 
 
 
-def display_page(pathname):
-    if pathname == '/page-1':
-        return finderLayout
-    elif pathname == '/page-2':
-        return mapLayout
-    else:
-        return index_page
+# @app.callback(dash.dependencies.Output('page-content', 'children'),
+#               [dash.dependencies.Input('url', 'pathname')])
+# def display_page(pathname):
+#     if pathname == '/page-1':
+#         return finderLayout
+#     elif pathname == '/page-2':
+#         return mapLayout
+#     else:
+#         return index_page
+
+
+
 
 if __name__ == '__main__':
     app.run_server()
 
-
-if __name__ == '__main__':
-    app.run_server()
