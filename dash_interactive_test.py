@@ -36,10 +36,10 @@ USERNAME_PASSWORD_PAIRS = [
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
-def makePathFromInfoAndAddress(address, info = None):
+def makePathFromInfoAndAddress(addressOrg, info = None):
     # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
     #67 Lynmouth Drive Ruislip HA4 9BY
-    address = address.split(' ')
+    address = addressOrg.split(' ')
     key = address[1] + address[2]
 
     if int(address[0]) % 2 == 0:
@@ -51,10 +51,8 @@ def makePathFromInfoAndAddress(address, info = None):
                 key += 'B'
             elif int(address[0]) < 178:
                 key += 'A'
-
-
-    id,num,postcode = find_id(address)
-    path = str(home) + '/Dropbox/auto_processing/aerial_images/' + key + '/' + id + '.png'
+    id,num,postcode = find_id(addressOrg)
+    path = str(home) + '/Dropbox/auto_processing/aerial_images/' + key + '/aerial_' + id + '.png'
 
     return path, key, id
 
@@ -148,7 +146,6 @@ def findHouseOptions(selected_street):
 def findHouseOptions2(selected_house, selected_street, selected_image):
     path = str(home) +'/Dropbox/auto_processing/'
     # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
-    print(path)
     if selected_image == 'Aerial':
        path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'
 
@@ -161,19 +158,18 @@ def findHouseOptions2(selected_house, selected_street, selected_image):
     Output('display_imageMap', 'src'),
     [Input('street', 'value'),
      Input('houseID', 'value'),
-        Input('graph_choice', 'value')])
-def findHouseOptionsFromMap(selected_house, selected_street, selected_image):
+     Input('graph_choice', 'value')])
+
+def findHouseOptionsFromMap(selected_street,selected_house,selected_image ):
     path = str(home) +'/Dropbox/auto_processing/'
     # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
 
-    # if selected_image == 'Aerial':
-    #     path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'
-    #
-    # if selected_image == 'Height Data':
-    #     path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'
+    if selected_image == 'Aerial':
+        path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'
 
-    path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'
-    print('***',path)
+    if selected_image == 'Height Data':
+        path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'
+
     return encode_image(path)
 
 mapLayout = html.Div(
@@ -225,7 +221,7 @@ mapLayout = html.Div(
     [Input('submit_button', 'n_clicks')],
     [State('input_address', 'value')])
 def geolocate_address(n_clicks, input_value):
-    print()
+
     if input_value is not None:
         global long_center
         global lat_center
@@ -239,30 +235,29 @@ def update_lat_long_div(value):
     return "latitude: " + str(lat_center) + ", longitude:" + str(long_center)
 
 
+@app.callback(
+    Output('houseID', 'value'),
+     [Input('input_address', 'value')])
+def get_houseID(address):
 
-# @app.callback(
-#     Output('houseID', 'value'),
-#     [Input('print_info', 'children'),
-#      Input('input_address', 'children')])
-# def get_houseID(info,address):
-#
-#     path, key, id = makePathFromInfoAndAddress(info,address)
-#     if os.path.exists(path):
-#         return id
-#     else:
-#         pass
-#
-# @app.callback(
-#     Output('street', 'value'),
-#     [Input('print_info', 'children'),
-#      Input('input_address', 'children')])
-# def check_if_house_is_input_else_display(info,address):
-#
-#     path, key, id = makePathFromInfoAndAddress(info, address)
-#     if os.path.exists(path):
-#         return key
-#     else:
-#         pass
+    path, key, id = makePathFromInfoAndAddress(address)
+    if os.path.exists(path):
+
+        return id
+    else:
+
+        pass
+
+@app.callback(
+    Output('street', 'value'),
+     Input('input_address', 'value'))
+def check_if_house_is_input_else_display(address):
+
+    path, key, id = makePathFromInfoAndAddress(address)
+    if os.path.exists(path):
+        return key
+    else:
+        pass
 
 @app.callback(
     Output('MapPlot1', 'figure'),
