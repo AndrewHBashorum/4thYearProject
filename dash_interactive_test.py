@@ -73,7 +73,7 @@ graphOptions = ['Height Data', 'Aerial','Street']
 app = dash.Dash()
 auth = dash_auth.BasicAuth(app,USERNAME_PASSWORD_PAIRS)
 server = app.server
-
+visibility_state = 'on'
 
 lat_center = 53.34035434171382
 long_center = -6.189352520464214
@@ -128,6 +128,9 @@ finderLayout = html.Div([
     ],
     ),
 ], style={'padding':10})
+
+
+
 
 @app.callback(
     Output('house_choice', 'options'),
@@ -316,13 +319,45 @@ app.layout = html.Div([
     dcc.Store(id='street'),
     dcc.Store(id='houseID'),
     dcc.Tabs(id="tabs-example-graph", value='tab-1-example-graph', children=[
-        dcc.Tab(label='Tab One', value='tab-1-example-graph', children=
+        dcc.Tab(label='Map View', value='tab-1-example-graph', children=
                 mapLayout),
-        dcc.Tab(label='Tab Two', value='tab-2-example-graph',children=
+        dcc.Tab(label='Graph View', value='tab-2-example-graph',children=
                 finderLayout),
     ]),
     html.Div(id='page-content')
 ])
+#
+# @app.callback(
+#    Output(component_id='display_imageMap', component_property='style'),
+#    [Input(component_id='street_choice', component_property='value')])
+# def show_hide_element(houseID):
+#
+#     if houseID:
+#         return {'display': 'none'}
+#     else:
+#         return {'display': 'block'}
+#
+#
+# @app.callback(
+#     Output(component_id='display_image', component_property='style'),
+#     [Input(component_id='street_choice', component_property='value')])
+# def show_hide_element(houseID):
+#     if houseID:
+#         return {'display': 'block'}
+#     else:
+#         return {'display': 'none'}
+
+#
+# @app.callback(
+#     Output(component_id='display_image', component_property='style'),
+#     [Input(component_id='house_choice', component_property='value')])
+# def show_hide_element(houseID):
+#     if houseID:
+#         return {'display': 'block'}
+#     else:
+#         return {'display': 'none'}
+
+
 
 # @app.callback(dash.dependencies.Output('page-content', 'children'),
 #               dash.dependencies.Input('tabs-example-graph', 'value'))
