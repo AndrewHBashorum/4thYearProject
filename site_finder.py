@@ -263,18 +263,22 @@ class SiteFinder(object):
         # # sort fixed houses and sites and neighs
         self.sort_fixed_houses_and_sites_and_neighs(sorted_site_keys)
 
-    def main(self, case, tab_str=None):
+    def main(self, case, tab_str=None, house_address = None):
         if tab_str is None:
             tab_str = 'LynmouthDriveOdd'
 
         print('Getting house dict....')
+        print('***', house_address, case)
         if case == 1:
             house_addresses = ['67 Lynmouth Dr Ruislip HA4 9BY UK', '51 Lynmouth Dr Ruislip HA4 9BY UK']
         elif case == 2:
             house_addresses = get_houses_os_walk()
         elif case == 3:
             house_addresses = spreadsheet_input(tab_str, self.excel_file_folder)
-
+        elif case == 4 and house_address is not None:
+            house_addresses = [house_address]
+        print('***',house_addresses)
+        """
         self.house_dict = geo_locate_houses(house_addresses, self.house_dict)
         print('....House dict obtained')
 
@@ -385,7 +389,7 @@ class SiteFinder(object):
 
         self.fix_site_duplicate()
         self.plotter(tab_str)
-
+    """
     def main_from_pickle(self, tab_str):
         with open(self.pickle_file_folder + tab_str + '.pickle', 'rb') as f:
             loadedDict = pickle.load(f)
@@ -407,6 +411,7 @@ class SiteFinder(object):
         }
         with open(self.pickle_file_folder + tab_str + '.pickle', 'wb') as f:
             pickle.dump(dict, f)
+
 
 if __name__ == '__main__':
     start = time.time()

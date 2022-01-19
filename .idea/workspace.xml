@@ -19,9 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="Can now view house input from map on graph tab if its already in the database">
+    <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="Trying to make only one image visible at once">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_interactive_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_interactive_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_autoprocessing_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_autoprocessing_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/site_finder.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,9 +186,6 @@
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="$PROJECT_DIR$/../lanuApps/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -511,7 +510,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642512096244</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Trying to make only one image visible at once">
+      <created>1642572318241</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1642572318241</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -545,6 +551,7 @@
     <MESSAGE value="Full main autoprocessing first run through" />
     <MESSAGE value="Changed links to tabs... adding transfer frommap to graph" />
     <MESSAGE value="Can now view house input from map on graph tab if its already in the database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Can now view house input from map on graph tab if its already in the database" />
+    <MESSAGE value="Trying to make only one image visible at once" />
+    <option name="LAST_COMMIT_MESSAGE" value="Trying to make only one image visible at once" />
   </component>
 </project>

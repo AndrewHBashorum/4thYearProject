@@ -17,6 +17,9 @@ from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 import pandas as pd
 import ssl
+
+from site_finder import SiteFinder
+
 ssl._create_default_https_context = ssl._create_unverified_context
 import dash_auth
 import dash
@@ -183,11 +186,13 @@ mapLayout = html.Div(
         dcc.Input(id="input_address", type="text", placeholder="",
                   style={'paddingRight': '30px', 'width': 500}),
         html.Button(id='submit_button', n_clicks=0, children='Submit'),
+        html.Button(id='Generate_button', n_clicks=0, children='Generate'),
         html.Div(id='print_info', children='hello'),
 
         html.Hr(),
         html.H3('Latitude and Longitude of House:', style={'paddingRight': '30px'}),
         html.H3(id='coords', children=geo_coord_str),
+
 
         html.Hr(),
         dcc.Graph(id='MapPlot1', figure={
@@ -316,6 +321,7 @@ app.layout = html.Div([
     #dcc.Location(id='url', refresh=False),
     #dcc.Store(id='session', storage_type='session'),
     dcc.Store(id='path'),
+    dcc.Store(id='temp'),
     dcc.Store(id='street'),
     dcc.Store(id='houseID'),
     dcc.Tabs(id="tabs-example-graph", value='tab-1-example-graph', children=[
@@ -327,17 +333,28 @@ app.layout = html.Div([
     html.Div(id='page-content')
 ])
 #
-# @app.callback(
-#    Output(component_id='display_imageMap', component_property='style'),
-#    [Input(component_id='street_choice', component_property='value')])
-# def show_hide_element(houseID):
-#
-#     if houseID:
-#         return {'display': 'none'}
-#     else:
-#         return {'display': 'block'}
-#
-#
+@app.callback(
+   Output(component_id='display_imageMap', component_property='style'),
+   [Input(component_id='street_choice', component_property='value')])
+def show_hide_element(houseID):
+
+    if houseID:
+        return {'display': 'none'}
+    else:
+        return {'display': 'block'}
+#sf = SiteFinder(pickle_file_folder, excel_file_folder)
+#sf.main(4, pickle_file ,house_address)
+
+
+@app.callback(Output('temp', 'value'),
+    [Input('Generate_button', 'n_clicks')],
+    [State('input_address', 'value')])
+def get_houseID(n_clicks,address):
+
+    sf = SiteFinder()
+    sf.main(4 ,house_address=address)
+
+
 # @app.callback(
 #     Output(component_id='display_image', component_property='style'),
 #     [Input(component_id='street_choice', component_property='value')])
@@ -346,7 +363,7 @@ app.layout = html.Div([
 #         return {'display': 'block'}
 #     else:
 #         return {'display': 'none'}
-
+#
 #
 # @app.callback(
 #     Output(component_id='display_image', component_property='style'),
@@ -387,5 +404,5 @@ app.layout = html.Div([
 
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(debug=True)
 
