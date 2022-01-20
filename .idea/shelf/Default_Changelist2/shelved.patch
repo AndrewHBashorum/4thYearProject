@@ -1,0 +1,491 @@
+Index: dash_interactive_test.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import base64\nimport os\nimport pickle\nfrom pathlib import Path\n\nimport dash\nfrom dash import dcc\nfrom dash import html\nfrom dash.dependencies import Input, Output\nimport plotly.graph_objs as go\nimport pandas as pd\nimport ssl\nimport dash\nfrom dash import dcc\nfrom dash import html\nfrom dash.dependencies import Input, Output\nimport plotly.graph_objs as go\nimport pandas as pd\nimport ssl\n\nfrom site_finder import SiteFinder\n\nssl._create_default_https_context = ssl._create_unverified_context\nimport dash_auth\nimport dash\n\nfrom dash.dependencies import Input, Output, State\nimport plotly.graph_objs as go\n\nfrom houses_utils import geo_locate_houses_alt, find_id\n\nimport warnings\nwarnings.filterwarnings(\"ignore\", category=FutureWarning)\nwarnings.filterwarnings(\"ignore\", category=UserWarning)\nhome = Path.home()\nUSERNAME_PASSWORD_PAIRS = [\n    ['JamesBond', '007'], ['LouisArmstrong', 'satchmo']\n]\nssl._create_default_https_context = ssl._create_unverified_context\n\n\ndef makePathFromInfoAndAddress(addressOrg, info = None):\n    # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png\n    #67 Lynmouth Drive Ruislip HA4 9BY\n    address = addressOrg.split(' ')\n    key = address[1] + address[2]\n\n    if int(address[0]) % 2 == 0:\n        key += 'Even'\n    else:\n        key += 'Odd'\n        if 'ver' in address[1]:\n            if int(address[0]) > 178:\n                key += 'B'\n            elif int(address[0]) < 178:\n                key += 'A'\n    id,num,postcode = find_id(addressOrg)\n    path = str(home) + '/Dropbox/auto_processing/aerial_images/' + key + '/aerial_' + id + '.png'\n\n    return path, key, id\n\n\ndef getPickleFiles(streetKeys):\n\n    with open(str(home)+ '/Dropbox/auto_processing/pickle_files/' + streetKeys + '4.pickle', 'rb') as f:\n            loadedDict = pickle.load(f)\n    return loadedDict['house_dict']\n\ndef encode_image(image_file):\n    encoded = base64.b64encode(open(image_file, 'rb').read())\n    return 'data:image/png;base64,{}'.format(encoded.decode())\n\nstreetKeys = ['BemptonDriveOdd', 'LynmouthDriveEven','LynmouthDriveOdd','BemptonDriveEven','BeverleyRoadOddA','BeverleyRoadOddB','BeverleyRoadEven']\ngraphOptions = ['Height Data', 'Aerial','Street']\n\napp = dash.Dash()\nauth = dash_auth.BasicAuth(app,USERNAME_PASSWORD_PAIRS)\nserver = app.server\nvisibility_state = 'on'\n\nlat_center = 53.34035434171382\nlong_center = -6.189352520464214\ngeo_coord_str = \"Lat: \" + str(lat_center) +\", Long:\" + str(long_center)\n\nexternal_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']\n\n\napp = dash.Dash(__name__,  external_stylesheets=external_stylesheets)\n\n\nfinderLayout = html.Div([\n\n    html.Div([\n\n    # dcc.Link('Go to Index page', href='/index_page'),\n    html.Br(),\n        html.Div([\n            dcc.Dropdown(\n                id='street_choice',\n                options=[{'label': i, 'value': i} for i in streetKeys],\n                value='Steet Side'\n            ),\n\n        ],\n        style={'width': '20%', 'display': 'inline-block'}),\n\n        html.Div([\n\n        ], id='bb',style={'width': '20%', 'display': 'inline-block'}),\n\n        html.Div([\n            dcc.Dropdown(\n                id='house_choice',\n                value='House'\n            ),\n        ],style={'width': '20%', 'display': 'inline-block'}),\n\n        html.Div([\n            dcc.Dropdown(\n                id='graph_choice',\n                options=[{'label': i, 'value': i} for i in graphOptions],\n                value='House'\n            ),\n        ], style={'width': '20%', 'float': 'right', 'display': 'inline-block'}),\n        html.Hr(),\n        html.Div([\n            html.Img(id='display_image', src='children'),\n            html.Img(id='display_imageMap', src='children')\n        ],style={'float': 'centre', 'display': 'inline-block'} )\n\n    ],\n    ),\n], style={'padding':10})\n\n\n\n\n@app.callback(\n    Output('house_choice', 'options'),\n    Input('street_choice', 'value'))\ndef findHouseOptions(selected_street):\n    print(selected_street)\n    house_keys = getPickleFiles(selected_street)\n    return [{'label': i, 'value': i} for i in house_keys.keys()]\n\n\n@app.callback(\n    Output('display_image', 'src'),\n    [Input('house_choice', 'value'),\n    Input('street_choice', 'value')],\n    Input('graph_choice', 'value'))\ndef findHouseOptions2(selected_house, selected_street, selected_image):\n    path = str(home) +'/Dropbox/auto_processing/'\n    # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png\n    if selected_image == 'Aerial':\n       path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'\n\n    if selected_image == 'Height Data':\n        path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'\n\n    return encode_image(path)\n\n@app.callback(\n    Output('display_imageMap', 'src'),\n    [Input('street', 'value'),\n     Input('houseID', 'value'),\n     Input('graph_choice', 'value')])\n\ndef findHouseOptionsFromMap(selected_street,selected_house,selected_image ):\n    path = str(home) +'/Dropbox/auto_processing/'\n    # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png\n\n    if selected_image == 'Aerial':\n        path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'\n\n    if selected_image == 'Height Data':\n        path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'\n\n    return encode_image(path)\n\nmapLayout = html.Div(\n    html.Div([\n        #dcc.Link('Go to Index page', href='/index_page'),\n        html.H1(children='Load Map from Address', id='maph1'),\n        html.H3('Enter address: (67 Lynmouth Drive Ruislip HA4 9BY)', style={'paddingRight': '30px'}),\n        dcc.Input(id=\"input_address\", type=\"text\", placeholder=\"\",\n                  style={'paddingRight': '30px', 'width': 500}),\n        html.Button(id='submit_button', n_clicks=0, children='Submit'),\n        html.Button(id='Generate_button', n_clicks=0, children='Generate'),\n        html.Div(id='print_info', children='hello'),\n\n        html.Hr(),\n        html.H3('Latitude and Longitude of House:', style={'paddingRight': '30px'}),\n        html.H3(id='coords', children=geo_coord_str),\n\n\n        html.Hr(),\n        dcc.Graph(id='MapPlot1', figure={\n            \"data\": [{\"type\": \"scattermapbox\", \"lat\": [lat_center], \"lon\": [long_center],\n                    \"hoverinfo\": \"text\", \"hovertext\": 'Test',\n                    \"mode\": \"markers\", \"name\": 'Shanes house',\n                    \"marker\": {\"size\": 15, \"opacity\": 0.7, \"color\": '#F70F0F'}}],\n            \"layout\": dict(autosize=True, height=500, width=500,\n                font=dict(color=\"#191A1A\"), titlefont=dict(color=\"#191A1A\", size='14'),\n                margin=dict(l=10, r=10, b=10, t=10), hovermode=\"closest\",\n                plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',\n                legend=dict(font=dict(size=10), orientation='h'),\n                mapbox=dict(style=\"open-street-map\", center=dict(lon=long_center, lat=lat_center), zoom=18)\n                )}),\n\n        html.Hr(),\n        dcc.Graph(id='MapPlot2', figure={\n            \"data\": [{\"type\": \"scattermapbox\", \"lat\": [lat_center], \"lon\": [long_center],\n                      \"hoverinfo\": \"text\", \"hovertext\": 'Test',\n                      \"mode\": \"markers\", \"name\": 'Shanes house',\n                      \"marker\": {\"size\": 15, \"opacity\": 0.7, \"color\": '#F70F0F'}}],\n            \"layout\": dict(autosize=True, height=500, width=500,\n                           font=dict(color=\"#191A1A\"), titlefont=dict(color=\"#191A1A\", size='14'),\n                           margin=dict(l=10, r=10, b=10, t=10), hovermode=\"closest\",\n                           plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',\n                           legend=dict(font=dict(size=10), orientation='h'),\n                           mapbox=dict(style=\"open-street-map\", center=dict(lon=long_center, lat=lat_center), zoom=18)\n                           )})\n    ])\n)\n\n@app.callback(\n    Output('print_info', 'children'),\n    [Input('submit_button', 'n_clicks')],\n    [State('input_address', 'value')])\ndef geolocate_address(n_clicks, input_value):\n\n    if input_value is not None:\n        global long_center\n        global lat_center\n        id_house, house_number, postcode, xt, yt, long_center, lat_center = geo_locate_houses_alt(input_value)\n        return 'House id: \"{}\", House number: \"{}\", Postcode: \"{}\", xt: \"{}\", yt: \"{}\", xd: \"{}\", yd: \"{}\"'.format(id_house, house_number, postcode, xt, yt, long_center, lat_center)\n\n@app.callback(\n    Output('coords', 'children'),\n    [Input('print_info', 'children')])\ndef update_lat_long_div(value):\n    return \"latitude: \" + str(lat_center) + \", longitude:\" + str(long_center)\n\n\n@app.callback(\n    Output('houseID', 'value'),\n     [Input('input_address', 'value')])\ndef get_houseID(address):\n\n    path, key, id = makePathFromInfoAndAddress(address)\n    if os.path.exists(path):\n\n        return id\n    else:\n\n        pass\n\n@app.callback(\n    Output('street', 'value'),\n     Input('input_address', 'value'))\ndef check_if_house_is_input_else_display(address):\n\n    path, key, id = makePathFromInfoAndAddress(address)\n    if os.path.exists(path):\n        return key\n    else:\n        pass\n\n@app.callback(\n    Output('MapPlot1', 'figure'),\n    [Input('print_info', 'children')])\ndef update_map1(value):\n    figure={\n        \"data\": [{\"type\": \"scattermapbox\", \"lat\": [lat_center], \"lon\": [long_center],\n            \"hoverinfo\": \"text\", \"hovertext\": 'Test',\n            \"mode\": \"markers\", \"name\": 'Shanes house',\n            \"marker\": {\"size\": 15, \"opacity\": 0.7, \"color\": '#F70F0F'}}],\n        \"layout\": dict(autosize=True, height=500, width=500,\n            font=dict(color=\"#191A1A\"), titlefont=dict(color=\"#191A1A\", size='14'),\n            margin=dict(l=10, r=10, b=10, t=10), hovermode=\"closest\",\n            plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',\n            legend=dict(font=dict(size=10), orientation='h'),\n            mapbox=dict(style=\"open-street-map\", center=dict(lon=long_center, lat=lat_center), zoom=18)\n            )}\n    return figure\n\n@app.callback(\n    Output('MapPlot2', 'figure'),\n    [Input('print_info', 'children')])\ndef update_map2(value):\n    figure={\n        \"data\": [{\"type\": \"scattermapbox\", \"lat\": [lat_center], \"lon\": [long_center],\n            \"hoverinfo\": \"text\", \"hovertext\": 'Test',\n            \"mode\": \"markers+lines\", \"name\": 'Shanes house',\n            \"marker\": {\"size\": 15, \"opacity\": 0.7, \"color\": '#F70F0F'}}],\n        \"layout\": dict(autosize=True, height=500, width=500,\n            font=dict(color=\"#191A1A\"), titlefont=dict(color=\"#191A1A\", size='14'),\n            margin=dict(l=10, r=10, b=10, t=10), hovermode=\"closest\",\n            plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',\n            legend=dict(font=dict(size=10), orientation='h'),\n            mapbox=dict(style=\"open-street-map\", center=dict(lon=long_center, lat=lat_center), zoom=18)\n            )}\n    box_x = [long_center - 0.001, long_center + 0.001, long_center + 0.001, long_center - 0.001]\n    box_y = [lat_center - 0.001, lat_center - 0.001, lat_center + 0.001, lat_center + 0.001]\n    figure.add_trace(go.Scattermapbox(\n        mode=\"markers+lines\",\n        lon=box_x,\n        lat=box_y,\n        marker={'size': 10}))\n    return figure\n\n\n@app.callback(\n    Output('maph1', 'children'),\n    [Input('gg', 'value')])\ndef update_map2(value):\n    return value\n\napp.layout = html.Div([\n    #dcc.Location(id='url', refresh=False),\n    #dcc.Store(id='session', storage_type='session'),\n    dcc.Store(id='path'),\n    dcc.Store(id='temp'),\n    dcc.Store(id='street'),\n    dcc.Store(id='houseID'),\n    dcc.Tabs(id=\"tabs-example-graph\", value='tab-1-example-graph', children=[\n        dcc.Tab(label='Map View', value='tab-1-example-graph', children=\n                mapLayout),\n        dcc.Tab(label='Graph View', value='tab-2-example-graph',children=\n                finderLayout),\n    ]),\n    html.Div(id='page-content')\n])\n#\n@app.callback(\n   Output(component_id='display_imageMap', component_property='style'),\n   [Input(component_id='street_choice', component_property='value')])\ndef show_hide_element(houseID):\n\n    if houseID:\n        return {'display': 'none'}\n    else:\n        return {'display': 'block'}\n#sf = SiteFinder(pickle_file_folder, excel_file_folder)\n#sf.main(4, pickle_file ,house_address)\n\n\n@app.callback(Output('temp', 'value'),\n    [Input('Generate_button', 'n_clicks')],\n    [State('input_address', 'value')])\ndef get_houseID(n_clicks,address):\n\n    sf = SiteFinder()\n    sf.main(4 ,house_address=address)\n\n\n# @app.callback(\n#     Output(component_id='display_image', component_property='style'),\n#     [Input(component_id='street_choice', component_property='value')])\n# def show_hide_element(houseID):\n#     if houseID:\n#         return {'display': 'block'}\n#     else:\n#         return {'display': 'none'}\n#\n#\n# @app.callback(\n#     Output(component_id='display_image', component_property='style'),\n#     [Input(component_id='house_choice', component_property='value')])\n# def show_hide_element(houseID):\n#     if houseID:\n#         return {'display': 'block'}\n#     else:\n#         return {'display': 'none'}\n\n\n\n# @app.callback(dash.dependencies.Output('page-content', 'children'),\n#               dash.dependencies.Input('tabs-example-graph', 'value'))\n# def render_content(tab):\n#     print('lol')\n#     if tab == 'tab-1-example-graph':\n#         return finderLayout\n#     elif tab == 'tab-2-example-graph':\n#         return html.div('lol')\n#     else:\n#         return html.div('lol')\n#\n\n\n\n# @app.callback(dash.dependencies.Output('page-content', 'children'),\n#               [dash.dependencies.Input('url', 'pathname')])\n# def display_page(pathname):\n#     if pathname == '/page-1':\n#         return finderLayout\n#     elif pathname == '/page-2':\n#         return mapLayout\n#     else:\n#         return index_page\n\n\n\n\nif __name__ == '__main__':\n    app.run_server(debug=True)\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- dash_interactive_test.py	(revision 165e34427938889bbd324f3b08ae43d845c08de6)
++++ dash_interactive_test.py	(date 1642683741241)
+@@ -1,8 +1,3 @@
+-import base64
+-import os
+-import pickle
+-from pathlib import Path
+-
+ import dash
+ from dash import dcc
+ from dash import html
+@@ -10,399 +5,99 @@
+ import plotly.graph_objs as go
+ import pandas as pd
+ import ssl
+-import dash
+-from dash import dcc
+-from dash import html
+-from dash.dependencies import Input, Output
+-import plotly.graph_objs as go
+-import pandas as pd
+-import ssl
+-
+-from site_finder import SiteFinder
+-
+-ssl._create_default_https_context = ssl._create_unverified_context
+-import dash_auth
+-import dash
+-
+-from dash.dependencies import Input, Output, State
+-import plotly.graph_objs as go
+-
+-from houses_utils import geo_locate_houses_alt, find_id
+-
+-import warnings
+-warnings.filterwarnings("ignore", category=FutureWarning)
+-warnings.filterwarnings("ignore", category=UserWarning)
+-home = Path.home()
+-USERNAME_PASSWORD_PAIRS = [
+-    ['JamesBond', '007'], ['LouisArmstrong', 'satchmo']
+-]
+ ssl._create_default_https_context = ssl._create_unverified_context
+ 
+-
+-def makePathFromInfoAndAddress(addressOrg, info = None):
+-    # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
+-    #67 Lynmouth Drive Ruislip HA4 9BY
+-    address = addressOrg.split(' ')
+-    key = address[1] + address[2]
+-
+-    if int(address[0]) % 2 == 0:
+-        key += 'Even'
+-    else:
+-        key += 'Odd'
+-        if 'ver' in address[1]:
+-            if int(address[0]) > 178:
+-                key += 'B'
+-            elif int(address[0]) < 178:
+-                key += 'A'
+-    id,num,postcode = find_id(addressOrg)
+-    path = str(home) + '/Dropbox/auto_processing/aerial_images/' + key + '/aerial_' + id + '.png'
+-
+-    return path, key, id
+-
+-
+-def getPickleFiles(streetKeys):
+-
+-    with open(str(home)+ '/Dropbox/auto_processing/pickle_files/' + streetKeys + '4.pickle', 'rb') as f:
+-            loadedDict = pickle.load(f)
+-    return loadedDict['house_dict']
+-
+-def encode_image(image_file):
+-    encoded = base64.b64encode(open(image_file, 'rb').read())
+-    return 'data:image/png;base64,{}'.format(encoded.decode())
+-
+-streetKeys = ['BemptonDriveOdd', 'LynmouthDriveEven','LynmouthDriveOdd','BemptonDriveEven','BeverleyRoadOddA','BeverleyRoadOddB','BeverleyRoadEven']
+-graphOptions = ['Height Data', 'Aerial','Street']
+-
+ app = dash.Dash()
+-auth = dash_auth.BasicAuth(app,USERNAME_PASSWORD_PAIRS)
+-server = app.server
+-visibility_state = 'on'
+-
+-lat_center = 53.34035434171382
+-long_center = -6.189352520464214
+-geo_coord_str = "Lat: " + str(lat_center) +", Long:" + str(long_center)
+ 
+-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
++df = pd.read_csv(
++    'https://gist.githubusercontent.com/chriddyp/'
++    'cb5392c35661370d95f300086accea51/raw/'
++    '8e0768211f6b747c0db42a9ce9a0937dafcbd8b2/'
++    'indicators.csv')
+ 
+ 
+-app = dash.Dash(__name__,  external_stylesheets=external_stylesheets)
++available_indicators = df['Indicator Name'].unique()
+ 
+-
+-finderLayout = html.Div([
+-
++app.layout = html.Div([
+     html.Div([
+-
+-    # dcc.Link('Go to Index page', href='/index_page'),
+-    html.Br(),
+         html.Div([
+             dcc.Dropdown(
+-                id='street_choice',
+-                options=[{'label': i, 'value': i} for i in streetKeys],
+-                value='Steet Side'
++                id='xaxis-column',
++                options=[{'label': i, 'value': i} for i in available_indicators],
++                value='Fertility rate, total (births per woman)'
+             ),
+-
++            dcc.RadioItems(
++                id='xaxis-type',
++                options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
++                value='Linear',
++                labelStyle={'display': 'inline-block'}
++            )
+         ],
+-        style={'width': '20%', 'display': 'inline-block'}),
+-
+-        html.Div([
+-
+-        ], id='bb',style={'width': '20%', 'display': 'inline-block'}),
++        style={'width': '48%', 'display': 'inline-block'}),
+ 
+         html.Div([
+             dcc.Dropdown(
+-                id='house_choice',
+-                value='House'
++                id='yaxis-column',
++                options=[{'label': i, 'value': i} for i in available_indicators],
++                value='Life expectancy at birth, total (years)'
+             ),
+-        ],style={'width': '20%', 'display': 'inline-block'}),
++            dcc.RadioItems(
++                id='yaxis-type',
++                options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
++                value='Linear',
++                labelStyle={'display': 'inline-block'}
++            )
++        ],style={'width': '48%', 'float': 'right', 'display': 'inline-block'})
++    ]),
+ 
+-        html.Div([
+-            dcc.Dropdown(
+-                id='graph_choice',
+-                options=[{'label': i, 'value': i} for i in graphOptions],
+-                value='House'
+-            ),
+-        ], style={'width': '20%', 'float': 'right', 'display': 'inline-block'}),
+-        html.Hr(),
+-        html.Div([
+-            html.Img(id='display_image', src='children'),
+-            html.Img(id='display_imageMap', src='children')
+-        ],style={'float': 'centre', 'display': 'inline-block'} )
++    dcc.Graph(id='indicator-graphic'),
+ 
+-    ],
+-    ),
++    dcc.Slider(
++        id='year--slider',
++        min=df['Year'].min(),
++        max=df['Year'].max(),
++        value=df['Year'].max(),
++        step=None,
++        marks={str(year): str(year) for year in df['Year'].unique()}
++    )
+ ], style={'padding':10})
+ 
+-
+-
+-
+-@app.callback(
+-    Output('house_choice', 'options'),
+-    Input('street_choice', 'value'))
+-def findHouseOptions(selected_street):
+-    print(selected_street)
+-    house_keys = getPickleFiles(selected_street)
+-    return [{'label': i, 'value': i} for i in house_keys.keys()]
+-
+-
+-@app.callback(
+-    Output('display_image', 'src'),
+-    [Input('house_choice', 'value'),
+-    Input('street_choice', 'value')],
+-    Input('graph_choice', 'value'))
+-def findHouseOptions2(selected_house, selected_street, selected_image):
+-    path = str(home) +'/Dropbox/auto_processing/'
+-    # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
+-    if selected_image == 'Aerial':
+-       path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'
+-
+-    if selected_image == 'Height Data':
+-        path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'
+-
+-    return encode_image(path)
+-
+-@app.callback(
+-    Output('display_imageMap', 'src'),
+-    [Input('street', 'value'),
+-     Input('houseID', 'value'),
+-     Input('graph_choice', 'value')])
+-
+-def findHouseOptionsFromMap(selected_street,selected_house,selected_image ):
+-    path = str(home) +'/Dropbox/auto_processing/'
+-    # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
+-
+-    if selected_image == 'Aerial':
+-        path += 'aerial_images/' + selected_street + '/aerial_' + selected_house + '.png'
+-
+-    if selected_image == 'Height Data':
+-        path += 'height_data_images/' + selected_street + '/height_' + selected_house + '.png'
+-
+-    return encode_image(path)
+-
+-mapLayout = html.Div(
+-    html.Div([
+-        #dcc.Link('Go to Index page', href='/index_page'),
+-        html.H1(children='Load Map from Address', id='maph1'),
+-        html.H3('Enter address: (67 Lynmouth Drive Ruislip HA4 9BY)', style={'paddingRight': '30px'}),
+-        dcc.Input(id="input_address", type="text", placeholder="",
+-                  style={'paddingRight': '30px', 'width': 500}),
+-        html.Button(id='submit_button', n_clicks=0, children='Submit'),
+-        html.Button(id='Generate_button', n_clicks=0, children='Generate'),
+-        html.Div(id='print_info', children='hello'),
+-
+-        html.Hr(),
+-        html.H3('Latitude and Longitude of House:', style={'paddingRight': '30px'}),
+-        html.H3(id='coords', children=geo_coord_str),
+-
+-
+-        html.Hr(),
+-        dcc.Graph(id='MapPlot1', figure={
+-            "data": [{"type": "scattermapbox", "lat": [lat_center], "lon": [long_center],
+-                    "hoverinfo": "text", "hovertext": 'Test',
+-                    "mode": "markers", "name": 'Shanes house',
+-                    "marker": {"size": 15, "opacity": 0.7, "color": '#F70F0F'}}],
+-            "layout": dict(autosize=True, height=500, width=500,
+-                font=dict(color="#191A1A"), titlefont=dict(color="#191A1A", size='14'),
+-                margin=dict(l=10, r=10, b=10, t=10), hovermode="closest",
+-                plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',
+-                legend=dict(font=dict(size=10), orientation='h'),
+-                mapbox=dict(style="open-street-map", center=dict(lon=long_center, lat=lat_center), zoom=18)
+-                )}),
+-
+-        html.Hr(),
+-        dcc.Graph(id='MapPlot2', figure={
+-            "data": [{"type": "scattermapbox", "lat": [lat_center], "lon": [long_center],
+-                      "hoverinfo": "text", "hovertext": 'Test',
+-                      "mode": "markers", "name": 'Shanes house',
+-                      "marker": {"size": 15, "opacity": 0.7, "color": '#F70F0F'}}],
+-            "layout": dict(autosize=True, height=500, width=500,
+-                           font=dict(color="#191A1A"), titlefont=dict(color="#191A1A", size='14'),
+-                           margin=dict(l=10, r=10, b=10, t=10), hovermode="closest",
+-                           plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',
+-                           legend=dict(font=dict(size=10), orientation='h'),
+-                           mapbox=dict(style="open-street-map", center=dict(lon=long_center, lat=lat_center), zoom=18)
+-                           )})
+-    ])
+-)
+-
+-@app.callback(
+-    Output('print_info', 'children'),
+-    [Input('submit_button', 'n_clicks')],
+-    [State('input_address', 'value')])
+-def geolocate_address(n_clicks, input_value):
+-
+-    if input_value is not None:
+-        global long_center
+-        global lat_center
+-        id_house, house_number, postcode, xt, yt, long_center, lat_center = geo_locate_houses_alt(input_value)
+-        return 'House id: "{}", House number: "{}", Postcode: "{}", xt: "{}", yt: "{}", xd: "{}", yd: "{}"'.format(id_house, house_number, postcode, xt, yt, long_center, lat_center)
+-
+-@app.callback(
+-    Output('coords', 'children'),
+-    [Input('print_info', 'children')])
+-def update_lat_long_div(value):
+-    return "latitude: " + str(lat_center) + ", longitude:" + str(long_center)
+-
+-
+-@app.callback(
+-    Output('houseID', 'value'),
+-     [Input('input_address', 'value')])
+-def get_houseID(address):
+-
+-    path, key, id = makePathFromInfoAndAddress(address)
+-    if os.path.exists(path):
+-
+-        return id
+-    else:
+-
+-        pass
+-
+-@app.callback(
+-    Output('street', 'value'),
+-     Input('input_address', 'value'))
+-def check_if_house_is_input_else_display(address):
+-
+-    path, key, id = makePathFromInfoAndAddress(address)
+-    if os.path.exists(path):
+-        return key
+-    else:
+-        pass
+-
+-@app.callback(
+-    Output('MapPlot1', 'figure'),
+-    [Input('print_info', 'children')])
+-def update_map1(value):
+-    figure={
+-        "data": [{"type": "scattermapbox", "lat": [lat_center], "lon": [long_center],
+-            "hoverinfo": "text", "hovertext": 'Test',
+-            "mode": "markers", "name": 'Shanes house',
+-            "marker": {"size": 15, "opacity": 0.7, "color": '#F70F0F'}}],
+-        "layout": dict(autosize=True, height=500, width=500,
+-            font=dict(color="#191A1A"), titlefont=dict(color="#191A1A", size='14'),
+-            margin=dict(l=10, r=10, b=10, t=10), hovermode="closest",
+-            plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',
+-            legend=dict(font=dict(size=10), orientation='h'),
+-            mapbox=dict(style="open-street-map", center=dict(lon=long_center, lat=lat_center), zoom=18)
+-            )}
+-    return figure
+-
+-@app.callback(
+-    Output('MapPlot2', 'figure'),
+-    [Input('print_info', 'children')])
+-def update_map2(value):
+-    figure={
+-        "data": [{"type": "scattermapbox", "lat": [lat_center], "lon": [long_center],
+-            "hoverinfo": "text", "hovertext": 'Test',
+-            "mode": "markers+lines", "name": 'Shanes house',
+-            "marker": {"size": 15, "opacity": 0.7, "color": '#F70F0F'}}],
+-        "layout": dict(autosize=True, height=500, width=500,
+-            font=dict(color="#191A1A"), titlefont=dict(color="#191A1A", size='14'),
+-            margin=dict(l=10, r=10, b=10, t=10), hovermode="closest",
+-            plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',
+-            legend=dict(font=dict(size=10), orientation='h'),
+-            mapbox=dict(style="open-street-map", center=dict(lon=long_center, lat=lat_center), zoom=18)
+-            )}
+-    box_x = [long_center - 0.001, long_center + 0.001, long_center + 0.001, long_center - 0.001]
+-    box_y = [lat_center - 0.001, lat_center - 0.001, lat_center + 0.001, lat_center + 0.001]
+-    figure.add_trace(go.Scattermapbox(
+-        mode="markers+lines",
+-        lon=box_x,
+-        lat=box_y,
+-        marker={'size': 10}))
+-    return figure
+-
+-
+-@app.callback(
+-    Output('maph1', 'children'),
+-    [Input('gg', 'value')])
+-def update_map2(value):
+-    return value
+-
+-app.layout = html.Div([
+-    #dcc.Location(id='url', refresh=False),
+-    #dcc.Store(id='session', storage_type='session'),
+-    dcc.Store(id='path'),
+-    dcc.Store(id='temp'),
+-    dcc.Store(id='street'),
+-    dcc.Store(id='houseID'),
+-    dcc.Tabs(id="tabs-example-graph", value='tab-1-example-graph', children=[
+-        dcc.Tab(label='Map View', value='tab-1-example-graph', children=
+-                mapLayout),
+-        dcc.Tab(label='Graph View', value='tab-2-example-graph',children=
+-                finderLayout),
+-    ]),
+-    html.Div(id='page-content')
+-])
+-#
+-@app.callback(
+-   Output(component_id='display_imageMap', component_property='style'),
+-   [Input(component_id='street_choice', component_property='value')])
+-def show_hide_element(houseID):
+-
+-    if houseID:
+-        return {'display': 'none'}
+-    else:
+-        return {'display': 'block'}
+-#sf = SiteFinder(pickle_file_folder, excel_file_folder)
+-#sf.main(4, pickle_file ,house_address)
+-
+-
+-@app.callback(Output('temp', 'value'),
+-    [Input('Generate_button', 'n_clicks')],
+-    [State('input_address', 'value')])
+-def get_houseID(n_clicks,address):
+-
+-    sf = SiteFinder()
+-    sf.main(4 ,house_address=address)
+-
+-
+ # @app.callback(
+-#     Output(component_id='display_image', component_property='style'),
+-#     [Input(component_id='street_choice', component_property='value')])
+-# def show_hide_element(houseID):
+-#     if houseID:
+-#         return {'display': 'block'}
+-#     else:
+-#         return {'display': 'none'}
+-#
+-#
+-# @app.callback(
+-#     Output(component_id='display_image', component_property='style'),
+-#     [Input(component_id='house_choice', component_property='value')])
+-# def show_hide_element(houseID):
+-#     if houseID:
+-#         return {'display': 'block'}
+-#     else:
+-#         return {'display': 'none'}
+-
+-
+-
+-# @app.callback(dash.dependencies.Output('page-content', 'children'),
+-#               dash.dependencies.Input('tabs-example-graph', 'value'))
+-# def render_content(tab):
+-#     print('lol')
+-#     if tab == 'tab-1-example-graph':
+-#         return finderLayout
+-#     elif tab == 'tab-2-example-graph':
+-#         return html.div('lol')
+-#     else:
+-#         return html.div('lol')
+-#
+-
+-
+-
+-# @app.callback(dash.dependencies.Output('page-content', 'children'),
+-#               [dash.dependencies.Input('url', 'pathname')])
+-# def display_page(pathname):
+-#     if pathname == '/page-1':
+-#         return finderLayout
+-#     elif pathname == '/page-2':
+-#         return mapLayout
+-#     else:
+-#         return index_page
+-
+-
+-
++#     Output('indicator-graphic', 'figure'),
++#     [Input('xaxis-column', 'value'),
++#      Input('yaxis-column', 'value'),
++#      Input('xaxis-type', 'value'),
++#      Input('yaxis-type', 'value'),
++#      Input('year--slider', 'value')])
++# def update_graph(xaxis_column_name, yaxis_column_name: object,
++#                  xaxis_type, yaxis_type,
++#                  year_value):
++#     dff = df[df['Year'] == year_value]
++#     return {
++#         'data': [go.Scatter(
++#             x=dff[dff['Indicator Name'] == xaxis_column_name]['Value'],
++#             y=dff[dff['Indicator Name'] == yaxis_column_name]['Value'],
++#             text=dff[dff['Indicator Name'] == yaxis_column_name]['Country Name'],
++#             mode='markers',
++#             marker={
++#                 'size': 15,
++#                 'opacity': 0.5,
++#                 'line': {'width': 0.5, 'color': 'white'}
++#             }
++#         )],
++#         'layout': go.Layout(
++#             xaxis={
++#                 'title': xaxis_column_name,
++#                 'type': 'linear' if xaxis_type == 'Linear' else 'log'
++#             },
++#             yaxis={
++#                 'title': yaxis_column_name,
++#                 'type': 'linear' if yaxis_type == 'Linear' else 'log'
++#             },
++#             margin={'l': 40, 'b': 40, 't': 10, 'r': 0},
++#             hovermode='closest'
++#         )
++#     }
+ 
+ if __name__ == '__main__':
+-    app.run_server(debug=True)
+-
++    app.run_server()
