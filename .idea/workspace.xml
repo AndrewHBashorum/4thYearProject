@@ -6,9 +6,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/test_layout.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_autoprocessing_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_autoprocessing_script.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/site_finder.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +31,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1zQJJHzjztHGDAMLWaxOwVmAuXt" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -42,7 +42,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.site_finder">
+  <component name="RunManager" selected="Python.test_layout">
     <configuration name="cookie_cutter" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -56,6 +56,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cookie_cutter.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dash_interactive" type="PythonConfigurationType" factoryName="Python">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../lanu_reader/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dash_interactive_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -85,7 +106,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="folium_test" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+    <configuration name="folium_test" type="PythonConfigurationType" factoryName="Python">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -232,6 +253,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_layout" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../lanuApps/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_layout.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test_os_paw" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -297,6 +339,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.cookie_cutter" />
+      <item itemvalue="Python.dash_interactive" />
       <item itemvalue="Python.fix_data" />
       <item itemvalue="Python.folium_test" />
       <item itemvalue="Python.geometry" />
@@ -305,6 +348,7 @@
       <item itemvalue="Python.satellite_image" />
       <item itemvalue="Python.site_finder" />
       <item itemvalue="Python.temp_img_edit" />
+      <item itemvalue="Python.test_layout" />
       <item itemvalue="Python.test_os_paw" />
       <item itemvalue="Python.test_qgis_libs" />
       <item itemvalue="Python.test_run_sh" />
@@ -464,12 +508,12 @@
       <option name="project" value="LOCAL" />
       <updated>1638885051299</updated>
     </task>
-    <task id="LOCAL-00021" summary="Test commit">
-      <created>1641366879614</created>
+    <task id="LOCAL-00021" summary="Added app2 and utils script">
+      <created>1641826716585</created>
       <option name="number" value="00021" />
       <option name="presentableId" value="LOCAL-00021" />
       <option name="project" value="LOCAL" />
-      <updated>1641366879614</updated>
+      <updated>1641826716585</updated>
     </task>
     <option name="localTasksCounter" value="22" />
     <servers />
@@ -479,13 +523,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="CUSTOM_BOOLEAN_PROPERTIES">
-                <map>
-                  <entry key="Show.Git.Branches" value="false" />
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -509,109 +547,21 @@
     <MESSAGE value="Introducing cookie cutter" />
     <MESSAGE value="introduced cookie cutter" />
     <MESSAGE value="Full main autoprocessing first run through" />
-    <MESSAGE value="Test commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test commit" />
+    <MESSAGE value="Added app2 and utils script" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added app2 and utils script" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="360" y="210" width="1071" height="754" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1639313170854">
+    <state x="360" y="195" width="1071" height="730" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1642508836510">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
-    <state x="360" y="207" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1047@0.25.1792.1047" timestamp="1634074805013" />
-    <state x="360" y="189" width="1071" height="897" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1061@0.25.1792.1061" timestamp="1638446398768" />
-    <state x="360" y="210" width="1071" height="754" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1639313170854" />
-    <state x="613" y="361" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1638024671170">
-      <screen x="0" y="25" width="1792" height="1061" />
-    </state>
-    <state x="613" y="361" key="#com.intellij.fileTypes.FileTypeChooser/0.25.1792.1061@0.25.1792.1061" timestamp="1638024671170" />
-    <state x="100" y="125" width="1592" height="863" key="DiffContextDialog" timestamp="1638828194127">
+    <state x="360" y="195" width="1071" height="730" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1642508836510" />
+    <state x="496" y="273" key="Vcs.Push.Dialog.v2" timestamp="1641826718308">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
-    <state x="100" y="125" width="1592" height="863" key="DiffContextDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1638828194127" />
-    <state width="1750" height="355" key="GridCell.Tab.0.bottom" timestamp="1638797410161">
+    <state x="496" y="273" key="Vcs.Push.Dialog.v2/0.25.1792.1063@0.25.1792.1063" timestamp="1641826718308" />
+    <state x="697" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1642444301366">
       <screen x="0" y="25" width="1792" height="1063" />
     </state>
-    <state width="1750" height="355" key="GridCell.Tab.0.bottom/0.25.1792.1061@0.25.1792.1061" timestamp="1638461677626" />
-    <state width="1750" height="355" key="GridCell.Tab.0.bottom/0.25.1792.1063@0.25.1792.1063" timestamp="1638797410161" />
-    <state width="1750" height="355" key="GridCell.Tab.0.center" timestamp="1638797410160">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state width="1750" height="355" key="GridCell.Tab.0.center/0.25.1792.1061@0.25.1792.1061" timestamp="1638461677625" />
-    <state width="1750" height="355" key="GridCell.Tab.0.center/0.25.1792.1063@0.25.1792.1063" timestamp="1638797410160" />
-    <state width="1750" height="355" key="GridCell.Tab.0.left" timestamp="1638797410160">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state width="1750" height="355" key="GridCell.Tab.0.left/0.25.1792.1061@0.25.1792.1061" timestamp="1638461677625" />
-    <state width="1750" height="355" key="GridCell.Tab.0.left/0.25.1792.1063@0.25.1792.1063" timestamp="1638797410160" />
-    <state width="1750" height="355" key="GridCell.Tab.0.right" timestamp="1638797410161">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state width="1750" height="355" key="GridCell.Tab.0.right/0.25.1792.1061@0.25.1792.1061" timestamp="1638461677625" />
-    <state width="1750" height="355" key="GridCell.Tab.0.right/0.25.1792.1063@0.25.1792.1063" timestamp="1638797410161" />
-    <state width="1750" height="355" key="GridCell.Tab.1.bottom" timestamp="1638797410162">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state width="1750" height="355" key="GridCell.Tab.1.bottom/0.25.1792.1061@0.25.1792.1061" timestamp="1638461677627" />
-    <state width="1750" height="355" key="GridCell.Tab.1.bottom/0.25.1792.1063@0.25.1792.1063" timestamp="1638797410162" />
-    <state width="1750" height="355" key="GridCell.Tab.1.center" timestamp="1638797410161">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state width="1750" height="355" key="GridCell.Tab.1.center/0.25.1792.1061@0.25.1792.1061" timestamp="1638461677626" />
-    <state width="1750" height="355" key="GridCell.Tab.1.center/0.25.1792.1063@0.25.1792.1063" timestamp="1638797410161" />
-    <state width="1750" height="355" key="GridCell.Tab.1.left" timestamp="1638797410161">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state width="1750" height="355" key="GridCell.Tab.1.left/0.25.1792.1061@0.25.1792.1061" timestamp="1638461677626" />
-    <state width="1750" height="355" key="GridCell.Tab.1.left/0.25.1792.1063@0.25.1792.1063" timestamp="1638797410161" />
-    <state width="1750" height="355" key="GridCell.Tab.1.right" timestamp="1638797410161">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state width="1750" height="355" key="GridCell.Tab.1.right/0.25.1792.1061@0.25.1792.1061" timestamp="1638461677626" />
-    <state width="1750" height="355" key="GridCell.Tab.1.right/0.25.1792.1063@0.25.1792.1063" timestamp="1638797410161" />
-    <state x="510" y="323" key="IDE.errors.dialog" timestamp="1635936170593">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state x="510" y="323" key="IDE.errors.dialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635936170593" />
-    <state x="179" y="109" key="MergeDialog" timestamp="1635865987520">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state x="179" y="109" key="MergeDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635865987520" />
-    <state x="534" y="314" key="MultipleFileMergeDialog" timestamp="1635865987594">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state x="534" y="314" key="MultipleFileMergeDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635865987594" />
-    <state x="405" y="186" key="SettingsEditor" timestamp="1638808046613">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state x="405" y="184" key="SettingsEditor/0.25.1792.1047@0.25.1792.1047" timestamp="1634074819882" />
-    <state x="405" y="186" key="SettingsEditor/0.25.1792.1061@0.25.1792.1061" timestamp="1638023167685" />
-    <state x="405" y="186" key="SettingsEditor/0.25.1792.1063@0.25.1792.1063" timestamp="1638808046613" />
-    <state x="496" y="276" key="Vcs.Push.Dialog.v2" timestamp="1641366881226">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state x="280" y="202" key="Vcs.Push.Dialog.v2/0.25.1080.751@0.25.1080.751" timestamp="1637339310430" />
-    <state x="496" y="272" key="Vcs.Push.Dialog.v2/0.25.1792.1047@0.25.1792.1047" timestamp="1634622159838" />
-    <state x="465" y="275" key="Vcs.Push.Dialog.v2/0.25.1792.1061@0.25.1792.1061" timestamp="1638202228536" />
-    <state x="496" y="276" key="Vcs.Push.Dialog.v2/0.25.1792.1063@0.25.1792.1063" timestamp="1641366881226" />
-    <state x="100" y="125" width="1592" height="847" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1635273008326">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state x="100" y="125" width="1592" height="847" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635273008326" />
-    <state x="697" y="465" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1638202238143">
-      <screen x="0" y="25" width="1792" height="1061" />
-    </state>
-    <state x="697" y="465" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1792.1061@0.25.1792.1061" timestamp="1638202238143" />
-    <state x="697" y="466" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1792.1063@0.25.1792.1063" timestamp="1635960341544" />
-    <state x="646" y="332" width="597" height="490" key="find.popup" timestamp="1641752819757">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state x="646" y="332" width="597" height="490" key="find.popup/0.25.1792.1063@0.25.1792.1063" timestamp="1641752819757" />
-    <state x="649" y="265" key="git4idea.branch.GitSmartOperationDialog" timestamp="1635865871721">
-      <screen x="0" y="25" width="1792" height="1063" />
-    </state>
-    <state x="649" y="265" key="git4idea.branch.GitSmartOperationDialog/0.25.1792.1063@0.25.1792.1063" timestamp="1635865871721" />
-    <state x="561" y="261" width="670" height="676" key="search.everywhere.popup" timestamp="1638369712198">
-      <screen x="0" y="25" width="1792" height="1061" />
-    </state>
-    <state x="561" y="261" width="670" height="676" key="search.everywhere.popup/0.25.1792.1061@0.25.1792.1061" timestamp="1638369712198" />
+    <state x="697" y="474" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1792.1063@0.25.1792.1063" timestamp="1642444301366" />
   </component>
 </project>
