@@ -321,7 +321,8 @@ app.layout = html.Div([
     #dcc.Location(id='url', refresh=False),
     #dcc.Store(id='session', storage_type='session'),
     dcc.Store(id='path'),
-    dcc.Store(id='temp'),
+    dcc.Store(id='site_dict'),
+    dcc.Store(id='house_dict'),
     dcc.Store(id='street'),
     dcc.Store(id='houseID'),
     dcc.Tabs(id="tabs-example-graph", value='tab-1-example-graph', children=[
@@ -346,14 +347,18 @@ def show_hide_element(houseID):
 #sf.main(4, pickle_file ,house_address)
 
 
-@app.callback(Output('temp', 'value'),
+@app.callback(Output('site_dict', 'value'),
+               Output('house_dict', 'value'),
     [Input('Generate_button', 'n_clicks')],
     [State('input_address', 'value')])
 def get_houseID(n_clicks,address):
 
     sf = SiteFinder()
-    sf.main(4 ,house_address=address)
-
+    path, tab_str, id = makePathFromInfoAndAddress(address)
+    print(address,tab_str, id)
+    site_dict,house_dict = sf.main_from_dash(house_address=address,tab_str=tab_str, house_ID= id)
+    print(site_dict,house_dict)
+    return site_dict,house_dict
 
 # @app.callback(
 #     Output(component_id='display_image', component_property='style'),
