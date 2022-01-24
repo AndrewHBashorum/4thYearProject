@@ -114,26 +114,6 @@ class Database(object):
             y_list.append(float(g[i+1]))
         return x_list, y_list
 
-
-    def single_spatial_to_x_y_list_keep_spatial(self, geom):
-
-        # g = self.ST_Transform(geom)
-        g = geom
-        g = g.replace("MULTIPOLYGON", "")
-        g = g.replace("(", "")
-        g = g.replace(")", "")
-        g = g.replace(",", " ")
-        g = g.replace('"', " ")
-        g = g.replace("'", " ")
-        g = g.split()
-
-        x_list = []
-        y_list = []
-        for i in range(0, len(g), 2):
-            x_list.append(float(g[i]))
-            y_list.append(float(g[i+1]))
-        return x_list, y_list
-
     def ST_DWithin(self, x, y, d):
 
         do = """SELECT ST_AsText(geom) FROM public."nps_cropped_lynmouth" WHERE _ST_DWithin(ST_AsText(geom), ST_GeomFromText('POINT(""" + str(

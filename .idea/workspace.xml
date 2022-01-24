@@ -19,34 +19,24 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="Dash calls siteFinder which returns site and hiuse object">
+    <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cookie_cutter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database_interaction.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fix_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/geometry.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/house.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/house_finder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/houses_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main_autoprocessing_script.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/os_get_buildings_near_pt.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/satellite_image.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/site_finder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/site_object.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sites_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_drawing_on_map.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lukes_interactive_dash.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/Lukes_interactive_dash.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cookie_cutter.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/cookie_cutter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_interactive_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_interactive_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/database_interaction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fix_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/fix_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/folium_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/folium_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/geometry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/house.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/house.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/house_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/house_finder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/houses_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/houses_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_autoprocessing_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/main_autoprocessing_script.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/os_get_buildings_near_pt.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/os_get_buildings_near_pt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/satellite_image.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/satellite_image.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/PickleFiles/site_finder.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/site_finder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder_luke.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/PickleFiles/site_finder_luke.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder_luke1.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/PickleFiles/site_finder_luke1.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder_lynmouth_odd.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/PickleFiles/site_finder_lynmouth_odd.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder_lynmouth_odd1.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/PickleFiles/site_finder_lynmouth_odd1.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_finder_lynmouth_odd2.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/PickleFiles/site_finder_lynmouth_odd2.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/site_object.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sites_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/sites_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_os_paw.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/test_os_paw.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_qgis_libs.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/test_qgis_libs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_run_sh.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/test_run_sh.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/database_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/database_interaction.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,13 +72,16 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Tests" />
       <recent name="$PROJECT_DIR$/PickleFiles" />
       <recent name="$PROJECT_DIR$/utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.dash_interactive">
+  <component name="RunManager" selected="Python.test_draw">
     <configuration name="cookie_cutter" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -258,6 +251,9 @@
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -285,6 +281,24 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/temp_img_edit.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_draw" type="PythonConfigurationType" factoryName="Python">
+      <module name="AndrewBashorum_4thYearProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../lanu_reader/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_drawing_on_map.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -361,6 +375,7 @@
       <item itemvalue="Python.fix_data" />
       <item itemvalue="Python.folium_test" />
       <item itemvalue="Python.dash_interactive" />
+      <item itemvalue="Python.test_draw" />
       <item itemvalue="Python.geometry" />
       <item itemvalue="Python.house_finder" />
       <item itemvalue="Python.main_autoprocessing_script" />
