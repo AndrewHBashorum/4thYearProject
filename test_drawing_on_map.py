@@ -36,7 +36,7 @@ g = '/Users/andrewbashorm/Dropbox/auto_processing/pickle_files/LynmouthDriveOdd.
 with open(g, 'rb') as f:
     loadedDict = pickle.load(f)
 
-lon,lat = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][34].geom)
+lon,lat = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][5].geom)
 lonLeft,latLeft = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][33].geom)
 lonRight,latRight = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][35].geom)
 n, delta, GS, m = 3, 0.0001, 100, 6
@@ -217,4 +217,5 @@ def display_click_data(custom_data):
 
 
 if __name__ == '__main__':
+
     app.run_server(debug=False)
