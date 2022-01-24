@@ -22,14 +22,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import openpyxl
 
-from houses_utils import get_houses_os_walk, spreadsheet_input, get_houses_from_pickle, geo_locate_houses
-from sites_utils import take_from_database, find_neighs_overlap, nearby_polygons, process_geometry
-from geometry import Geometry
-from database_interaction import Database
+from utils.houses_utils import get_houses_os_walk, spreadsheet_input, get_houses_from_pickle, geo_locate_houses
+from utils.sites_utils import take_from_database, find_neighs_overlap, nearby_polygons, process_geometry
+from utils.geometry import Geometry
+from utils.database_interaction import Database
 
 from datetime import date
 import psycopg2
-from site_object import SiteObject
+from utils.site_object import SiteObject
 
 import time
 
@@ -538,7 +538,7 @@ if __name__ == '__main__':
     start = time.time()
 
     # Choose street for processing
-    wb = openpyxl.load_workbook('house_lists.xlsx')
+    wb = openpyxl.load_workbook('../house_lists.xlsx')
     pickle_file_list = list(wb.sheetnames)
     pickle_file = pickle_file_list[5]
 

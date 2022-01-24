@@ -12,11 +12,11 @@ else:
     user = 'luke'
     import pickle
 from geopy.geocoders import GoogleV3
-import constants
+import utils.constants as constants
 from pyproj import Proj, transform
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-from house import House
+from utils.house import House
 
 def get_houses_os_walk():
     houses = [x[0] for x in os.walk(home + '/Dropbox/Lanu/houses/') if '_Lynmouth' in x[0]]
@@ -34,7 +34,7 @@ def spreadsheet_input(sheet_id, excel_file_folder):
     return houses
 
 def get_houses_from_pickle():
-    with open('site_finder.pickle', 'rb') as f:
+    with open('../PickleFiles/site_finder.pickle', 'rb') as f:
         return pickle.load(f)
 
 def find_id(address):

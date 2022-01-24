@@ -14,7 +14,7 @@ import sys
 import math
 import random
 from pathlib import Path
-import constants
+import utils.constants
 from pyproj import Proj, transform
 from sklearn.linear_model import LinearRegression
 
@@ -337,7 +337,7 @@ class Geometry(object):
         Pts = []
         Normals = []
         Ele = []
-        with open('../tileSections/Tile_bounds.pickle', 'rb') as f:
+        with open('../../tileSections/Tile_bounds.pickle', 'rb') as f:
             Tile = pickle.load(f)
         tile_ind = []
         for i in range(len(x)):

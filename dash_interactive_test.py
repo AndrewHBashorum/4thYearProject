@@ -3,22 +3,11 @@ import os
 import pickle
 from pathlib import Path
 
-import dash
 from dash import dcc
 from dash import html
-from dash.dependencies import Input, Output
-import plotly.graph_objs as go
-import pandas as pd
-import ssl
-import dash
-from dash import dcc
-from dash import html
-from dash.dependencies import Input, Output
-import plotly.graph_objs as go
-import pandas as pd
 import ssl
 
-from site_finder import SiteFinder
+from utils.site_finder import SiteFinder
 
 ssl._create_default_https_context = ssl._create_unverified_context
 import dash_auth
@@ -27,7 +16,7 @@ import dash
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 
-from houses_utils import geo_locate_houses_alt, find_id
+from utils.houses_utils import geo_locate_houses_alt, find_id
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -334,15 +323,14 @@ app.layout = html.Div([
     html.Div(id='page-content')
 ])
 #
-@app.callback(
-   Output(component_id='display_imageMap', component_property='style'),
-   [Input(component_id='street_choice', component_property='value')])
-def show_hide_element(houseID):
-
-    if houseID:
-        return {'display': 'none'}
-    else:
-        return {'display': 'block'}
+# @app.callback(
+#    Output(component_id='display_imageMap', component_property='style'),
+#    [Input(component_id='street_choice', component_property='value')])
+# def show_hide_element(houseID):
+#     if houseID:
+#         return {'display': 'none'}
+#     else:
+#         return {'display': 'block'}
 #sf = SiteFinder(pickle_file_folder, excel_file_folder)
 #sf.main(4, pickle_file ,house_address)
 
