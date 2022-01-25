@@ -82,6 +82,8 @@ class Database(object):
 
         return f
 
+
+
     def x_y_list_to_single_spatial_27700(self, x, y):
 
         multi_string_start = 'MULTIPOLYGON((('
@@ -99,6 +101,25 @@ class Database(object):
     def single_spatial_to_x_y_list(self, geom):
 
         g = self.ST_Transform(geom)
+        g = g.replace("MULTIPOLYGON", "")
+        g = g.replace("(", "")
+        g = g.replace(")", "")
+        g = g.replace(",", " ")
+        g = g.replace('"', " ")
+        g = g.replace("'", " ")
+        g = g.split()
+
+        x_list = []
+        y_list = []
+        for i in range(0, len(g), 2):
+            x_list.append(float(g[i]))
+            y_list.append(float(g[i+1]))
+        return x_list, y_list
+
+
+    def single_spatial_to_x_y_list_keep_spatial(self, geom):
+
+        g = geom
         g = g.replace("MULTIPOLYGON", "")
         g = g.replace("(", "")
         g = g.replace(")", "")

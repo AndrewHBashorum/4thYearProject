@@ -337,7 +337,7 @@ class Geometry(object):
         Pts = []
         Normals = []
         Ele = []
-        with open('../tileSections/Tile_bounds.pickle', 'rb') as f:
+        with open('../../tileSections/Tile_bounds.pickle', 'rb') as f:
             Tile = pickle.load(f)
         tile_ind = []
         for i in range(len(x)):

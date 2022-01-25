@@ -1,6 +1,6 @@
 import urllib.request
 from PIL import Image, ImageDraw
-from constants import GOOGLE_API_KEY
+from utils.constants import GOOGLE_API_KEY
 from geometry import Geometry
 import pickle
 import math
