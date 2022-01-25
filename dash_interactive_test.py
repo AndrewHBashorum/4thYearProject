@@ -8,7 +8,7 @@ from dash import html
 import ssl
 
 from site_finder import SiteFinder
-
+from database_interaction import Database as d
 ssl._create_default_https_context = ssl._create_unverified_context
 import dash_auth
 import dash
@@ -27,6 +27,43 @@ USERNAME_PASSWORD_PAIRS = [
 ]
 ssl._create_default_https_context = ssl._create_unverified_context
 
+
+def draw_map(lat_center, long_center, my_col, data=None, site_dict = None):
+    fig = go.Figure()
+    print('***',site_dict)
+    if site_dict != None:
+        for count in site_dict.keys():
+
+            lon, lat = d.single_spatial_to_x_y_list_keep_spatial(count, site_dict[count]['geom'])
+            fig.add_trace(go.Scattermapbox(
+                lat=lat,
+                lon=lon,
+                mode='markers+lines',
+                marker=go.scattermapbox.Marker(
+                    size=8,
+                    color='rgb(0, 255, 0)',
+                    opacity=0.7
+                ),
+                hoverinfo='text'
+            ))
+
+    fig.add_trace(go.Scattermapbox(
+        lat=[lat_center],
+        lon=[long_center],
+    ))
+
+    fig.update_layout(
+        autosize=True,
+        hovermode='closest',
+        showlegend=False,
+        height=500,
+        width=800,
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        mapbox=dict(style="open-street-map", center=dict(lon=long_center, lat=lat_center), zoom=19),
+        clickmode='event+select'
+    )
+
+    return fig
 
 def makePathFromInfoAndAddress(addressOrg, info = None):
     # / Users / andrewbashorm / Dropbox / auto_processing / aerial_images / BemptonDriveOdd / aerial_59_HA4_9DB.png
@@ -184,19 +221,7 @@ mapLayout = html.Div(
 
 
         html.Hr(),
-        dcc.Graph(id='MapPlot1', figure={
-            "data": [{"type": "scattermapbox", "lat": [lat_center], "lon": [long_center],
-                    "hoverinfo": "text", "hovertext": 'Test',
-                    "mode": "markers", "name": 'Shanes house',
-                    "marker": {"size": 15, "opacity": 0.7, "color": '#F70F0F'}}],
-            "layout": dict(autosize=True, height=500, width=500,
-                font=dict(color="#191A1A"), titlefont=dict(color="#191A1A", size='14'),
-                margin=dict(l=10, r=10, b=10, t=10), hovermode="closest",
-                plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',
-                legend=dict(font=dict(size=10), orientation='h'),
-                mapbox=dict(style="open-street-map", center=dict(lon=long_center, lat=lat_center), zoom=18)
-                )}),
-
+        dcc.Graph(id='MapPlot1', figure=draw_map(lat_center, long_center, "#ff0000")),
         html.Hr(),
         dcc.Graph(id='MapPlot2', figure={
             "data": [{"type": "scattermapbox", "lat": [lat_center], "lon": [long_center],
@@ -256,22 +281,35 @@ def check_if_house_is_input_else_display(address):
     else:
         pass
 
+# @app.callback(
+#     Output('MapPlot1', 'figure'),
+#     [Input('site_dict', 'value')])
+# def update_map1(site_dict):
+#
+#     someGeom = site_dict['1']['geom']
+#     print('***',site_dict)
+#     lat_center,long_center = d.single_spatial_to_x_y_list_keep_spatial('0',someGeom)
+#     lat_center, long_center = lat_center[0],long_center[0]
+#
+#
+
 @app.callback(
     Output('MapPlot1', 'figure'),
-    [Input('print_info', 'children')])
-def update_map1(value):
-    figure={
-        "data": [{"type": "scattermapbox", "lat": [lat_center], "lon": [long_center],
-            "hoverinfo": "text", "hovertext": 'Test',
-            "mode": "markers", "name": 'Shanes house',
-            "marker": {"size": 15, "opacity": 0.7, "color": '#F70F0F'}}],
-        "layout": dict(autosize=True, height=500, width=500,
-            font=dict(color="#191A1A"), titlefont=dict(color="#191A1A", size='14'),
-            margin=dict(l=10, r=10, b=10, t=10), hovermode="closest",
-            plot_bgcolor='#fffcfc', paper_bgcolor='#fffcfc',
-            legend=dict(font=dict(size=10), orientation='h'),
-            mapbox=dict(style="open-street-map", center=dict(lon=long_center, lat=lat_center), zoom=18)
-            )}
+    [Input('site_dict', 'value'),
+     Input('MapPlot1', 'clickData')])
+def update_map1(site_dict, data):
+
+    if site_dict is not None:
+        someGeom = site_dict['1']['geom']
+
+        lat_center, long_center = d.single_spatial_to_x_y_list_keep_spatial('0', someGeom)
+        lat_center, long_center = lat_center[0], long_center[0]
+        print('123321')
+        return draw_map(long_center,lat_center , "#00ffff", site_dict=site_dict)
+    else:
+        lat_center, long_center = 51.56564931037823,-0.403520398909786
+        return draw_map(lat_center, long_center, "#00ff00")
+
     return figure
 
 @app.callback(
@@ -336,17 +374,30 @@ app.layout = html.Div([
 
 
 @app.callback(Output('site_dict', 'value'),
-               Output('house_dict', 'value'),
+               # Output('house_dict', 'value'),
     [Input('Generate_button', 'n_clicks')],
     [State('input_address', 'value')])
 def get_houseID(n_clicks,address):
 
     sf = SiteFinder()
     path, tab_str, id = makePathFromInfoAndAddress(address)
-    print(address,tab_str, id)
+
     site_dict,house_dict = sf.main_from_dash(house_address=address,tab_str=tab_str, house_ID= id)
-    print(site_dict,house_dict)
-    return site_dict,house_dict
+
+
+    sites = {}
+    for i in site_dict.keys():
+        thisdict = {
+            "x_poly":site_dict[i].x_poly,
+            "y_poly": site_dict[i].y_poly,
+            "geom": site_dict[i].geom
+        }
+        sites[i] = thisdict
+
+
+
+
+    return sites #,house_dict
 
 # @app.callback(
 #     Output(component_id='display_image', component_property='style'),

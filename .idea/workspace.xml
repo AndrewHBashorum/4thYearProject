@@ -22,23 +22,9 @@
     <list default="true" id="3c166385-5f59-4b5f-91e7-710f53b1739f" name="Default Changelist" comment="main_from_dash makes dict of site objects with each site near x,y">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_interactive_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_interactive_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/geometry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/houses_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/houses_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/database_interaction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/site_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/site_finder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/constants.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/cookie_cutter.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/database_interaction.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/fix_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/geometry.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/house.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/house_finder.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/houses_utils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/main_autoprocessing_script.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/os_get_buildings_near_pt.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/satellite_image.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/site_finder.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/site_object.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/sites_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_drawing_on_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_drawing_on_map.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,8 +48,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/geometry.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/main_autoprocessing_script.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/geometry.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1zQJJHzjztHGDAMLWaxOwVmAuXt" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -257,6 +243,9 @@
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -296,6 +285,9 @@
       <module name="AndrewBashorum_4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="$PROJECT_DIR$/../lanu_reader/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />

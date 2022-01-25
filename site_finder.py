@@ -283,7 +283,7 @@ class SiteFinder(object):
                                           0.0003)
 
         for count, geom in enumerate(listOfSites, start=0):
-            if len(geom) > 1500:
+            if len(geom) > 2500:
                 listOfSites.pop(count)
 
             gTwo, x_poly, y_poly = process_geometry(geom, self.gt)

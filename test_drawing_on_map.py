@@ -9,8 +9,8 @@ from dash import no_update
 import numpy as np
 from pickle5 import pickle
 
-from utils.houses_utils import geo_locate_houses_alt
-from utils.database_interaction import Database
+from houses_utils import geo_locate_houses_alt
+from database_interaction import Database
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -39,6 +39,8 @@ with open(g, 'rb') as f:
 listOfSites = nearby_polygons(loadedDict['house_dict']['1_HA4_9BY'].xd,loadedDict['house_dict']['1_HA4_9BY'].yd,d,0.0003)
 #ff = d.ST_DWithin(loadedDict['house_dict']['1_HA4_9BY'].xd,loadedDict['house_dict']['1_HA4_9BY'].yd,0.0001)
 
+
+# ff = d.ST_Transform_4326('-0.403520398909786,51.56564931037823')
 # lon,lat = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][5].geom)
 # lonLeft,latLeft = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][33].geom)
 # lonRight,latRight = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][35].geom)
@@ -47,23 +49,9 @@ geo_coord_str = "Lat: " + str(lat_center) + ", Long: " + str(long_center)
 # ng = [lat,lon]
 
 def draw_map(lat_center, long_center, my_col, data = None):
-    # Make boxes
-    # x = [[long_center + (j-1) * 2 * delta - delta, long_center + (j-1) * 2 * delta + delta, long_center + (j-1) * 2 * delta + delta,
-    #       long_center + (j-1) * 2 * delta - delta, long_center + (j-1) * 2 * delta - delta] for j in range(n)]
-    # y = [[lat_center - delta, lat_center - delta, lat_center + delta, lat_center + delta, lat_center - delta] for j in range(n)]
 
     fig = go.Figure()
-    # fig.add_trace(go.Scattermapbox(
-    #         lat=[lat_center,lat_center2],
-    #         lon=[long_center,long_center2],
-    #         mode='markers',
-    #         marker=go.scattermapbox.Marker(
-    #             size=8,
-    #             color='rgb(210, 0, 0)',
-    #             opacity=0.7
-    #         ),
-    #         hoverinfo='text'
-    #     ))
+
 
     for count, i in enumerate(listOfSites, start=0):
         print(len(i))
@@ -71,6 +59,7 @@ def draw_map(lat_center, long_center, my_col, data = None):
             listOfSites.pop(count)
 
         lat,lon = d.single_spatial_to_x_y_list_keep_spatial(i)
+        print(lat, lon)
         fig.add_trace(go.Scattermapbox(
             lat=lon,
             lon=lat,
