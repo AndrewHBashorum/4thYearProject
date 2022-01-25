@@ -12,11 +12,11 @@ else:
     user = 'luke'
     import pickle
 from geopy.geocoders import GoogleV3
-import utils.constants as constants
+import constants as constants
 from pyproj import Proj, transform
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-from utils.house import House
+from house import House
 
 def get_houses_os_walk():
     houses = [x[0] for x in os.walk(home + '/Dropbox/Lanu/houses/') if '_Lynmouth' in x[0]]

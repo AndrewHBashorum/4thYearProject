@@ -22,14 +22,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import openpyxl
 
-from utils.houses_utils import get_houses_os_walk, spreadsheet_input, get_houses_from_pickle, geo_locate_houses
-from utils.sites_utils import take_from_database, find_neighs_overlap, nearby_polygons, process_geometry
-from utils.geometry import Geometry
-from utils.database_interaction import Database
+from houses_utils import get_houses_os_walk, spreadsheet_input, get_houses_from_pickle, geo_locate_houses
+from sites_utils import take_from_database, find_neighs_overlap, nearby_polygons, process_geometry
+from geometry import Geometry
+from database_interaction import Database
 
 from datetime import date
 import psycopg2
-from utils.site_object import SiteObject
+from site_object import SiteObject
 
 import time
 
@@ -265,8 +265,6 @@ class SiteFinder(object):
 
     def main_from_dash(self,house_address = None, tab_str = None, house_ID = None):
 
-        # print('***', house_address)
-
         self.house_dict = geo_locate_houses(house_address, self.house_dict)
         print('....House dict obtained')
 
@@ -281,108 +279,39 @@ class SiteFinder(object):
         self.cur = self.con.cursor()
         PostGIS_fns = Database()
 
-        # house_ID = house_ID[0]
-        print(house_ID)
-        geom = take_from_database(self.house_dict[house_ID].xd, self.house_dict[house_ID].yd, PostGIS_fns)
-        # neigh_geom_contact = find_neighs(geom, self.cur)
-        neigh_geom_dist = nearby_polygons(self.house_dict[house_ID].xd, self.house_dict[house_ID].yd, PostGIS_fns,
-                                          0.0001)
-        gTwo, x_poly, y_poly = process_geometry(geom, self.gt)
-        dupeSiteFound_id = self.checkSitesForDupes(geom, self.site_dict)
+        listOfSites = nearby_polygons(self.house_dict[house_ID].xd, self.house_dict[house_ID].yd, PostGIS_fns,
+                                          0.0003)
 
-        if dupeSiteFound_id != None:
-            print('Duplicate Found for ID:', dupeSiteFound_id)
-            self.site_dict[dupeSiteFound_id].num_houses += 1
-            self.site_dict[dupeSiteFound_id].house_address.append(house_ID)
-            self.site_dict[dupeSiteFound_id].assigned = True
-            self.house_dict[house_ID].site = dupeSiteFound_id
-            self.house_dict[house_ID].assigned = True
-            # for ng in neigh_geom_dist:
-            #     gTwo_ng, x_poly_ng, y_poly_ng = process_geometry(ng, self.gt)
-            #     aspect_ratio_ng, area_ng, orientation_ng = self.gt.get_aspect_ratio_area(x_poly_ng, y_poly_ng)
-            #     if abs(orientation_ng - orientation) < 0.1 and area_ng > 35 and area_ng < 1000 and gTwo_ng != gTwo:
-            #         self.site_dict[dupeSiteFound_id].neigh_sites.append(gTwo_ng)
-        elif len(x_poly) > 0:
-            self.id += 1
-            site_ob = SiteObject()
-            site_ob.id = self.id
-            site_ob.xt = sum(x_poly) / max(1, len(x_poly))
-            site_ob.yt = sum(y_poly) / max(1, len(y_poly))
-            site_ob.x_poly = x_poly
-            site_ob.y_poly = y_poly
-            site_ob.gTwo = gTwo
-            aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(x_poly, y_poly)
-            site_ob.aspect_ratio = aspect_ratio
-            site_ob.orientation = orientation
-            site_ob.area = abs(self.gt.find_area(x_poly, y_poly))
-            site_ob.geom = geom
-            site_ob.geom_27700 = PostGIS_fns.ST_Transform(geom)
-            site_ob.num_houses = 1
-            site_ob.neigh_sites = []
-            site_ob.assigned = True
-            self.site_dict[self.id] = site_ob
-            self.site_dict[self.id].house_address.append(house_ID)
-            self.house_dict[house_ID].site = self.id
-            self.house_dict[house_ID].assigned = True
-            for ng in neigh_geom_dist:
-                gTwo_ng, x_poly_ng, y_poly_ng = process_geometry(ng, self.gt)
-                aspect_ratio_ng, area_ng, orientation_ng = self.gt.get_aspect_ratio_area(x_poly_ng, y_poly_ng)
-                # ng_dupeSiteFound_id = self.checkSitesForDupesGTwo(gTwo_ng, self.site_dict)
-                if abs(orientation_ng - orientation) < 0.1 and area_ng > 35 and area_ng < 1000 and gTwo_ng != gTwo:  # and ng_dupeSiteFound_id == None:
-                    self.site_dict[self.id].neigh_sites.append(gTwo_ng)
+        for count, geom in enumerate(listOfSites, start=0):
+            if len(geom) > 1500:
+                listOfSites.pop(count)
 
-        for ng in neigh_geom_dist:
-            ng_dupeSiteFound_id_1 = self.checkSitesForDupes(ng, self.neigh_site_dict)
-            ng_dupeSiteFound_id_2 = self.checkSitesForDupes(ng, self.site_dict)
-            if ng_dupeSiteFound_id_1 == None and ng_dupeSiteFound_id_2 == None:
-                gTwo_ng, x_poly_ng, y_poly_ng = process_geometry(ng, self.gt)
-                if len(x_poly_ng) > 0:
-                    aspect_ratio_ng, area_ng, orientation_ng = self.gt.get_aspect_ratio_area(x_poly_ng, y_poly_ng)
-                    _, x_poly_ng4, y_poly_ng4 = self.gt.minimum_containing_paralleogram(x_poly_ng, y_poly_ng)
-                    area_ng4 = abs(self.gt.find_area(x_poly_ng4, y_poly_ng4))
-                    if abs(orientation_ng - orientation) < 0.1 and area_ng > 100 and area_ng < 1000 and abs(
-                            area_ng - area_ng4) / area_ng4 < 0.2:
-                        self.neigh_id += 1
-                        n_site_ob = SiteObject()
-                        n_site_ob.id = self.neigh_id
-                        n_site_ob.xt = sum(x_poly_ng) / max(1, len(x_poly_ng))
-                        n_site_ob.yt = sum(y_poly_ng) / max(1, len(y_poly_ng))
-                        n_site_ob.x_poly = x_poly_ng
-                        n_site_ob.y_poly = y_poly_ng
-                        n_site_ob.gTwo = gTwo_ng
-                        n_site_ob.geom = ng
-                        n_site_ob.geom_27700 = PostGIS_fns.ST_Transform(ng)
-                        aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(x_poly_ng, y_poly_ng)
-                        n_site_ob.aspect_ratio = aspect_ratio
-                        n_site_ob.orientation = orientation
-                        n_site_ob.area = abs(self.gt.find_area(x_poly_ng, y_poly_ng))
-                        self.neigh_site_dict[self.neigh_id] = n_site_ob
+            gTwo, x_poly, y_poly = process_geometry(geom, self.gt)
 
-        for k in self.neigh_site_dict.keys():
-            ng = self.neigh_site_dict[k].gTwo
-            ng_dupeSiteFound_id_1 = self.checkSitesForDupesGTwo(ng, self.site_dict)
-            if ng_dupeSiteFound_id_1 != None:
-                self.neigh_site_dict[k].active = False
+            if len(x_poly) > 0:
+                self.id += 1
+                site_ob = SiteObject()
+                site_ob.id = self.id
+                site_ob.xt = sum(x_poly) / max(1, len(x_poly))
+                site_ob.yt = sum(y_poly) / max(1, len(y_poly))
+                site_ob.x_poly = x_poly
+                site_ob.y_poly = y_poly
+                site_ob.gTwo = gTwo
+                aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(x_poly, y_poly)
+                site_ob.aspect_ratio = aspect_ratio
+                site_ob.orientation = orientation
+                site_ob.area = abs(self.gt.find_area(x_poly, y_poly))
+                site_ob.geom = geom
+                site_ob.geom_27700 = PostGIS_fns.ST_Transform(geom)
+                site_ob.num_houses = 1
+                site_ob.neigh_sites = []
+                site_ob.assigned = True
+                self.site_dict[self.id] = site_ob
+                self.site_dict[self.id].house_address.append(house_ID)
+                self.house_dict[house_ID].site = self.id
+                self.house_dict[house_ID].assigned = True
 
-        for k in self.site_dict.keys():
-            ng_gtwo_list = self.site_dict[k].neigh_sites
-            ng_gtwo_list_temp = []
-            neigh_sites_id = []
-            for ng in ng_gtwo_list:
-                ng_dupeSiteFound_id_1 = self.checkSitesForDupesGTwo(ng, self.site_dict)
-                ng_dupeSiteFound_id_2 = self.checkSitesForDupesGTwo(ng, self.neigh_site_dict)
-                if ng_dupeSiteFound_id_1 == None:
-                    ng_gtwo_list_temp.append(ng)
-                    neigh_sites_id.append(ng_dupeSiteFound_id_2)
-            # self.site_dict[k].neigh_sites = [list(x) for x in set(tuple(x) for x in ng_gtwo_list_temp)]
-            self.site_dict[k].neigh_sites = list(set(neigh_sites_id))
-
-        #self.fix_site_duplicate()
-        #self.plotter(tab_str)
         return self.site_dict,self.house_dict
-
-
-        pass
 
     def main(self, case, tab_str=None, house_address = None):
         if tab_str is None:
@@ -538,7 +467,7 @@ if __name__ == '__main__':
     start = time.time()
 
     # Choose street for processing
-    wb = openpyxl.load_workbook('../house_lists.xlsx')
+    wb = openpyxl.load_workbook('/Users/andrewbashorm/Dropbox/auto_processing/excel_files/house_lists.xlsx')
     pickle_file_list = list(wb.sheetnames)
     pickle_file = pickle_file_list[5]
 
@@ -550,7 +479,7 @@ if __name__ == '__main__':
     # else:
     #     sf.main(3, pickle_file)
     g,b,c = '67 Lynmouth Drive Ruislip HA4 9BY', 'LynmouthDriveOdd', '67_HA4_9BY'
-    sf.main_from_dash(g,b,c)
+    ff, gg = sf.main_from_dash(g,b,c)
     # sf.save_to_pickle(pickle_file)
 
     end = time.time()

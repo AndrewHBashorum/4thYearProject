@@ -1,6 +1,0 @@
-
-# Geocoder to use: 'GOOGLE' or 'OS'
-GEOCODER = 'GOOGLE'
-
-OS_API_KEY = 'rv682gWPTxfWYoNEuyKBdjrnGhZDwHaF'
-GOOGLE_API_KEY = 'AIzaSyAcQIYA9e_qvw7MBLBzqLXMe4m8VIN2agY'

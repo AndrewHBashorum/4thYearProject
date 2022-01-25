@@ -7,7 +7,7 @@ from dash import dcc
 from dash import html
 import ssl
 
-from utils.site_finder import SiteFinder
+from site_finder import SiteFinder
 
 ssl._create_default_https_context = ssl._create_unverified_context
 import dash_auth
@@ -16,7 +16,7 @@ import dash
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 
-from utils.houses_utils import geo_locate_houses_alt, find_id
+from houses_utils import geo_locate_houses_alt, find_id
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)

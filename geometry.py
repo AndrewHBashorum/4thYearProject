@@ -14,7 +14,7 @@ import sys
 import math
 import random
 from pathlib import Path
-import utils.constants
+import constants
 from pyproj import Proj, transform
 from sklearn.linear_model import LinearRegression
 
