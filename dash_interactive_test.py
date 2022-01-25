@@ -31,9 +31,11 @@ ssl._create_default_https_context = ssl._create_unverified_context
 def draw_map(lat_center, long_center, my_col, data=None, site_dict = None):
     fig = go.Figure()
     print('***',site_dict)
+
+    if data != None:
+        print(data)
     if site_dict != None:
         for count in site_dict.keys():
-
             lon, lat = d.single_spatial_to_x_y_list_keep_spatial(count, site_dict[count]['geom'])
             fig.add_trace(go.Scattermapbox(
                 lat=lat,
@@ -304,11 +306,12 @@ def update_map1(site_dict, data):
 
         lat_center, long_center = d.single_spatial_to_x_y_list_keep_spatial('0', someGeom)
         lat_center, long_center = lat_center[0], long_center[0]
-        print('123321')
-        return draw_map(long_center,lat_center , "#00ffff", site_dict=site_dict)
+        return draw_map(long_center,lat_center , "#00ffff",site_dict=site_dict)
+        if data is not None:
+            return draw_map(long_center, lat_center, "#00ffff", data=[data['points'][0]['lat'], data['points'][0]['lon']], site_dict=site_dict)
     else:
         lat_center, long_center = 51.56564931037823,-0.403520398909786
-        return draw_map(lat_center, long_center, "#00ff00")
+        return draw_map(lat_center, long_center, "#00ff00" ,data=[data['points'][0]['lat'], data['points'][0]['lon']],)
 
     return figure
 
