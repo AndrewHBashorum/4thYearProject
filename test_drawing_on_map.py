@@ -32,18 +32,21 @@ lat_center2, long_center2 = 51.5673597375929, -0.405030404580184
 # /Users/andrewbashorm/Dropbox/auto_processing/pickle_files 67_HA4_9BY
 
 g = '/Users/andrewbashorm/Dropbox/auto_processing/pickle_files/LynmouthDriveOdd.pickle'
-
+from sites_utils import nearby_polygons
 with open(g, 'rb') as f:
     loadedDict = pickle.load(f)
 
-lon,lat = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][5].geom)
-lonLeft,latLeft = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][33].geom)
-lonRight,latRight = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][35].geom)
+listOfSites = nearby_polygons(loadedDict['house_dict']['1_HA4_9BY'].xd,loadedDict['house_dict']['1_HA4_9BY'].yd,d,0.0003)
+#ff = d.ST_DWithin(loadedDict['house_dict']['1_HA4_9BY'].xd,loadedDict['house_dict']['1_HA4_9BY'].yd,0.0001)
+
+# lon,lat = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][5].geom)
+# lonLeft,latLeft = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][33].geom)
+# lonRight,latRight = d.single_spatial_to_x_y_list_keep_spatial(loadedDict['site_dict'][35].geom)
 n, delta, GS, m = 3, 0.0001, 100, 6
 geo_coord_str = "Lat: " + str(lat_center) + ", Long: " + str(long_center)
-ng = [lat,lon]
+# ng = [lat,lon]
 
-def draw_map(lat_center, long_center, my_col, data = ng):
+def draw_map(lat_center, long_center, my_col, data = None):
     # Make boxes
     # x = [[long_center + (j-1) * 2 * delta - delta, long_center + (j-1) * 2 * delta + delta, long_center + (j-1) * 2 * delta + delta,
     #       long_center + (j-1) * 2 * delta - delta, long_center + (j-1) * 2 * delta - delta] for j in range(n)]
@@ -62,37 +65,16 @@ def draw_map(lat_center, long_center, my_col, data = ng):
     #         hoverinfo='text'
     #     ))
 
+    for count, i in enumerate(listOfSites, start=0):
+        print(len(i))
+        if len(i) > 1000:
+            listOfSites.pop(count)
 
-    fig.add_trace(go.Scattermapbox(
-        lat=lat,
-        lon=lon,
-        mode='markers',
-        marker=go.scattermapbox.Marker(
-            size=8,
-            color='rgb(0, 255, 0)',
-            opacity=0.7
-        ),
-        hoverinfo='text'
-    ))
-
-    if data is not None:
+        lat,lon = d.single_spatial_to_x_y_list_keep_spatial(i)
         fig.add_trace(go.Scattermapbox(
-            lat=lat,
-            lon=lon,
+            lat=lon,
+            lon=lat,
             mode='markers+lines',
-            marker=go.scattermapbox.Marker(
-                size=8,
-                color='rgb(0, 0, 255)',
-                opacity=0.7
-            ),
-            hoverinfo='text'
-        ))
-
-    if data is not None:
-        fig.add_trace(go.Scattermapbox(
-            lat=latLeft,
-            lon=lonLeft,
-            mode='markers',
             marker=go.scattermapbox.Marker(
                 size=8,
                 color='rgb(0, 255, 0)',
@@ -100,19 +82,45 @@ def draw_map(lat_center, long_center, my_col, data = ng):
             ),
             hoverinfo='text'
         ))
+    #
+    # if data is not None:
+    #     fig.add_trace(go.Scattermapbox(
+    #         lat=lat,
+    #         lon=lon,
+    #         mode='markers+lines',
+    #         marker=go.scattermapbox.Marker(
+    #             size=8,
+    #             color='rgb(0, 0, 255)',
+    #             opacity=0.7
+    #         ),
+    #         hoverinfo='text'
+    #     ))
+    #
+    # if data is not None:
+    #     fig.add_trace(go.Scattermapbox(
+    #         lat=latLeft,
+    #         lon=lonLeft,
+    #         mode='markers',
+    #         marker=go.scattermapbox.Marker(
+    #             size=8,
+    #             color='rgb(0, 255, 0)',
+    #             opacity=0.7
+    #         ),
+    #         hoverinfo='text'
+    #     ))
 
-    if data is not None:
-        fig.add_trace(go.Scattermapbox(
-            lat=latRight,
-            lon=lonRight,
-            mode='markers+lines',
-            marker=go.scattermapbox.Marker(
-                size=8,
-                color='rgb(255, 0, 0)',
-                opacity=0.7
-            ),
-            hoverinfo='text'
-        ))
+    # if data is not None:
+    #     fig.add_trace(go.Scattermapbox(
+    #         lat=latRight,
+    #         lon=lonRight,
+    #         mode='markers+lines',
+    #         marker=go.scattermapbox.Marker(
+    #             size=8,
+    #             color='rgb(255, 0, 0)',
+    #             opacity=0.7
+    #         ),
+    #         hoverinfo='text'
+    #     ))
 
     # for j in range(len(y_polyME)):
     #     fig.add_trace(go.Scattermapbox(
