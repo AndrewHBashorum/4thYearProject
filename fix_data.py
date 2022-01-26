@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 import os
 import matplotlib.lines as mlines
@@ -276,10 +278,29 @@ class FixData(object):
         # self.save_to_pickle(pickle_file_folder + pickle_file + '.pickle')
 
 if __name__ == '__main__':
+    print(Path.home())
 
-    fd = FixData()
-    pickle_file_name = 'site_finder_lynmouth_odd1'
-    fd.main(pickle_file_name)
+    address = '67 Beverly Drive Ruislip HA4 9BY'
+    address = address.split(' ')
+    key = address[1] + address[2]
+
+    if int(address[0]) % 2 == 0:
+        key += 'Even'
+    else:
+        key += 'Odd'
+        if 'ver' in address[1]:
+            if int(address[0]) > 178:
+                key += 'B'
+            elif int(address[0]) < 178:
+                key += 'A'
+
+
+
+
+
+
+
+
 
     # # load all sites and houses from pickle
     # pickle_file_name = 'site_finder_lynmouth_odd1'

@@ -2,6 +2,10 @@
 class SiteObject(object):
     def __init__(self):
         self.house_address = []
+        self.leftSite = False
+        self.mainSite = False
+        self.rightSite = False
+        self.selected = False
         self.xt = None
         self.yt = None
         self.gTwo = []

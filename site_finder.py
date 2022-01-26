@@ -45,14 +45,14 @@ class SiteFinder(object):
     def plotter(self, tab_str):
         plt.figure()
 
-        for i in self.site_keys:
+        for i in self.site_dict.keys():
             plt.fill(self.site_dict[i].x_poly, self.site_dict[i].y_poly, fill=False, color='b')
             plt.fill(self.site_dict[i].x_poly, self.site_dict[i].y_poly, fill=True,  color='lightblue')
 
-        for i in self.site_keys:
+        for i in self.site_dict.keys():
             plt.plot(self.site_dict[i].xt, self.site_dict[i].yt, '.', color='r')
 
-        for i in self.house_keys:
+        for i in self.house_dict.keys():
             text = i.split('_')[0]
             plt.text(self.house_dict[i].xt, self.house_dict[i].yt, text)
 
@@ -263,17 +263,71 @@ class SiteFinder(object):
         # # sort fixed houses and sites and neighs
         self.sort_fixed_houses_and_sites_and_neighs(sorted_site_keys)
 
-    def main(self, case, tab_str=None):
+    def main_from_dash(self,house_address = None, tab_str = None, house_ID = None):
+
+        self.house_dict = geo_locate_houses(house_address, self.house_dict)
+        print('....House dict obtained')
+
+        self.id = 0
+        self.neigh_id = 0
+        if user == 'andrew':
+            self.con = psycopg2.connect(database="sdb_course", user="postgres", password="$£x25zeD",
+                                        host="localhost", port="5432")
+        else:
+            self.con = psycopg2.connect(database="nps_database_cropped", user="postgres", password="$£x25zeD",
+                                        host="localhost", port="5433")
+        self.cur = self.con.cursor()
+        PostGIS_fns = Database()
+
+        listOfSites = nearby_polygons(self.house_dict[house_ID].xd, self.house_dict[house_ID].yd, PostGIS_fns,
+                                          0.0003)
+
+        for count, geom in enumerate(listOfSites, start=0):
+            if len(geom) > 2500:
+                listOfSites.pop(count)
+
+            gTwo, x_poly, y_poly = process_geometry(geom, self.gt)
+
+            if len(x_poly) > 0:
+                self.id += 1
+                site_ob = SiteObject()
+                site_ob.id = self.id
+                site_ob.xt = sum(x_poly) / max(1, len(x_poly))
+                site_ob.yt = sum(y_poly) / max(1, len(y_poly))
+                site_ob.x_poly = x_poly
+                site_ob.y_poly = y_poly
+                site_ob.gTwo = gTwo
+                aspect_ratio, area, orientation = self.gt.get_aspect_ratio_area(x_poly, y_poly)
+                site_ob.aspect_ratio = aspect_ratio
+                site_ob.orientation = orientation
+                site_ob.area = abs(self.gt.find_area(x_poly, y_poly))
+                site_ob.geom = geom
+                site_ob.geom_27700 = PostGIS_fns.ST_Transform(geom)
+                site_ob.num_houses = 1
+                site_ob.neigh_sites = []
+                site_ob.assigned = True
+                self.site_dict[self.id] = site_ob
+                self.site_dict[self.id].house_address.append(house_ID)
+                self.house_dict[house_ID].site = self.id
+                self.house_dict[house_ID].assigned = True
+
+        return self.site_dict,self.house_dict
+
+    def main(self, case, tab_str=None, house_address = None):
         if tab_str is None:
             tab_str = 'LynmouthDriveOdd'
 
         print('Getting house dict....')
+        print('***', house_address, case)
         if case == 1:
             house_addresses = ['67 Lynmouth Dr Ruislip HA4 9BY UK', '51 Lynmouth Dr Ruislip HA4 9BY UK']
         elif case == 2:
             house_addresses = get_houses_os_walk()
         elif case == 3:
             house_addresses = spreadsheet_input(tab_str, self.excel_file_folder)
+        elif case == 4 and house_address is not None:
+            house_addresses = [house_address]
+        print('***',house_addresses)
 
         self.house_dict = geo_locate_houses(house_addresses, self.house_dict)
         print('....House dict obtained')
@@ -408,21 +462,24 @@ class SiteFinder(object):
         with open(self.pickle_file_folder + tab_str + '.pickle', 'wb') as f:
             pickle.dump(dict, f)
 
+
 if __name__ == '__main__':
     start = time.time()
 
     # Choose street for processing
-    wb = openpyxl.load_workbook('house_lists.xlsx')
+    wb = openpyxl.load_workbook('/Users/andrewbashorm/Dropbox/auto_processing/excel_files/house_lists.xlsx')
     pickle_file_list = list(wb.sheetnames)
     pickle_file = pickle_file_list[5]
 
     load_from_pickle = True
     sf = SiteFinder(pickle_file_folder, excel_file_folder)
-    pickle_file = pickle_file_folder[0]
-    if load_from_pickle:
-        sf.main_from_pickle(pickle_file)
-    else:
-        sf.main(3, pickle_file)
+    # pickle_file = pickle_file_folder[0]
+    # if load_from_pickle:
+    #     sf.main_from_pickle(pickle_file)
+    # else:
+    #     sf.main(3, pickle_file)
+    g,b,c = '67 Lynmouth Drive Ruislip HA4 9BY', 'LynmouthDriveOdd', '67_HA4_9BY'
+    ff, gg = sf.main_from_dash(g,b,c)
     # sf.save_to_pickle(pickle_file)
 
     end = time.time()

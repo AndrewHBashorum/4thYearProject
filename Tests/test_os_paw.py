@@ -1,11 +1,8 @@
 from os_paw.wfs_api import WFS_API
-from constants import OS_API_KEY
-import pickle
+from utils.constants import OS_API_KEY
 import matplotlib.pyplot as plt
-import numpy as np
 # Generate an API key from https://osdatahub.os.uk/products
 
-from os import path
 import sys
 from pathlib import Path
 home = str(Path.home())
@@ -14,7 +11,6 @@ sys.path.append("/Applications/QGIS3.10.app/Contents/Resources/python/qgis/PyQt"
 sys.path.append("/Users/lukecoburn/opt/anaconda3/lib/python3.8/site-packages")
 # sys.path.append("/Applications/QGIS3.10.app/Contents/Frameworks/")
 # sys.path.append("/Applications/QGIS3.10.app/Contents/Resources/python")
-import os
 
 # os.environ['DYLD_FRAMEWORK_PATH'] = '/Users/lukecoburn/opt/anaconda3/lib/python3.8/site-packages'
 # os.environ['QGIS_PREFIX'] = '/Applications/QGIS3.10.app/Contents/Resources/'
@@ -61,7 +57,7 @@ TYPE_NAME = 'Zoomstack_LocalBuildings'
 # TYPE_NAME = 'Zoomstack_Sites'
 
 # Create Bounding Box
-with open('site_finder_lynmouth_odd.pickle', 'rb') as f:
+with open('../PickleFiles/site_finder_lynmouth_odd.pickle', 'rb') as f:
     loadedDict = pickle.load(f)
 site_dict = loadedDict['site_dict']
 id = 1

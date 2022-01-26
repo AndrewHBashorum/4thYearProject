@@ -1,12 +1,12 @@
 import os
 import matplotlib.pyplot as plt
 import pickle
-from geometry import Geometry
+from utils.geometry import Geometry
 gt = Geometry()
 
 fig = plt.figure()
 tolerance = 20
-with open('site_finder_lynmouth_odd.pickle', 'rb') as f:
+with open('../PickleFiles/site_finder_lynmouth_odd.pickle', 'rb') as f:
     loadedDict = pickle.load(f)
 site_dict = loadedDict['site_dict']
 neigh_site_dict = loadedDict['neigh_site_dict']
